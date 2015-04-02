@@ -3,6 +3,17 @@
 
 <content>
   <h2>Thanks for signing up!</h2>
-  <email>
-  </email>
+
+  <goal-bar current="invite.signups" goal="invite.maxSignups"></goal-bar>
+
+  <p>We have <strong>{{invite.signups}}</strong> people signed up at {{invite.company}}. We’ll keep you informed on {{invite.company}}’s progress. When there are {{invite.maxSignups}}, we’ll enable it at your company.</p>
+  <p>Help us out by spreading the word.</p>
+
+  <mail assets="/assets/images/" opened="invite.opened">
+    <div class="letter-send" ng-click="invite.opened = false">send</div>
+    <div class="letter-to">To: <input value="acharkin@gmail.com" /> </div>
+    <p class="letter-header">Hi there, fellow coworker</p>
+    <p class="letter-body">You&#39;re invited to join the <b>Microsoft</b> network on Slugg, an <strong>informal</strong>, <strong>ondemand</strong>, <strong>trusted</strong> carpooling network.</p>
+    <button class="letter-button">Learn more and join</button>
+  </mail>
 </content>

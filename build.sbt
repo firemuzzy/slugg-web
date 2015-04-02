@@ -12,3 +12,7 @@ libraryDependencies ++= Seq(
   cache,
   ws
 )
+
+sassOptions in Assets ++= Seq("--compass", "-r", "compass")
+
+sassOptions in Assets ++= Seq("--fonts_dir", "/assets/fonts")

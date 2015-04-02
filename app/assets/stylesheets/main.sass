@@ -1,16 +1,42 @@
+@import 'fonts'
+
+$blue: rgb(69,147,196)
+$lightBlue: rgb(105,176,219)
+$textGray: rgb(184,184,184)
+$headerBlack: rgb(19,39,50)
+
 *
   margin: 0
   padding: 0
+  font-family: "Brandon"
+
 
 header
-  background: rgb(105,176,219)
+  background: $lightBlue
   color: #fff
   text-align: center
   font-size: 1em
   padding: 0.75em 0
 
   &:first-child
-    background: rgb(69,147,196)
+    background: $blue
 
-h1
-  color: red
+h2
+  width: 22em
+  margin: 1.6em auto
+  text-align: center
+  font-size: 1.625em
+  font-weight: bold
+  color: $headerBlack
+
+p
+  width: 22em
+  margin: 1em auto
+  line-height: 1.6em
+  text-align: center
+  color: $textGray
+
+  strong
+    color: darken($textGray, 29.5%)
+
+@import 'letter'

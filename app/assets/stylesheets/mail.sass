@@ -1,0 +1,82 @@
+$foldingDuration: 0.75s
+
+.mail
+  margin: 0 auto
+  position: relative
+  overflow: hidden
+  cursor: pointer
+
+.mailFold, .mailBg, .mailFoldClosed
+  display: block
+  margin: 0 auto
+  transform-style: preserve-3d
+  backface-visibility: hidden
+  transform-origin: 100% 100%
+
+  transition: $foldingDuration 1s
+  transition-timing-function: ease-in-out
+
+
+.mailFold
+  transform: rotateX(180deg)
+
+.mailFoldClosed
+  position: absolute
+  bottom: 121px
+  z-index: 1
+  left: 0
+  right: 0
+  transform-origin: 0% 0%
+
+.mailBottom
+  display: block
+  position: absolute
+  margin: 0 auto
+  bottom: 0
+  right: 0
+  left: 0
+
+.mailContent
+  position: absolute
+  overflow: hidden
+  display: block
+  box-sizing: border-box
+  margin: 0 auto
+  width: 600px
+  top: 0
+  left: 0
+  right: 0
+  bottom: 14px
+
+.mailMessage
+  position: absolute
+  left: 0
+  right: 0
+  box-sizing: border-box
+  background: #fff
+  box-shadow: 0px 2px 4px rgba(153, 153, 153, .33)
+  bottom: 0
+  margin: 0 50px
+  margin-bottom: 10px
+  padding: 32px 32px 190px 32px
+  top: 260px
+
+  transition: $foldingDuration 0.5s top
+  transition-timing-function: ease-in-out
+
+.mail.opened
+  .mailFold
+    transform: rotateX(0deg)
+    transition: $foldingDuration
+
+  .mailFoldClosed
+    transform: rotateX(180deg)
+    transition: $foldingDuration
+
+  .mailMessage
+    top: 10px
+    transition: $foldingDuration 0.5s top
+
+.goalBar
+  margin-top: 26px
+  margin-bottom: 26px

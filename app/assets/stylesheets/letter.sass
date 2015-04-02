@@ -1,0 +1,56 @@
+$blue: #69B0DB
+$gray: #B8B8B8
+$buttonBg: rgb(217, 217, 217)
+
+.letter-send
+  float: right
+  background: $blue
+  color: #fff
+  padding: 0.2em 1em
+  border-radius: 1.0em
+  transition: .5s
+
+  &:hover
+    background: darken($blue, 8%)
+
+  &:active
+    background: darken($blue, 12%)
+
+.letter-to
+  font-size: 0.7em
+  color: $gray
+
+  input
+    border: none
+    font-size: 1.5em
+    color: $blue
+    outline: none
+
+.letter-header
+  color: $gray
+  margin: 2em 0 1em 0
+  text-align: left
+  font-weight: normal
+  font-size: 1.3em
+
+.letter-body
+  color: $gray
+  font-size: 1.3em
+  line-height: 1.6em
+  text-align: left
+  width: auto
+
+  strong
+    font-weight: bold
+    color: $blue
+
+.letter-button
+  width: 100%
+  background: $buttonBg
+  border: none
+  color: #fff
+  outline: none
+  padding: 0.5em
+  font-size: 1em
+  border-radius: 4px
+  margin: 2em 0 0 0

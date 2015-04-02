@@ -1,0 +1,48 @@
+@import 'utils'
+
+$goalBarHeight: 34px
+$goalBarColor: rgb(105, 176, 219)
+$goalBarBgColor: rgb(245, 245, 245)
+$goalBarWidth: 60%
+$goalBarTextColor: rgb(109, 109, 109)
+
+
+.goalBar
+  display: block
+  width: 240px
+  margin-left: auto
+  margin-right: auto
+  font-size: 0.625em
+  overflow: hidden
+
+.goalBar-label
+  display: inline-block
+  vertical-align: middle
+  overflow: hidden
+  position: relative
+  text-align: center
+  height: 100%
+  width: (100% - $goalBarWidth)
+  padding-top: 4px
+  color: $goalBarTextColor
+
+  strong
+    font-weight: bold
+
+.goalBar-bar
+  display: inline-block
+  overflow: hidden
+  vertical-align: middle
+  float: left
+  width: $goalBarWidth
+  height: $goalBarHeight
+  background: $goalBarBgColor
+  border-radius: $goalBarHeight/2
+
+.goalBar-barColor
+  background: $goalBarColor
+  height: $goalBarHeight
+  border-radius: $goalBarHeight/2
+  float: left
+  transition: 0.5s
+  transition-timing-function: ease-in-out

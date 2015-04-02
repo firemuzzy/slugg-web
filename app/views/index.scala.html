@@ -1,5 +1,19 @@
 @(message: String)
 
-@main("Welcome to Play") {
+@scripts = {
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/mail.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/goalBar.js")"></script>
+
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/main.js")"></script>
+}
+
+@css = {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/mail.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/goalBar.css")">
+}
+
+@main("Welcome to Play")(scripts)(css) {
   <ng-viewport></ng-viewport>
 }
