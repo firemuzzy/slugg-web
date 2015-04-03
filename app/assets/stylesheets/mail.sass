@@ -1,10 +1,14 @@
 $foldingDuration: 0.75s
+$foldingDelay: $foldingDuration/0.75
+
+$slidingDuration: 0.5s
+$slidingDelay: 0.75s
 
 .mail
-  margin: 0 auto
+  margin-left: auto
+  margin-right: auto
   position: relative
   overflow: hidden
-  cursor: pointer
 
 .mailFold, .mailBg, .mailFoldClosed
   display: block
@@ -13,7 +17,7 @@ $foldingDuration: 0.75s
   backface-visibility: hidden
   transform-origin: 100% 100%
 
-  transition: $foldingDuration 1s
+  transition: $foldingDuration $foldingDelay
   transition-timing-function: ease-in-out
 
 
@@ -54,15 +58,28 @@ $foldingDuration: 0.75s
   right: 0
   box-sizing: border-box
   background: #fff
-  box-shadow: 0px 2px 4px rgba(153, 153, 153, .33)
+  box-shadow: 0px 1px 4px rgba(153, 153, 153, .33)
   bottom: 0
   margin: 0 50px
   margin-bottom: 10px
   padding: 32px 32px 190px 32px
-  top: 260px
+  top: 263px
+  border-radius: 4px
 
-  transition: $foldingDuration 0.5s top
+  transition: $foldingDuration $foldingDelay/2 top
   transition-timing-function: ease-in-out
+
+.mailStamp
+  display: block
+  position: absolute
+  margin: 0 auto
+  top: 57%
+  left: 0
+  right: 0
+  z-index: 2
+  transform: rotate(-7deg)
+  opacity: 0
+
 
 .mail.opened
   .mailFold
@@ -75,8 +92,27 @@ $foldingDuration: 0.75s
 
   .mailMessage
     top: 10px
-    transition: $foldingDuration 0.5s top
+    transition: $foldingDuration $foldingDelay/2 top
 
-.goalBar
-  margin-top: 26px
-  margin-bottom: 26px
+  .mailStamp
+    opacity: 0
+    transition: 0
+
+
+.mail.ng-hide-remove-active
+  transform: translate(0, 0)
+  transition: $slidingDuration ease-in-out all
+
+.mail.ng-hide-add-active, .mail.ng-hide-remove-active
+  transition: $slidingDuration $slidingDelay
+
+.mail.ng-hide
+  transform: translate(-100%, 0)
+
+.mail.ng-hide-add-active
+  transform: translate(100%, 0)
+
+  .mailStamp
+    opacity: 1
+    transition: $slidingDelay/2
+    transition-timing-function: ease-in-out

@@ -3,13 +3,27 @@
 $blue: rgb(69,147,196)
 $lightBlue: rgb(105,176,219)
 $textGray: rgb(184,184,184)
-$headerBlack: rgb(19,39,50)
+$headerBlack: rgb(52,70,84)
+$companyWidth: 100px
+$companyPadding: 20px
 
 *
   margin: 0
   padding: 0
   font-family: "Brandon"
 
+html, body
+  background: $blue
+  height: 100%
+
+.content
+  background: #fff
+  height: 100%
+
+ng-viewport
+  display: block
+  background: #fff
+  overflow: hidden
 
 header
   background: $lightBlue
@@ -21,16 +35,22 @@ header
   &:first-child
     background: $blue
 
-h2
-  width: 22em
-  margin: 1.6em auto
+
+
+h1, h2
+  max-width: 16em
+  margin: 1em auto
   text-align: center
-  font-size: 1.625em
+  font-size: 2.8em
   font-weight: bold
   color: $headerBlack
 
+h2
+  font-size: 3em
+  max-width: 20em
+
 p
-  width: 22em
+  max-width: 27em
   margin: 1em auto
   line-height: 1.6em
   text-align: center
@@ -39,4 +59,26 @@ p
   strong
     color: darken($textGray, 29.5%)
 
+.mail
+  margin-top: 3em
+
+.goalBar
+  margin-top: 26px
+  margin-bottom: 26px
+
+.slideInput
+  width: 50%
+  margin: 0 auto
+
+.companies
+  width: $companyWidth*4 + $companyPadding*2*4
+  margin: 0 auto
+  overflow: hidden
+
+  &>div
+    float: left
+    margin: $companyPadding
+
 @import 'letter'
+@import 'splash'
+@import 'buttons'

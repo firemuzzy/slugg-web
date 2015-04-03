@@ -8,6 +8,8 @@ $buttonBg: rgb(217, 217, 217)
   color: #fff
   padding: 0.2em 1em
   border-radius: 1.0em
+  cursor: pointer
+  z-index:  1
   transition: .5s
 
   &:hover
@@ -21,10 +23,19 @@ $buttonBg: rgb(217, 217, 217)
   color: $gray
 
   input
+    box-sizing: border-box
     border: none
     font-size: 1.5em
     color: $blue
     outline: none
+    width: 80%
+    padding: 0.2em
+    border-bottom: 1px solid transparent
+    transition: 0.5s
+
+    &:focus
+      border-color: $blue
+
 
 .letter-header
   color: $gray
@@ -33,7 +44,7 @@ $buttonBg: rgb(217, 217, 217)
   font-weight: normal
   font-size: 1.3em
 
-.letter-body
+.letter-body, .letter-footer
   color: $gray
   font-size: 1.3em
   line-height: 1.6em
@@ -43,6 +54,10 @@ $buttonBg: rgb(217, 217, 217)
   strong
     font-weight: bold
     color: $blue
+
+.letter-footer
+  font-size: 1em
+  max-width: inherit
 
 .letter-button
   width: 100%

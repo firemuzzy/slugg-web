@@ -17,6 +17,7 @@
                   "<img class='mailBg' src='{{assets}}mailBg.png' />" +
                   "<div class='mailContent'><div class='mailMessage' ng-transclude></div></div>" +
                   "<img class='mailBottom' src='{{assets}}mailBottom.png' />" +
+                  "<img class='mailStamp' src='{{assets}}mailStamp.png' />" +
                 "</div>",
       scope: {
         "assets":"@?",

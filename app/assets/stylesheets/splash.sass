@@ -1,0 +1,17 @@
+$headerHeight: 50px
+$blue: rgb(222,231,236)
+$lightBlue: rgb(244,250,254)
+
+.splash-logo
+  height: $headerHeight*2
+  display: block
+  margin: 0 auto
+  position: relative
+  top: calc(-0.75em - #{$headerHeight})
+
+.splash-header
+  background: $lightBlue
+
+  &:first-child
+    background: $blue
+    height: $headerHeight

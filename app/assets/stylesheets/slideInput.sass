@@ -1,0 +1,54 @@
+@import "utils"
+
+$borderRadius: 4px
+$borderColor: rgb(198, 230, 253)
+$width: 80%
+$timing: 0.5s
+
+.slideInput
+  display: block
+  background: #fff
+  border-radius: $borderRadius
+  border: 1px solid $borderColor
+  overflow: hidden
+  position: relative
+  webkit-transform-style: preserve-3d
+  -moz-transform-style: preserve-3d
+  transform-style: preserve-3d
+
+.slideInput-input
+  display: block
+  background: none
+  outline: none
+  float: left
+  width: 100%
+  box-sizing: border-box
+  font-size: 1.4em
+  padding: 0.2em 1em
+  border: 2px solid transparent
+  transition: $timing
+  transition-timing-function: ease-in-out
+
+.slideInput-button
+  position: absolute
+  top: 0
+  right: 0
+  outline: none
+  box-sizing: border-box
+  background: rgb(80, 158, 212)
+  border-radius: $borderRadius
+  color: #fff
+  font-size: 1.4em
+  padding: 0.2em 1em
+  display: block
+  border: 2px solid #fff
+  width: (100% - $width)
+  transform: translate(100%,0)
+  transition: $timing
+  transition-timing-function: ease-in-out
+
+.slideInput.focus .slideInput-input, .slideInput.hasValue .slideInput-input
+  width: $width
+
+.slideInput.focus .slideInput-button, .slideInput.hasValue .slideInput-button
+  transform: translate(0%,0)
