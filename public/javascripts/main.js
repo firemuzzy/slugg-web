@@ -2,7 +2,7 @@
   "use strict";
 
   angular
-    .module('app', ['ngNewRouter', 'ngAnimate', 'mail', 'goalBar', 'utilDirectives'])
+    .module('app', ['ngNewRouter', 'ngAnimate', 'mail', 'goalBar', 'utilDirectives', 'map'])
     .config(function($componentLoaderProvider){ $componentLoaderProvider.setTemplateMapping(function(name){ return "/assets/templates/" + name + ".tpl.html"; }); })
     .factory('Company', CompanyModel)
     .factory('Person', PersonModel)
@@ -51,16 +51,6 @@
   function NeighborhoodController($routeParams, CompanyService, $timeout, $location){
     var self = this;
 
-    var mapOptions = {
-      zoom: 8,
-      center: new google.maps.LatLng(-34.397, 150.644)
-    };
-
-    $timeout(function(){
-      var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    }, 1000);
-
-
     this.focusNeighborhood = true;
     this.signupNeighborhood = function(){
       $location.path('/invite/' + $routeParams.email + "/" + this.name);
@@ -81,6 +71,24 @@
         });
       });
     }
+
+    this.styles = [{
+      "elementType": "geometry",
+      "stylers": [ { "saturation": -100 } ]
+    },{
+      "featureType": "road.highway",
+      "stylers": [ { "visibility": "off" } ]
+    },{
+      "featureType": "road.arterial",
+      "stylers": [ { "visibility": "off" } ]
+    },{
+      "featureType": "poi",
+      "elementType": "labels",
+      "stylers": [ { "visibility": "off" } ]
+    },{
+      "featureType": "transit.line",
+      "stylers": [ { "visibility": "off" } ]
+    }];
   }
   function InviteController($timeout, $routeParams, CompanyService, PersonService, NeighborhoodService){
     var self = this;
