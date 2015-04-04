@@ -1,9 +1,14 @@
 @(message: String)
 
 @scripts = {
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0YuJUWJNr5RWm9qczyLGopsbuT0CSEyI&sensor=false&libraries=geometry"></script>
+
   <script type="text/javascript" src="@routes.Assets.at("javascripts/mail.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("javascripts/goalBar.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("javascripts/utilDirectives.js")"></script>
+
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/lodash.min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/chGoogleMaps.js")"></script>
 
   <script type="text/javascript" src="@routes.Assets.at("javascripts/main.js")"></script>
 }
@@ -18,6 +23,6 @@
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/sprites/companies-sprite-pack.css")">
 }
 
-@main("Welcome to Play")(scripts)(css) {
+@main("Slugg")(scripts)(css) {
   <ng-viewport></ng-viewport>
 }

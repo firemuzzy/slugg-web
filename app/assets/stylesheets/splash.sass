@@ -1,17 +1,26 @@
-$headerHeight: 50px
+$headerHeight: 60px
+$logoHalfHeight: $headerHeight*0.8
+$darkBlue: rgb(64,133,190)
 $blue: rgb(222,231,236)
 $lightBlue: rgb(244,250,254)
 
 .splash-logo
-  height: $headerHeight*2
+  height: $logoHalfHeight*2
   display: block
   margin: 0 auto
   position: relative
-  top: calc(-0.75em - #{$headerHeight})
+  top: calc(-0.75em - #{$logoHalfHeight})
 
 .splash-header
+  box-sizing: border-box
   background: $lightBlue
 
   &:first-child
     background: $blue
     height: $headerHeight
+
+  a
+    color: $darkBlue
+
+  span
+    color: rgb(168,198,223)

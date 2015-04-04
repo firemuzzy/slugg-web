@@ -1,2 +1,3 @@
-<header>{{invite.company.name}}</header>
-<header>Ballard</header>
+<header><a ng-link="signup()" ng-show="neighborhood.company.name">{{neighborhood.company.name}}</a></header>
+<div id="map-canvas"></div>
+<slide-input class="middle" button="done" placeholder="Select your neighborhood" ng-model="neighborhood.name" click="neighborhood.signupNeighborhood($event)" focus="neighborhood.focusNeighborhood"></slide-input>
