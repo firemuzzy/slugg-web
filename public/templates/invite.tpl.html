@@ -9,7 +9,7 @@
   <p>We have <strong>{{invite.company.signups}}</strong> people signed up at {{invite.company.name}}. We’ll keep you informed on {{invite.company.name}}’s progress. When there are {{invite.company.maxSignups}}, we’ll enable it at your company.</p>
   <p>Help us out by spreading the word.</p>
 
-  <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail">
+  <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail" ng-animate="{enter:'animated fadeIn', leave:'animated fadeOut'}">
     <div class="letter-send" ng-click="invite.sendEmail(invite.email)">send</div>
     <div class="letter-to">
       <span>To:</span>

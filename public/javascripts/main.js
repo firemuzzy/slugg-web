@@ -51,8 +51,8 @@
             self.opened = false;
 
             $timeout(function(){self.showMail = false; }, 1750)
-              .then(function(){ $timeout(function(){ self.showMail = true; self.email = null; }, 1500); })
-              .then(function(){ $timeout(function(){ self.opened = true; self.emailFocus = true; self.emailPlaceholder = placeholders[0];  }, 3000); });
+              .then(function(){ $timeout(function(){ self.showMail = true; self.email = null; }, 1000); })
+              .then(function(){ $timeout(function(){ self.opened = true; self.emailFocus = true; self.emailPlaceholder = placeholders[0];  }, 2500); });
           }
         });
       } else {
