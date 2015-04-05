@@ -12,7 +12,7 @@
   AppController.$inject = ['$router'];
   InviteController.$inject = ['$timeout', '$routeParams', 'CompanyService', 'PersonService', 'NeighborhoodService'];
   SignupController.$inject = ['PersonService', '$location'];
-  NeighborhoodController.$inject = ['$routeParams', 'CompanyService', 'NeighborhoodService', '$timeout', '$location', 'SlideInputFormatter'];
+  NeighborhoodController.$inject = ['$routeParams', 'CompanyService', 'NeighborhoodService', '$timeout', '$location', 'SlideInputFormatter', 'MapHelper'];
 
 
   function AppController($router){
@@ -39,9 +39,10 @@
       }
     }
   }
-  function NeighborhoodController($routeParams, CompanyService, NeighborhoodService, $timeout, $location, SlideInputFormatter){
+  function NeighborhoodController($routeParams, CompanyService, NeighborhoodService, $timeout, $location, SlideInputFormatter, MapHelper){
     var self = this;
 
+    this.center = {lat:47.605755, lng:-122.335955};
     this.focusNeighborhood = true;
     this.signupNeighborhood = function(value, typeaheadItem){
       if(typeaheadItem) {
@@ -91,6 +92,9 @@
           fillOpacity: 0.2,
           paths:item.coordinates
         };
+        MapHelper.getCenter(item.coordinates)
+          .then(function(center){ return MapHelper.offsetCenter(center, 0, 300) })
+          .then(function(center){ self.center = center; });
       }
 
     };
@@ -104,6 +108,9 @@
           fillOpacity: 0.3,
           paths: item.coordinates
         };
+        MapHelper.getCenter(item.coordinates)
+          .then(function(center){ return MapHelper.offsetCenter(center, 0, 300); })
+          .then(function(center){ self.center = center; });
       }
     };
 
