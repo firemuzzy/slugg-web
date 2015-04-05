@@ -1,8 +1,7 @@
 <header><a ng-link="signup()" ng-show="neighborhood.company.name">{{neighborhood.company.name}}</a></header>
 <map center='{lat:47.605755, lng:-122.335955}' options='{draggable:false, disableDefaultUI:true}' zoom="12" styles='neighborhood.styles'>
-  <polygon options="neighborhood.polygonOptions">
-    <path ng-model="neighborhood.coordinates"></path>
-  </polygon>
+  <polygon options="neighborhood.activePolygon"></polygon>
+  <polygon options="neighborhood.hoverPolygon"></polygon>
 </map>
 <slide-input class="middle"
              button="done"
