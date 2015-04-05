@@ -1,29 +1,8 @@
 (function(){
   "use strict";
 
-
-  var injectBold = function(value, query, tag){
-    if(tag == null) tag = "b";
-
-    var splitValue = value.toLowerCase().split(query.toLowerCase());
-    var withBold = [];
-
-    var startingIndex = 0;
-    for(var i=0; i<splitValue.length; i++){
-      var originalValue = value.slice(startingIndex, startingIndex + splitValue[i].length);
-      var queryValueAtLocation = value.slice(startingIndex + splitValue[i].length, startingIndex + splitValue[i].length + query.length);
-      startingIndex += splitValue[i].length + query.length;
-
-      withBold.push(originalValue);
-      if(i < splitValue.length - 1){
-        withBold.push("<"+tag+">" + queryValueAtLocation + "</"+tag+">");
-      }
-    }
-    return withBold.join("");
-  };
-
   angular
-    .module('app', ['app.models', 'ngNewRouter', 'ngAnimate', 'mail', 'goalBar', 'utilDirectives', 'map'])
+    .module('app', ['app.models', 'ngNewRouter', 'ngAnimate', 'mail', 'goalBar', 'utilDirectives', 'map', 'slideInput'])
     .config(function($componentLoaderProvider){ $componentLoaderProvider.setTemplateMapping(function(name){ return "/assets/templates/" + name + ".tpl.html"; }); })
     .controller('AppController', AppController)
     .controller('InviteController', InviteController)
@@ -33,7 +12,7 @@
   AppController.$inject = ['$router'];
   InviteController.$inject = ['$timeout', '$routeParams', 'CompanyService', 'PersonService', 'NeighborhoodService'];
   SignupController.$inject = ['PersonService', '$location'];
-  NeighborhoodController.$inject = ['$routeParams', 'CompanyService', 'NeighborhoodService', '$timeout', '$location'];
+  NeighborhoodController.$inject = ['$routeParams', 'CompanyService', 'NeighborhoodService', '$timeout', '$location', 'SlideInputFormatter'];
 
 
   function AppController($router){
@@ -60,11 +39,17 @@
       }
     }
   }
-  function NeighborhoodController($routeParams, CompanyService, NeighborhoodService, $timeout, $location){
+  function NeighborhoodController($routeParams, CompanyService, NeighborhoodService, $timeout, $location, SlideInputFormatter){
     var self = this;
 
     this.focusNeighborhood = true;
-    this.signupNeighborhood = function(){ $location.path('/invite/' + $routeParams.email + "/" + this.name);};
+    this.signupNeighborhood = function(value, typeaheadItem){
+      if(typeaheadItem) {
+        $location.path('/invite/' + $routeParams.email + "/" + typeaheadItem.name);
+      } else {
+        $location.path('/invite/' + $routeParams.email + "/" + value);
+      }
+    };
 
     if($routeParams.company) {
       CompanyService.companyFromName().then(function(company){
@@ -83,14 +68,19 @@
     }
 
     this.change = function(model){
+      if(model == null || model.length == 0) {
+        self.typeaheadData = [];
+        return;
+      }
+
       NeighborhoodService.fetchByDelayed(model).then(function(neighborhoods){
-        self.typeaheadData = neighborhoods;
+        if(model || model.length > 0) self.typeaheadData = neighborhoods;
+        else self.typeaheadData = []
       });
     };
 
-    this.typeaheadFormat = function(item, query){
-      return injectBold(item.name, query);
-    };
+    this.typeaheadFormat = function(item, query){ return SlideInputFormatter.injectBold(item.name, query); };
+    this.suggestedFormat = function(item, query){ return SlideInputFormatter.afterFirstOccurence(item.name, query); };
 
     this.styles = [{
       "elementType": "geometry",
@@ -119,7 +109,7 @@
     this.showMail = true;
     this.emailFocus = true;
     this.emailPlaceholder = placeholders[placeholderIndex];
-    this.email = $routeParams.email
+    this.email = $routeParams.email;
 
     CompanyService.companyFromEmail($routeParams.email).then(function(company){
       self.company = company;

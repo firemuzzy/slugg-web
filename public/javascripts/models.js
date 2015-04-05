@@ -13,7 +13,7 @@
 
   CompanyService.$inject = ['$q', 'Company'];
   PersonService.$inject = ['$q', 'Person'];
-  NeighborhoodService.$inject = ['$q', '$http', 'Neighborhood'];
+  NeighborhoodService.$inject = ['$q', '$http', '$timeout', 'Neighborhood'];
 
 
   function CompanyModel(){
@@ -160,10 +160,14 @@
       }
     }
   }
-  function NeighborhoodService($q, $http, Neighborhood){
+  function NeighborhoodService($q, $http, $timeout, Neighborhood){
     //(name:String) -> :Promise
     this.neighborhoodFromName = function(name) {
-      return $q.when(new Neighborhood(name))
+      return this._fetchAll().then(function(responseData){
+        return responseData.data.filter(function(neighborhood){
+          return neighborhood.name.toLowerCase() == name.toLowerCase();
+        })[0];
+      });
     };
 
 
@@ -179,11 +183,14 @@
 
     var _fetchByUrl = null;
     var _fetchByPromise = null;
+    var self = this;
     //(query:String) -> :Promise
     this._fetchBy = function(query) {
       _fetchByUrl =  query;
 
-      return this._fetchAll(query).then(function(response){
+      //sometimes "this" is null here, hence why I'm using self
+      //not smart enough to figure out why, seems to do with timing/rapidly calling 'fetchByDelayed'
+      return self._fetchAll(query).then(function(response){
         var data = response.data;
         if(response.config.url == _fetchByUrl) {
           _fetchByPromise = null;
@@ -195,8 +202,10 @@
       });
     };
 
+    var self = this;
     //(query:String, delay:number = 300) -> :Promise
     this.fetchByDelayed = function(query, delay) {
+
       if(_fetchByPromise == null){
         _fetchByPromise = this._fetchBy(query);
         return _fetchByPromise;
@@ -204,8 +213,8 @@
       else {
         $timeout.cancel(_fetchByPromise);
         _fetchByUrl = query;
-        _fetchByPromise = $timeout(function(){ return query; }, (delay || 300));
-        return _fetchByPromise.then(this._fetchBy);
+        _fetchByPromise = $timeout(function(){ return query; }, (delay || 200));
+        return _fetchByPromise.then(self._fetchBy);
       }
     };
 

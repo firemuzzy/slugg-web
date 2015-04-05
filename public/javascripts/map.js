@@ -9,7 +9,7 @@
     .directive('map', mapDirective);
 
   MapOptionsModel.$inject = ['Coordinate'];
-  LazyLoadGoogleMap.$inject = ['$window', '$q'];
+  LazyLoadGoogleMap.$inject = ['$window', '$q', '$timeout'];
   GoogleMap.$inject = ['LazyLoadGoogleMap', 'MapOptions'];
   mapDirective.$inject = ['GoogleMap'];
 
@@ -21,6 +21,8 @@
 
     //(data:Object) -> :boolean
     Coordinate.validateJson = function(data){
+      if(data == null) return false;
+
       if(data.lat == null) return false;
       if(data.lng == null) return false;
       return true;
@@ -98,7 +100,7 @@
     return MapOptions;
   }
 
-  function LazyLoadGoogleMap($window, $q){
+  function LazyLoadGoogleMap($window, $q, $timeout){
     this.load = function(key) {
       function loadScript(){
         var script = document.createElement('script');
@@ -109,11 +111,15 @@
       }
 
       var deferred = $q.defer()
-      $window.initGoogleMap = function(){ deferred.resolve() }
+      if($window.google && $window.google.maps){
+        $timeout(function(){deferred.resolve();});
+      } else {
+        $window.initGoogleMap = function(){ deferred.resolve() }
 
-      if (document.readyState === "complete") { loadScript() }
-      else if ($window.attachEvent) { $window.attachEvent('onload', loadScript); }
-      else { $window.addEventListener('load', loadScript, false); }
+        if (document.readyState === "complete") { loadScript() }
+        else if ($window.attachEvent) { $window.attachEvent('onload', loadScript); }
+        else { $window.addEventListener('load', loadScript, false); }
+      }
 
       return deferred.promise;
     }
@@ -132,6 +138,7 @@
         return mapPromise;
       }
     }
+    this.$destroy = function(){ mapPromise = null; }
   }
 
   function mapDirective(GoogleMap){
@@ -153,11 +160,14 @@
           });
         });
 
+        $scope.$on("$destroy", function(){ GoogleMap.$destroy(); });
+
         function getMapOptions($scope) {
           var opt = {};
           if($scope.zoom) opt.zoom = $scope.zoom;
-          else opt.zoom = 10;
+          else opt.zoom = 3;
           if($scope.center) opt.center = $scope.center;
+          else opt.center = {lat:0, lng: 0}
           if($scope.styles) opt.styles = $scope.styles;
 
           for(var prop in $scope.options){
