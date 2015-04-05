@@ -141,7 +141,7 @@
     this.showMail = true;
     this.emailFocus = true;
     this.emailPlaceholder = placeholders[placeholderIndex];
-    this.email = $routeParams.email;
+    this.userEmail = $routeParams.email;
 
     CompanyService.companyFromEmail($routeParams.email).then(function(company){
       self.company = company;
@@ -154,7 +154,7 @@
     });
 
     this.sendEmail = function(email){
-      if(email != null && email.length > 0) {
+      if(mail != null && email.length > 0) {
         this.emailPlaceholder = placeholders[0];
         PersonService.sendEmail(email, self.company).then(function(timesSent){
           self.numberOfInvites = timesSent;
