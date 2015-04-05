@@ -1,5 +1,5 @@
 <header><a ng-link="signup()" ng-show="neighborhood.company.name">{{neighborhood.company.name}}</a></header>
-<map center='neighborhood.center' options='{draggable:false, disableDefaultUI:true}' zoom="12" styles='neighborhood.styles'>
+<map center='neighborhood.center' options='{draggable:false, disableDefaultUI:true, disableDoubleClickZoom: true}' zoom="12" styles='neighborhood.styles'>
   <polygon options="neighborhood.activePolygon"></polygon>
   <polygon options="neighborhood.hoverPolygon"></polygon>
 </map>
