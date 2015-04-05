@@ -1,3 +1,11 @@
 <header><a ng-link="signup()" ng-show="neighborhood.company.name">{{neighborhood.company.name}}</a></header>
 <map center='{lat:47.605755, lng:-122.335955}' options='{draggable:false, disableDefaultUI:true}' zoom="12" styles='neighborhood.styles'></map>
-<slide-input class="middle" button="done" placeholder="Select your neighborhood" ng-model="neighborhood.name" click="neighborhood.signupNeighborhood($event)" focus="neighborhood.focusNeighborhood"></slide-input>
+<slide-input class="middle"
+             button="done"
+             placeholder="Select your neighborhood"
+             ng-model="neighborhood.name"
+             click="neighborhood.signupNeighborhood($event)"
+             change="neighborhood.change(model)"
+             focus="neighborhood.focusNeighborhood"
+             typeahead-data="neighborhood.typeaheadData"
+             typeahead-format="neighborhood.typeaheadFormat(item, query)"></slide-input>

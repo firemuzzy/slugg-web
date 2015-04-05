@@ -2,12 +2,47 @@
 
 $borderRadius: 4px
 $borderColor: rgb(198, 230, 253)
+$color: #666
 $width: 80%
 $timing: 0.5s
 
 slide-input
   display: block
   width: 100%
+
+.slideInput-box
+  overflow: hidden
+  display: block
+
+.slideInput-typeahead
+  font-size: 1.4em
+  margin: 0 1em
+  color: $color
+  transition: $timing
+
+.slideInput-typeaheadItem
+  padding: 0.2em 0em
+  cursor: pointer
+  border-top: 1px solid $borderColor
+  transition: 0.05s
+  opacity: 1
+  max-height: 100px
+
+  &.ng-enter
+    opacity: 0
+    max-height: 0
+    transition: 0.4s
+
+  &.ng-enter-active
+    opacity: 1
+    max-height: 100px
+
+  &.ng-leave-active
+    opacity: 0
+    max-height: 0
+
+  &:hover, &-active
+    color: darken($borderColor, 50%)
 
 .slideInput
   display: block
@@ -29,6 +64,7 @@ slide-input
   box-sizing: border-box
   font-size: 1.4em
   padding: 0.2em 1em
+  color: $color
   border: 2px solid transparent
   transition: $timing
   transition-timing-function: ease-in-out
@@ -57,3 +93,6 @@ slide-input
 
 .slideInput.focus .slideInput-button, .slideInput.hasValue .slideInput-button
   transform: translate(0%,0)
+
+.slideInput.focus .slideInput-typeahead, .slideInput.hasValue .slideInput-typeahead
+  margin-right: 2px
