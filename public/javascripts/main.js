@@ -81,6 +81,20 @@
 
     this.typeaheadFormat = function(item, query){ return SlideInputFormatter.injectBold(item.name, query); };
     this.suggestedFormat = function(item, query){ return SlideInputFormatter.afterFirstOccurence(item.name, query); };
+    this.typeaheadHoverItem = function(item){
+      self.coordinates = item.coordinates;
+    };
+    this.typeaheadActiveItem = function(item){
+      self.coordinates = item.coordinates;
+    };
+
+    this.polygonOptions = {
+      strokeWeight: 0,
+      fill: {
+        color: "#000",
+        opacity: 0
+      }
+    };
 
     this.styles = [{
       "elementType": "geometry",
