@@ -4,112 +4,50 @@
   angular
     .module('app.models', [])
     .factory('Company', CompanyModel)
-    .factory('Person', PersonModel)
     .factory('Neighborhood', NeighborhoodModel)
     .service('CompanyService', CompanyService)
     .service('PersonService', PersonService)
-    .service('NeighborhoodService', NeighborhoodService)
+    .service('NeighborhoodService', NeighborhoodService);
 
 
+  CompanyModel.$inject = ['$q'];
   NeighborhoodModel.$inject = ['$q'];
   CompanyService.$inject = ['$q', 'Company'];
-  PersonService.$inject = ['$q', 'Person'];
+  PersonService.$inject = ['$q'];
   NeighborhoodService.$inject = ['$q', '$http', '$timeout', 'Neighborhood'];
 
 
-  function CompanyModel(){
+  function CompanyModel($q){
     function Company(name, domain, signups, maxSignups){
       this.name = name;
       this.domain = domain;
-      this.signups = signups
-      this.maxSignups = maxSignups
+      this.signups = signups;
+      this.maxSignups = maxSignups;
     }
 
-    //(data:Object) -> :boolean
-    Company.validateJson = function(data){
-      if(data.name == null) return false;
-      if(data.domain == null) return false;
-      if(data.signups == null) return false;
-      if(data.maxSignups == null) return false;
-      return true;
-    };
-    //(d:Object) -> :Company
-    Company.build = function(d){ return new Company(d.name, d.domain, d.signups, d.maxSignups); };
-    //(data:Object) -> :Company | null
-    Company.fromJson = function(data) {
-      if(Company.validateJson(data)){
-        //data gets mutated by validateJson
-        return Company.build(data);
+    //(data: Object) -> :Promise(:Copmany | [:Company])
+    Company.promiseFrom = function(data) {
+      if (data instanceof Company) return $q.when(data);
+      else if (angular.isArray(data)) return $q.all(data.map(Company.promiseFrom));
+      else if (angular.isObject(data) &&
+        angular.isString(data.name) &&
+        angular.isString(data.domain) &&
+        (angular.isString(data.signups) || angular.isNumber(data.signups)) &&
+        (angular.isString(data.maxSignups) || angular.isNumber(data.maxSignups))) {
+        return $q.when(new Company(data.name, data.domain, data.signups, data.maxSignups));
       }
+      else return $q.reject("data can't be parsed correctly");
     };
 
     return Company;
   }
-  function PersonModel(){
-    function Person(email){
-      this.email = email;
-    }
 
-    //(data:Object) -> :boolean
-    Person.validateJson = function(data){
-      if(data.email == null) return false;
-      return true;
-    };
-    //(d:Object) -> :Person
-    Person.build = function(d){ return new Company(d.email); };
-    //(data:Object) -> :Person | null
-    Person.fromJson = function(data) {
-      if(Person.validateJson(data)){
-        //data gets mutated by validateJson
-        return Person.build(data);
-      }
-    };
-
-    return Person;
-  }
   function NeighborhoodModel($q){
     function Neighborhood(id, name, coordinates){
       this.id = id;
       this.name = name;
       this.coordinates = coordinates;
     }
-
-    //(data:Object) -> :boolean
-    Neighborhood.validateJson = function(data){
-      if(data.properties && data.geometry) {
-        if(data.properties.NEIGH_NUM == null) return false;
-        if(data.properties.NEIGHBORHO == null) return false;
-        if(data.geometry.coordinates == null) return false;
-
-        data.id = data.properties.NEIGH_NUM;
-        data.name = data.properties.NEIGHBORHO;
-        data.coordinates = data.geometry.coordinates[0].map(function(item){
-          return {lat:item[1],lng:item[0]};
-        });
-
-      } else {
-        if(data.id == null) return false;
-        if(data.name == null) return false;
-      }
-
-      return true;
-    };
-    //(d:Object) -> :Person
-    Neighborhood.build = function(d){ return new Neighborhood(d.id, d.name, d.coordinates); };
-    //(data:Object) -> :Person | null
-    Neighborhood.fromJson = function(data) {
-      if(Neighborhood.validateJson(data)){
-        //data gets mutated by validateJson
-        return Neighborhood.build(data);
-      }
-    };
-    //(responseData:Object) -> :Neighborhood | :Array[Neighborhood]
-    Neighborhood.apiResponseTransformer = function(responseData){
-      if(angular.isArray(responseData)){
-        return responseData.map(Neighborhood.fromJson).filter(Boolean);
-      }
-      return Neighborhood.fromJson(responseData);
-    };
 
     var _promiseCoordinate = function(coordinates){
       return $q.when(coordinates.map(function(coordinate){return {lat:coordinate[1], lng: coordinate[0]}}));
@@ -149,14 +87,14 @@
     return Neighborhood;
   }
   function CompanyService($q, Company){
-
     //() -> :Promise
     this.vettedCompanies = function(){
-      return $q.when([
-        new Company("Microsoft", "microsoft.com", 246, 500),
-        new Company("Google", "google.com", 246, 500),
-        new Company("Adobe", "adobe.com", 246, 500)
-      ])
+      var c = Company.promiseFrom([
+        {name:"Microsoft", domain:"microsoft.com", signups:246, maxSignups:500},
+        {name:"Google", domain:"google.com", signups:246, maxSignups:500},
+        {name:"Adobe", domain:"adobe.com", signups:246, maxSignups:500}
+      ]);
+      return c;
     };
 
     //(domain:String) -> :Promise
@@ -182,7 +120,7 @@
     }
 
   }
-  function PersonService($q, Person){
+  function PersonService($q){
     var emailsSent = {};
 
     this.sendEmail = function(email, company){
