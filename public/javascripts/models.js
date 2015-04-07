@@ -11,6 +11,7 @@
     .service('NeighborhoodService', NeighborhoodService)
 
 
+  NeighborhoodModel.$inject = ['$q'];
   CompanyService.$inject = ['$q', 'Company'];
   PersonService.$inject = ['$q', 'Person'];
   NeighborhoodService.$inject = ['$q', '$http', '$timeout', 'Neighborhood'];
@@ -66,7 +67,7 @@
 
     return Person;
   }
-  function NeighborhoodModel(){
+  function NeighborhoodModel($q){
     function Neighborhood(id, name, coordinates){
       this.id = id;
       this.name = name;
@@ -108,6 +109,41 @@
         return responseData.map(Neighborhood.fromJson).filter(Boolean);
       }
       return Neighborhood.fromJson(responseData);
+    };
+
+    var _promiseCoordinate = function(coordinates){
+      return $q.when(coordinates.map(function(coordinate){return {lat:coordinate[1], lng: coordinate[0]}}));
+    };
+
+    var _promiseGeometry = function(geometry){
+      if(geometry != null && geometry.type == "MultiPolygon") {
+        return _promiseCoordinate(geometry.coordinates[0][0]);
+      } if(geometry != null && geometry.type == "Polygon") {
+        return _promiseCoordinate(geometry.coordinates[0]);
+      } else {
+        return $q.reject("data can't be parsed correctly");
+      }
+    };
+
+    //(data:Object) -> :Promise(:Neighborhood|[:Neighborhood])
+    Neighborhood.promiseFrom = function(data){
+      if(data instanceof Neighborhood) {
+        return $q.when(data);
+      } else if(angular.isArray(data)){
+        return $q.all(data.map(Neighborhood.promiseFrom));
+      } else if(data != null && data.properties != null){
+        return _promiseGeometry(data.geometry).then(function(coordinates){
+          if((angular.isNumber(data.properties.NEIGH_NUM) || angular.isString(data.properties.NEIGH_NUM)) && (angular.isString(data.properties.NEIGHBORHO))) {
+            var id = data.properties.NEIGH_NUM;
+            var name = data.properties.NEIGHBORHO;
+            return new Neighborhood(id, name, coordinates);
+          }
+        });
+      } else if(data != null && angular.isString(data.name)){
+        return new Neighborhood(null, data.name);
+      } else{
+        $q.reject("data can't be parsed correctly");
+      }
     };
 
     return Neighborhood;
@@ -174,9 +210,11 @@
     //() -> :Promise
     this._fetchAll = function(url){
       return $http.get("/assets/data/seattle_hoods.json").then(function(response){
+        return Neighborhood.promiseFrom(response.data.features);
+      }).then(function(neighborhoods){
         return {
           config:{ url: url },
-          data:Neighborhood.apiResponseTransformer(response.data.features)
+          data:neighborhoods
         }
       });
     };

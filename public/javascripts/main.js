@@ -2,7 +2,7 @@
   "use strict";
 
   angular
-    .module('app', ['app.models', 'ngNewRouter', 'ngAnimate', 'mail', 'goalBar', 'utilDirectives', 'map', 'slideInput'])
+    .module('app', ['ngAnimate', 'app.models', 'ngNewRouter', 'mail', 'goalBar', 'utilDirectives', 'map', 'slideInput'])
     .config(function($componentLoaderProvider){ $componentLoaderProvider.setTemplateMapping(function(name){ return "/assets/templates/" + name + ".tpl.html"; }); })
     .controller('AppController', AppController)
     .controller('InviteController', InviteController)
@@ -41,6 +41,8 @@
   }
   function NeighborhoodController($routeParams, CompanyService, NeighborhoodService, $timeout, $location, SlideInputFormatter, MapHelper){
     var self = this;
+
+    NeighborhoodService._fetchAll();
 
     this.center = {lat:47.605755, lng:-122.335955};
     this.focusNeighborhood = true;

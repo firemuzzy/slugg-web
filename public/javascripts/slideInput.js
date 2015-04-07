@@ -93,21 +93,21 @@
           } else if($event.keyCode == 40) { //down
             var length = 1;
             if($scope.typeaheadData && $scope.typeaheadData.length > 0) length = $scope.typeaheadData.length + 1;
-            $scope.typeaheadHoverIndex = Math.mod($scope.typeaheadHoverIndex + 1, length);
+            $scope.updateTypeaheadHoverIndex(Math.mod($scope.typeaheadHoverIndex + 1, length));
             $scope.updateSuggested();
             $event.preventDefault();
             return false;
           } else if($event.keyCode == 38) { //up
             var length = 1;
             if($scope.typeaheadData && $scope.typeaheadData.length > 0) length = $scope.typeaheadData.length + 1;
-            $scope.typeaheadHoverIndex = Math.mod($scope.typeaheadHoverIndex - 1, length);
+            $scope.updateTypeaheadHoverIndex(Math.mod($scope.typeaheadHoverIndex - 1, length));
             $scope.updateSuggested();
             $event.preventDefault();
             return false;
           }
         };
         $scope._change = function(){
-          $scope.typeaheadHoverIndex = 0;
+          $scope.updateTypeaheadHoverIndex(0);
           $scope.change({model:$scope.model});
           $scope.updateSuggested();
           $scope.typeaheadHoverItem({item: null});
@@ -118,6 +118,23 @@
         };
         $scope._mouseleave = function(item){
           $scope.typeaheadHoverItem({item: null});
+        }
+
+        $scope.updateTypeaheadHoverIndex = function(index){
+          $scope.typeaheadHoverIndex = index;
+          $timeout(function(){
+            var activeElement = element[0].querySelector('.slideInput-typeaheadItem-active');
+            if(activeElement != null) {
+              var height = activeElement.offsetParent.offsetHeight + activeElement.offsetParent.scrollTop;
+              console.log("-----");
+              console.log("offset: " + activeElement.offsetTop);
+              console.log("height: " + height);
+              console.log("scrollTop: " + activeElement.offsetParent.scrollTop);
+
+              if(activeElement.offsetTop >= height) activeElement.offsetParent.scrollTop = activeElement.offsetTop;
+              else if(activeElement.offsetTop <= activeElement.offsetParent.scrollTop) activeElement.offsetParent.scrollTop = activeElement.offsetTop;
+            }
+          });
         }
       }
     }
