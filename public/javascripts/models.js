@@ -43,8 +43,7 @@
   }
 
   function NeighborhoodModel($q){
-    function Neighborhood(id, name, coordinates){
-      this.id = id;
+    function Neighborhood(name, coordinates){
       this.name = name;
       this.coordinates = coordinates;
     }
@@ -71,10 +70,9 @@
         return $q.all(data.map(Neighborhood.promiseFrom));
       } else if(data != null && data.properties != null){
         return _promiseGeometry(data.geometry).then(function(coordinates){
-          if((angular.isNumber(data.properties.NEIGH_NUM) || angular.isString(data.properties.NEIGH_NUM)) && (angular.isString(data.properties.NEIGHBORHO))) {
-            var id = data.properties.NEIGH_NUM;
-            var name = data.properties.NEIGHBORHO;
-            return new Neighborhood(id, name, coordinates);
+          if((angular.isString(data.properties.Name))) {
+            var name = data.properties.Name
+            return new Neighborhood(name, coordinates);
           }
         });
       } else if(data != null && angular.isString(data.name)){
