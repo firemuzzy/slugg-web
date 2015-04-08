@@ -1,0 +1,52 @@
+{
+	"data": [
+		{
+			"hood":"North Gate",
+			"children":["Haller Lake", "Maple Leaf", "North College Park", "Pinehurst"]
+		},
+		{
+			"hood":"Lake City",
+			"children":["Cedar Park", "Matthews Beach", "Meadowbrook", "Olympic Hills", "Victory Heights"]
+		},
+		{
+			"hood":"Ballard",
+			"children":["Adams", "Loyal Heights", "Sunset Hill", "West Woodlans", "Whittier Heights"]
+		},
+		{
+			"hood":"Magnolia",
+			"children":["Briacliff", "Lawton Park", "Southwest Magnolia"]
+		},
+		{
+			"hood":"Queen Anne",
+			"children":["East Queen Anne", "Lower Queen Anne", "North Queen Anne", "West Queen Anne"]
+		},
+		{
+			"hood":"Capitol HIll",
+			"children":["Eastlake", "South Lake Union", "Westlake"]
+		},
+		{
+			"hood":"Downtown",
+			"children":["Belltown","Central Business District","Central Waterfront","Denny Regrade","First Hill","International District","Pike Market","Pioneer Square","Yesler Terrace"]
+		},
+		{
+			"hood":"Central Area",
+			"children":["Atlantic","Harrison / Denny-Blaine","Leschi","Madrona","Mann","Minor"]
+		},
+		{
+			"hood":"Rairnier Valley",
+			"children":["Brighton","Columbia City","Dunlap","Mount Baker","Rainier Beach","Rainier View"]
+		},
+		{
+			"hood":"Beacon Hill",
+			"children":["Holly Park","Mid Beacon Hill","North Beacon Hill","South Beacon Hill"]
+		},
+		{
+			"hood":"West Seattle",
+			"children":["Alki","Arbor Heights","Fairmount Park","Fauntleroy","Gatewood","Genesee"]
+		},
+		{
+			"hood":"Delridge",
+			"children":["High Point","Highland Park","North Delridge","Riverview","Roxhill","South Delridge"]
+		}
+	]
+}
