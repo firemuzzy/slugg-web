@@ -1,7 +1,7 @@
 {
 	"data": [
 		{
-			"hood":"North Gate",
+			"hood":"Northgate",
 			"children":["Haller Lake", "Maple Leaf", "North College Park", "Pinehurst"]
 		},
 		{
@@ -14,7 +14,7 @@
 		},
 		{
 			"hood":"Magnolia",
-			"children":["Briacliff", "Lawton Park", "Southwest Magnolia"]
+			"children":["Briacliff", "Lawton Park", "Southeast Magnolia"]
 		},
 		{
 			"hood":"Queen Anne",
@@ -26,11 +26,11 @@
 		},
 		{
 			"hood":"Downtown",
-			"children":["Belltown","Central Business District","Central Waterfront","Denny Regrade","First Hill","International District","Pike Market","Pioneer Square","Yesler Terrace"]
+			"children":["Belltown","Central Business District","First Hill","International District","Pike Market","Pioneer Square","Yesler Terrace"]
 		},
 		{
 			"hood":"Central Area",
-			"children":["Atlantic","Harrison / Denny-Blaine","Leschi","Madrona","Mann","Minor"]
+			"children":["Atlantic","Harrison/Denny-Blaine","Leschi","Madrona","Mann","Minor"]
 		},
 		{
 			"hood":"Rairnier Valley",
