@@ -84,6 +84,7 @@
 
     return Neighborhood;
   }
+
   function CompanyService($q, Company){
     //() -> :Promise
     this.vettedCompanies = function(){
@@ -154,6 +155,12 @@
         }
       });
     };
+
+    this._fetchHoodChildren = function() {
+      return $http.get("/assets/data/seattle_hood_children.json").then(function(response){
+        return Neighborhood.promiseFrom(response.data.features);
+      })
+    }
 
     var _fetchByUrl = null;
     var _fetchByPromise = null;

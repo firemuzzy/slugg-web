@@ -20,3 +20,5 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-mocha" % "1.0.0")
 resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/releases"))(Resolver.ivyStylePatterns)
 
 addSbtPlugin("default" % "sbt-sass" % "0.1.9")
+
+addSbtPlugin("com.arpnetworking" % "sbt-typescript" % "0.1.4")

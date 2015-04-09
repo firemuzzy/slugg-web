@@ -21,9 +21,13 @@
 			"children":["East Queen Anne", "Lower Queen Anne", "North Queen Anne", "West Queen Anne"]
 		},
 		{
-			"hood":"Capitol HIll",
+			"hood":"Cascade",
 			"children":["Eastlake", "South Lake Union", "Westlake"]
 		},
+		{
+			"hood":"Capitol Hill",
+			"children":["Broadway","Madison Park","Montlake","Portage Bay","Stevens"]
+		}
 		{
 			"hood":"Downtown",
 			"children":["Belltown","Central Business District","First Hill","International District","Pike Market","Pioneer Square","Yesler Terrace"]
