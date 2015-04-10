@@ -1,4 +1,5 @@
 /// <reference path="./angularjs/angular.d.ts" />
+/// <reference path="./parse/parse.d.ts" />
 
 
 interface ISignupScope {
@@ -19,7 +20,7 @@ class SignupController implements ISignupScope {
   }
 
   signupEmail($event:ng.IAngularEvent) {
-    if(this.email == null || this.email.length  <= 0) {
+    if(this.email === null || this.email.length  <= 0) {
       this.focusEmail = true;
     } else {
     }
