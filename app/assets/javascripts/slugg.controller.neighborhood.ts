@@ -51,7 +51,11 @@ class NeighborhoodController implements INeighborhoodScope {
     if($routeParams.company) {
       CompanyService.companyFromName().then( (company) => { this.company = company; });
     } else {
-      CompanyService.companyFromEmail($routeParams.email).then( (company) => { this.company = company; }).catch(() => { this.$location.path('/') });
+      CompanyService.companyFromEmail($routeParams.email).then( (company) => {
+        this.company = company;
+      }).catch(() => {
+        this.$location.path('/')
+      });
     }
   }
 

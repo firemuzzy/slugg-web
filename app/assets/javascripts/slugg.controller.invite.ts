@@ -25,7 +25,7 @@ class InviteController implements IInviteScope {
   email: string;
 
   static $inject = ['$timeout', '$routeParams', 'CompanyService', 'PersonService', 'NeighborhoodService'];
-  constructor(private $timeout,
+  constructor(private $timeout:ng.ITimeoutService,
               private $routeParams:INeighborhoodRouteParams,
               private CompanyService,
               private PersonService,
@@ -41,7 +41,7 @@ class InviteController implements IInviteScope {
       this.neighborhood = neighborhood;
     });
 
-    $timeout( () => { this.opened = true; }, 400);
+    this.$timeout( () => { this.opened = true; }, 400);
   }
 
   sendEmail(email){
