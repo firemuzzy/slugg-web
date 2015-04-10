@@ -12,3 +12,5 @@ class AppController {
     ]);
   }
 }
+
+angular.module('app').controller("AppController", AppController);

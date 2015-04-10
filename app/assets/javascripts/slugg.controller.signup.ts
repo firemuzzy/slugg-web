@@ -1,5 +1,4 @@
 /// <reference path="./angularjs/angular.d.ts" />
-/// <reference path="./parse/parse.d.ts" />
 
 
 interface ISignupScope {
@@ -16,14 +15,15 @@ class SignupController implements ISignupScope {
 
   static $inject = ['PersonService', '$location'];
   constructor(PersonService, private $location:ng.ILocationService){
-    this.location = $location;
   }
 
   signupEmail($event:ng.IAngularEvent) {
     if(this.email === null || this.email.length  <= 0) {
       this.focusEmail = true;
     } else {
+      this.$location.path('/neighborhood/' + this.email);
     }
-    alert("HERE")
   }
 }
+
+angular.module('app').controller("SignupController", SignupController);
