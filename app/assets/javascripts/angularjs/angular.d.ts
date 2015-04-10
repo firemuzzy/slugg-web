@@ -874,7 +874,7 @@ declare module angular {
          * @param search New search params
          * @param paramValue If search is a string or a Number, then paramValue will override only a single search property. If paramValue is null, the property specified via the first argument will be deleted. If paramValue is an array, it will override the property of the search component of $location specified via the first argument. If paramValue is true, the property specified via the first argument will be added with no value nor trailing equal sign.
          */
-        search(search: string, paramValue: string|number|string[]|boolean): ILocationService;
+        search(search: string, paramValue: any): ILocationService;
 
         state(): any;
         state(state: any): ILocationService;
@@ -961,7 +961,7 @@ declare module angular {
          *
          * @param value Value or a promise
          */
-        when<T>(value: IPromise<T>|T): IPromise<T>;
+        when<T>(value: any): IPromise<T>;
         /**
          * Wraps an object that might be a value or a (3rd party) then-able promise into a $q promise. This is useful when you are dealing with an object that might or might not be a promise, or if the promise comes from a source that can't be trusted.
          *
@@ -976,12 +976,12 @@ declare module angular {
          *
          * This method returns a new promise which is resolved or rejected via the return value of the successCallback, errorCallback. It also notifies via the return value of the notifyCallback method. The promise can not be resolved or rejected from the notifyCallback method.
          */
-        then<TResult>(successCallback: (promiseValue: T) => IHttpPromise<TResult>|IPromise<TResult>|TResult, errorCallback?: (reason: any) => any, notifyCallback?: (state: any) => any): IPromise<TResult>;
+        then<TResult>(successCallback: (promiseValue: T) => any, errorCallback?: (reason: any) => any, notifyCallback?: (state: any) => any): IPromise<TResult>;
 
         /**
          * Shorthand for promise.then(null, errorCallback)
          */
-        catch<TResult>(onRejected: (reason: any) => IHttpPromise<TResult>|IPromise<TResult>|TResult): IPromise<TResult>;
+        catch<TResult>(onRejected: (reason: any) => any): IPromise<TResult>;
 
         /**
          * Allows you to observe either the fulfillment or rejection of a promise, but to do so without modifying the final value. This is useful to release resources or do some clean-up that needs to be done whether the promise was rejected or resolved. See the full specification for more information.
@@ -1285,7 +1285,7 @@ declare module angular {
     interface IHttpPromise<T> extends IPromise<IHttpPromiseCallbackArg<T>> {
         success(callback: IHttpPromiseCallback<T>): IHttpPromise<T>;
         error(callback: IHttpPromiseCallback<any>): IHttpPromise<T>;
-        then<TResult>(successCallback: (response: IHttpPromiseCallbackArg<T>) => IPromise<TResult>|TResult, errorCallback?: (response: IHttpPromiseCallbackArg<any>) => any): IPromise<TResult>;
+        then<TResult>(successCallback: (response: IHttpPromiseCallbackArg<T>) => any, errorCallback?: (response: IHttpPromiseCallbackArg<any>) => any): IPromise<TResult>;
     }
 
     /**
@@ -1468,7 +1468,7 @@ declare module angular {
         controller?: any;
         controllerAs?: string;
         bindToController?: boolean;
-        link?: IDirectiveLinkFn | IDirectivePrePost;
+        link?: any;
         name?: string;
         priority?: number;
         replace?: boolean;

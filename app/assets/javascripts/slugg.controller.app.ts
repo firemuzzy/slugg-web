@@ -1,4 +1,4 @@
-/// <reference path="./angular/angular.d.ts" />
+/// <reference path="./angularjs/angular.d.ts" />
 
 class AppController {
   static $inject = ['$router'];
