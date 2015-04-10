@@ -8,7 +8,7 @@ class Greeter {
     }
 }
 
-var greeter = new Greeter("world");
+var greeter = new Greeter("");
 
 var button = document.createElement('button');
 button.textContent = "Say Hello";
