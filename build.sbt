@@ -2,7 +2,9 @@ name := """slugg"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala).settings(
+  JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
+)
 
 scalaVersion := "2.11.1"
 
