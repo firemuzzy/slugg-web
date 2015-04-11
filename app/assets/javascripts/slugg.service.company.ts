@@ -1,6 +1,8 @@
 /// <reference path="./slugg.d.ts" />
+/// <reference path="slugg.models.company.ts" />
 
 class CompanyService {
+  static $inject = ["$q", "Company"];
   constructor(private $q:ng.IQService, private Company:any){}
 
   vettedCompanies(): any {
@@ -12,7 +14,6 @@ class CompanyService {
   }
 
   companyFromDomain(domain:string): any {
-
     return this.vettedCompanies().then((companies: any[]) => {
       var companies = companies.filter((v) => { return v.domain == domain });
       if (companies.length == 0) {
