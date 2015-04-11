@@ -11,6 +11,8 @@
 }
 
 @scripts = {
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/ui-router.min.js")"></script>
+
   <script type="text/javascript" src="@routes.Assets.at("javascripts/mail.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("javascripts/goalBar.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("javascripts/utilDirectives.js")"></script>
@@ -36,5 +38,5 @@
 }
 
 @main("Slugg")(scripts)(css) {
-  <ng-viewport></ng-viewport>
+  <div ui-view="main" class='view'></div>
 }

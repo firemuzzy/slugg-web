@@ -9,6 +9,10 @@ class CompanyProvider {
 }
 
 module model {
+  export function CompanyProvider($q) {
+    return model.Company
+  }
+
   export class Company {
     static $q: ng.IQService;
     static test: ng.IQService;
@@ -30,3 +34,5 @@ module model {
   }
 }
 angular.module('app.models.company', []).factory("Company", CompanyProvider);
+// angular.module('app.models.company', []).factory("Company2", model.CompanyProvider);
+model.CompanyProvider.$inject = ['$q']

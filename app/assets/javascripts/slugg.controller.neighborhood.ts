@@ -1,7 +1,9 @@
 /// <reference path="./slugg.d.ts" />
 
 
-interface INeighborhoodRouteParams extends ng.route.IRouteParamsService {
+
+
+interface INeighborhoodStateParams extends ng.ui.IStateParamsService {
   email:string;
   company?:string;
 }
@@ -38,31 +40,31 @@ class NeighborhoodController implements INeighborhoodScope {
     {"featureType": "transit.line", "stylers": [ { "visibility": "off" } ]}
   ];
 
-  static $inject = ['$routeParams', 'CompanyService', 'NeighborhoodService', '$location', 'SlideInputFormatter', 'MapHelper'];
-  constructor(private $routeParams:INeighborhoodRouteParams,
+  static $inject = ['$stateParams', 'CompanyService', 'NeighborhoodService', '$state', 'SlideInputFormatter', 'MapHelper'];
+  constructor(private $stateParams: INeighborhoodStateParams,
               private CompanyService,
               private NeighborhoodService,
-              private $location:ng.ILocationService,
+              private $state:ng.ui.IStateService,
               private SlideInputFormatter,
               private MapHelper){
     NeighborhoodService._fetchAll();
 
-    if($routeParams.company) {
+    if ($stateParams.company) {
       CompanyService.companyFromName().then( (company) => { this.company = company; });
     } else {
-      CompanyService.companyFromEmail($routeParams.email).then( (company) => {
+      CompanyService.companyFromEmail($stateParams.email).then((company) => {
         this.company = company;
       }).catch(() => {
-        this.$location.path('/')
+        this.$state.go("signup");
       });
     }
   }
 
   signupNeighborhood(value:string, typeaheadItem:any) {
     if(typeaheadItem != null){
-      this.$location.path("/invite/" + this.$routeParams.email + "/" + typeaheadItem.name);
+      this.$state.go("invite", { email: this.$stateParams.email, neighborhood: typeaheadItem.name });
     } else {
-      this.$location.path("/invite/" + this.$routeParams.email + "/" + value);
+      this.$state.go("invite", { email: this.$stateParams.email, neighborhood: value });
     }
   }
 

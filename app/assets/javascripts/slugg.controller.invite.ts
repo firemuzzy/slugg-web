@@ -1,17 +1,13 @@
-/// <reference path="./angularjs/angular-route.d.ts" />
-/// <reference path="./angularjs/angular.d.ts" />
+/// <reference path="slugg.d.ts" />
 
 
-interface INeighborhoodRouteParams extends ng.route.IRouteParamsService {
+
+interface INeighborhoodStateParams extends ng.ui.IStateParamsService {
   email:string;
   neighborhood:string;
 }
 
-interface IInviteScope {
-
-}
-
-class InviteController implements IInviteScope {
+class InviteController {
   placeholders:string[] = ["your_friend", "your_colleague", "your_buddy", "your_bff", "your_second_bff", "your_frenemy?", "seriously?", "not to be passive agressive...", "but let's enter a name?"];
   placeholderIndex:number = 0;
   showMail:boolean = true;
@@ -24,20 +20,20 @@ class InviteController implements IInviteScope {
   numberOfInvites: number;
   email: string;
 
-  static $inject = ['$timeout', '$routeParams', 'CompanyService', 'PersonService', 'NeighborhoodService'];
+  static $inject = ['$timeout', '$stateParams', 'CompanyService', 'PersonService', 'NeighborhoodService'];
   constructor(private $timeout:ng.ITimeoutService,
-              private $routeParams:INeighborhoodRouteParams,
+    private $stateParams: INeighborhoodStateParams,
               private CompanyService,
               private PersonService,
               private NeighborhoodService){
 
-    this.userEmail = $routeParams.email;
+    this.userEmail = $stateParams.email;
 
-    this.CompanyService.companyFromEmail($routeParams.email).then( (company) => {
+    this.CompanyService.companyFromEmail($stateParams.email).then((company) => {
       this.company = company;
     });
 
-    this.NeighborhoodService.neighborhoodFromName($routeParams.neighborhood).then( (neighborhood) => {
+    this.NeighborhoodService.neighborhoodFromName(this.$stateParams.neighborhood).then( (neighborhood) => {
       this.neighborhood = neighborhood;
     });
 
