@@ -1,5 +1,4 @@
-/// <reference path="./angularjs/angular-route.d.ts" />
-/// <reference path="./angularjs/angular.d.ts" />
+/// <reference path="./slugg.d.ts" />
 
 
 interface INeighborhoodRouteParams extends ng.route.IRouteParamsService {

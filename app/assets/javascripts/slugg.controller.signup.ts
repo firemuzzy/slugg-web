@@ -1,5 +1,4 @@
-/// <reference path="./angularjs/angular.d.ts" />
-
+/// <reference path="./slugg.d.ts" />
 
 interface ISignupScope {
   focusEmail:boolean;

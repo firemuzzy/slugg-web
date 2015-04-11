@@ -1,4 +1,4 @@
-/// <reference path="./angularjs/angular.d.ts" />
+/// <reference path="./slugg.d.ts" />
 
 class CompanyService {
   constructor(private $q:ng.IQService, private Company:any){}

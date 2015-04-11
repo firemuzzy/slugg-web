@@ -5,7 +5,6 @@
     .module('app.models', [])
     .factory('Company', CompanyModel)
     .factory('Neighborhood', NeighborhoodModel)
-    .service('CompanyService', CompanyService)
     .service('PersonService', PersonService)
     .service('NeighborhoodService', NeighborhoodService);
 
