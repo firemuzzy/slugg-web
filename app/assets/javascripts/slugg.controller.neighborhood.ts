@@ -1,11 +1,8 @@
 /// <reference path="./slugg.d.ts" />
 
-
-
-
 interface INeighborhoodStateParams extends ng.ui.IStateParamsService {
   email:string;
-  company?:string;
+  company:string;
 }
 
 interface INeighborhoodScope {
@@ -40,51 +37,61 @@ class NeighborhoodController implements INeighborhoodScope {
     {"featureType": "transit.line", "stylers": [ { "visibility": "off" } ]}
   ];
 
-  static $inject = ['$stateParams', 'CompanyService', 'NeighborhoodService', '$state', 'SlideInputFormatter', 'MapHelper'];
+  static $inject = ['$stateParams', 'CompanyService', 'Company', 'NeighborhoodService', '$state', 'SlideInputFormatter', 'MapHelper', '$q'];
   constructor(private $stateParams: INeighborhoodStateParams,
-              private CompanyService,
-              private NeighborhoodService,
-              private $state:ng.ui.IStateService,
-              private SlideInputFormatter,
-              private MapHelper){
+    private CompanyService,
+    private Company,
+    private NeighborhoodService,
+    private $state: ng.ui.IStateService,
+    private SlideInputFormatter,
+    private MapHelper,
+    private $q: ng.IQService) {
+
     NeighborhoodService._fetchAll();
 
-    if ($stateParams.company) {
-      CompanyService.companyFromName().then( (company) => { this.company = company; });
-    } else {
-      CompanyService.companyFromEmail($stateParams.email).then((company) => {
-        this.company = company;
-      }).catch(() => {
+    var companyFromNamePromise = CompanyService.companyFromName($stateParams.company).then((company) => { return company }, () => { return null });
+    var companyFromEmailPromise = CompanyService.companyFromEmail($stateParams.email).then((company) => { return company }, () => { return null });
+
+
+    this.$q.all([companyFromNamePromise, companyFromEmailPromise]).then((companies) => {
+      var companyFromName = companies[0];
+      var companyFromEmail = companies[1];
+      
+      if (angular.equals(companyFromName, companyFromEmail) && companyFromEmail == null) {
+        this.Company.promiseFromName($stateParams.company).then((company) => {
+          this.company = company;
+        });
+      } else if (angular.equals(companyFromName, companyFromEmail) && companyFromEmail != null) {
+        this.company = companyFromEmail;
+      } else if (companyFromEmail != null) {
+        this.$state.go("neighborhood", { email: $stateParams.email, company: companyFromEmail.name});
+      } else{
         this.$state.go("signup");
-      });
-    }
+      }
+    });
+
   }
 
   signupNeighborhood(value:string, typeaheadItem:any) {
     if(typeaheadItem != null){
-      this.$state.go("invite", { email: this.$stateParams.email, neighborhood: typeaheadItem.name });
+      this.$state.go("invite", { email: this.$stateParams.email, company: this.$stateParams.company, neighborhood: typeaheadItem.name });
     } else {
-      this.$state.go("invite", { email: this.$stateParams.email, neighborhood: value });
+      this.$state.go("invite", { email: this.$stateParams.email, company: this.$stateParams.company, neighborhood: value });
     }
   }
 
   change(model) {
-    if(model == null || model.length == 0) {
-      this.typeaheadData = [];
-      return;
+    if (model == null || model.length == 0) { this.typeaheadData = []; }
+    else {
+      this.NeighborhoodService.fetchByDelayed(model).then((neighborhoods) => {
+        if (model || model.length > 0) this.typeaheadData = neighborhoods;
+        else this.typeaheadData = [];
+      });
     }
-    this.NeighborhoodService.fetchByDelayed(model).then((neighborhoods) => {
-      if(model || model.length > 0) this.typeaheadData = neighborhoods;
-      else this.typeaheadData = [];
-    });
   }
 
-  typeaheadFormat(item, query){
-    return this.SlideInputFormatter.injectBold(item.name, query);
-  }
-  suggestedFormat(item, query){
-    return this.SlideInputFormatter.afterFirstOccurence(item.name, query);
-  }
+  typeaheadFormat(item, query){ return this.SlideInputFormatter.injectBold(item.name, query); }
+  suggestedFormat(item, query){ return this.SlideInputFormatter.afterFirstOccurence(item.name, query); }
   typeaheadHoverItem(item){
     if(item == null) this.hoverPolygon = null;
     else {

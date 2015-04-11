@@ -17,7 +17,7 @@ module model {
     static $q: ng.IQService;
     static test: ng.IQService;
 
-    constructor(private name: string, private domain: string, private data: any, private maxSignups: number) { }
+    constructor(private name: string, private domain: string, private signups: number, private maxSignups: number) { }
 
     public static promiseFrom (data:any):ng.IPromise<any> {
       if (data instanceof Company) return Company.$q.when(data);
@@ -27,9 +27,13 @@ module model {
           angular.isString(data.domain) &&
           (angular.isString(data.signups) || angular.isNumber(data.signups)) &&
           (angular.isString(data.maxSignups) || angular.isNumber(data.maxSignups))) {
-          return Company.$q.when(new Company(data.name, data.domain, data.signups, data.maxSignups));
+          return Company.$q.when(new Company(data.name, data.domain, parseInt(data.signups), parseInt(data.maxSignups) ));
       }
       else return Company.$q.reject("data can't be parsed correctly");
+    }
+    public static promiseFromName(name: string): ng.IPromise<any> {
+      var data = { name: name, domain: "", signups:0, maxSignups:0}
+      return Company.promiseFrom(data);
     }
   }
 }

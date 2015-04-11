@@ -14,8 +14,18 @@ angular.module('app', ['ngAnimate', 'ui.router', 'app.models', 'mail', 'goalBar'
           }
         }
       })
+      .state("company", {
+        url: '/:email',
+        views: {
+          main: {
+            templateUrl: '/assets/templates/company.tpl.html',
+            controller: 'CompanyController',
+            controllerAs: 'company',
+          }
+        }
+      })
       .state("neighborhood", {
-        url: '/:email?company',
+        url: '/:email/:company',
         views: {
           main: {
             templateUrl: '/assets/templates/neighborhood.tpl.html',
@@ -25,7 +35,7 @@ angular.module('app', ['ngAnimate', 'ui.router', 'app.models', 'mail', 'goalBar'
         }
       })
       .state("invite", {
-        url: '/:email/:neighborhood?company',
+        url: '/:email/:company/:neighborhood',
         views: {
           main: {
             templateUrl: '/assets/templates/invite.tpl.html',

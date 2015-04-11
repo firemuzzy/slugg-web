@@ -1,25 +1,22 @@
 /// <reference path="./slugg.d.ts" />
+/// <reference path="./slugg.service.company.ts" />
 
-interface ISignupScope {
-  focusEmail:boolean;
-  email:string;
-  signupEmail($event:ng.IAngularEvent): void;
-}
-
-class SignupController implements ISignupScope {
-
+class SignupController {
   focusEmail:boolean;
   email:string;
 
-  static $inject = ['PersonService', '$state'];
-  constructor(PersonService, private $state: ng.ui.IStateService) {
-  }
+  static $inject = ['$state', 'CompanyService'];
+  constructor(private $state: ng.ui.IStateService, private CompanyService) {}
 
   signupEmail($event:ng.IAngularEvent) {
     if(this.email === null || this.email.length  <= 0) {
       this.focusEmail = true;
     } else {
-      this.$state.go("neighborhood", {'email':this.email})
+      this.CompanyService.companyFromEmail(this.email).then((company) => {
+        this.$state.go("neighborhood", { email: this.email, company: company.name });
+      }, (error) => {
+        this.$state.go("company", {email:this.email});
+      });
     }
   }
 }

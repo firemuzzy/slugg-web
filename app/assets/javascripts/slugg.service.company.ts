@@ -23,14 +23,17 @@ class CompanyService {
 
   }
 
-  companyFromEmail(email:string): any {
+  public companyFromEmail(email:string): any {
     var emailParts = email.split("@");
     return this.companyFromDomain(emailParts[emailParts.length - 1]);
   }
 
   companyFromName(name:string): any {
     return this.vettedCompanies().then((companies: any[]) => {
-      return companies[0]
+      var companies = companies.filter((v) => { return v.name == name });
+      if (companies.length == 0) {
+        return this.$q.reject("no compnay found");
+      } else return companies[0];
     });
   }
 }
