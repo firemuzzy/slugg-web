@@ -31,8 +31,11 @@ module model {
       }
       else return Company.$q.reject("data can't be parsed correctly");
     }
-    public static promiseFromName(name: string): ng.IPromise<any> {
-      var data = { name: name, domain: "", signups:0, maxSignups:0}
+    public static promiseFromNameEmail(name: string, email: string): ng.IPromise<any> {
+      var emailParts = email.split("@");
+      var domain = emailParts[emailParts.length - 1];
+
+      var data = { name: name, domain: domain, signups:0, maxSignups:500}
       return Company.promiseFrom(data);
     }
   }

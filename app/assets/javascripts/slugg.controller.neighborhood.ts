@@ -58,7 +58,7 @@ class NeighborhoodController implements INeighborhoodScope {
       var companyFromEmail = companies[1];
       
       if (angular.equals(companyFromName, companyFromEmail) && companyFromEmail == null) {
-        this.Company.promiseFromName($stateParams.company).then((company) => {
+        this.Company.promiseFromNameEmail($stateParams.company, $stateParams.email).then((company) => {
           this.company = company;
         });
       } else if (angular.equals(companyFromName, companyFromEmail) && companyFromEmail != null) {

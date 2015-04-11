@@ -4,6 +4,7 @@
 
 interface INeighborhoodStateParams extends ng.ui.IStateParamsService {
   email:string;
+  company: string;
   neighborhood:string;
 }
 
@@ -20,10 +21,11 @@ class InviteController {
   numberOfInvites: number;
   email: string;
 
-  static $inject = ['$timeout', '$stateParams', 'CompanyService', 'PersonService', 'NeighborhoodService'];
+  static $inject = ['$timeout', '$stateParams', 'CompanyService', 'Company', 'PersonService', 'NeighborhoodService'];
   constructor(private $timeout:ng.ITimeoutService,
-    private $stateParams: INeighborhoodStateParams,
+              private $stateParams: INeighborhoodStateParams,
               private CompanyService,
+              private Company,
               private PersonService,
               private NeighborhoodService){
 
@@ -31,6 +33,10 @@ class InviteController {
 
     this.CompanyService.companyFromEmail($stateParams.email).then((company) => {
       this.company = company;
+    }, () => {
+      this.Company.promiseFromNameEmail($stateParams.company, $stateParams.email).then((company) => {
+        this.company = company;
+      });
     });
 
     this.NeighborhoodService.neighborhoodFromName(this.$stateParams.neighborhood).then( (neighborhood) => {
