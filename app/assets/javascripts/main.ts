@@ -1,13 +1,22 @@
 /// <reference path="./slugg.d.ts" />
 
-angular.module('app', ['ngAnimate', 'ui.router', 'app.models', 'mail', 'goalBar', 'utilDirectives', 'map', 'slideInput'])
+angular.module('app', ['ngAnimate', 'ui.router', 'mail', 'goalBar', 'utilDirectives', 'map', 'slideInput'])
+  .service("Company", slugg.service.CompanyService)
+  .service("Person", slugg.service.PersonService)
+  .service("Neighborhood", slugg.service.NeighborhoodService)
+
+  .controller("InviteController", slugg.controller.InviteController)
+  .controller("NeighborhoodController", slugg.controller.NeighborhoodController)
+  .controller("CompanyController", slugg.controller.CompanyController)
+  .controller("SignupController", slugg.controller.SignupController)
+
   .config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) => {
     $urlRouterProvider.otherwise("/");
     $stateProvider
       .state('signup', {
-        url:"/",
-        views:{
-          main:{
+        url: "/",
+        views: {
+          main: {
             templateUrl: '/assets/templates/signup.tpl.html',
             controller: 'SignupController',
             controllerAs: 'signup',
