@@ -1,10 +1,9 @@
-<header><a ng-show="company.email">{{company.email}}</a></header>
+<header><a ng-link="signup()">{{company.company.name}}</a></header>
 
 <content>
-  <h2>We can't seem to figure out your company</h2>
+  <goal-bar current="company.company.signups" goal="company.company.maxSignups"></goal-bar>
 
-  <p>New companies are always welcomed</p>
-  <slide-input button="send" placeholder="company name" ng-model="company.name" click="company.signupCompany(company.name)" focus="company.nameFocus"></slide-input>
-  
+  <p>We have <strong>{{company.company.signups}}</strong> people signed up at {{company.company.name}}. We’ll keep you informed on {{company.company.name}}’s progress. When there are {{company.company.maxSignups}}, we’ll enable it at your company.</p>
+  <p>Help us out by spreading the word.</p>
 
 </content>

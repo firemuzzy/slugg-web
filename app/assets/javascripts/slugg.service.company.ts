@@ -29,7 +29,13 @@ module slugg.service {
       return this.promiseFrom([
         { name: "Microsoft", domain: "microsoft.com", signups: 246, maxSignups: 500 },
         { name: "Google", domain: "google.com", signups: 246, maxSignups: 500 },
-        { name: "Adobe", domain: "adobe.com", signups: 246, maxSignups: 500 }
+        { name: "Adobe", domain: "adobe.com", signups: 246, maxSignups: 500 },
+        { name: "Starbucks", domain: "starbucks.com", signups: 246, maxSignups: 500 },
+        { name: "Costco", domain: "costco.com", signups: 246, maxSignups: 500 },
+        { name: "Boeing", domain: "boeing.com", signups: 246, maxSignups: 500 },
+        { name: "Nordstrom", domain: "nordstrom.com", signups: 246, maxSignups: 500 },
+        { name: "Amazon", domain: "amazon.com", signups: 246, maxSignups: 500 },
+        { name: "Weyerhaeuser", domain: "weyerhaeuser.com", signups: 246, maxSignups: 500 }
       ]);
     }
 

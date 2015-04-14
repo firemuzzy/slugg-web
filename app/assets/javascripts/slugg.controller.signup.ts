@@ -16,7 +16,7 @@ module slugg.controller {
           
           this.$state.go("neighborhood", { email: this.email, company: company.name });
         }, (error) => {
-            this.$state.go("company", { email: this.email });
+            this.$state.go("signupCompany", { email: this.email });
           });
       }
     }

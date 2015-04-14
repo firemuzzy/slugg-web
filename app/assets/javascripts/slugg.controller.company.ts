@@ -1,26 +1,19 @@
 /// <reference path="./slugg.d.ts" />
 
 interface ICompanyStateParams extends ng.ui.IStateParamsService {
-  email: string;
+  company: string;
 }
 
 module slugg.controller {
   export class CompanyController {
-    name: string;
-    email: string;
-    nameFocus: boolean = true;
+    company: service.Company
 
-    static $inject = ['$state', '$stateParams', 'Company'];
-    constructor(private $state: ng.ui.IStateService, private $stateParams: ICompanyStateParams, private CompanyService) {
-      this.email = $stateParams.email;
+    static $inject = ['$stateParams', 'Company'];
+    constructor(private $stateParams: ICompanyStateParams, private Company: service.CompanyService) {
+      Company.fromName($stateParams.company).then((company) => {
+        this.company = company;
+      });
     }
 
-    signupCompany(name: string) {
-      if (angular.isString(name) && name.length > 0) {
-        this.$state.go("neighborhood", { email: this.$stateParams.email, company: name })
-      } else {
-        this.nameFocus = true;
-      }
-    }
   }
 }

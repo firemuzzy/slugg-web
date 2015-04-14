@@ -7,8 +7,9 @@ angular.module('app', ['ngAnimate', 'ui.router', 'mail', 'goalBar', 'utilDirecti
 
   .controller("InviteController", slugg.controller.InviteController)
   .controller("NeighborhoodController", slugg.controller.NeighborhoodController)
-  .controller("CompanyController", slugg.controller.CompanyController)
+  .controller("SignupCompanyController", slugg.controller.SignupCompanyController)
   .controller("SignupController", slugg.controller.SignupController)
+  .controller("CompanyController", slugg.controller.CompanyController)
 
   .config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) => {
     $urlRouterProvider.otherwise("/");
@@ -23,12 +24,22 @@ angular.module('app', ['ngAnimate', 'ui.router', 'mail', 'goalBar', 'utilDirecti
           }
         }
       })
-      .state("company", {
-        url: '/:email',
+      .state('company', {
+        url: "/company/:company",
         views: {
           main: {
             templateUrl: '/assets/templates/company.tpl.html',
             controller: 'CompanyController',
+            controllerAs: 'company',
+          }
+        }
+      })
+      .state("signupCompany", {
+        url: '/:email',
+        views: {
+          main: {
+            templateUrl: '/assets/templates/signupCompany.tpl.html',
+            controller: 'SignupCompanyController',
             controllerAs: 'company',
           }
         }

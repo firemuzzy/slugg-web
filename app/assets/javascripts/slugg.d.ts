@@ -8,5 +8,6 @@
 
 /// <reference path="./slugg.controller.invite.ts" />
 /// <reference path="./slugg.controller.company.ts" />
+/// <reference path="./slugg.controller.signupCompany.ts" />
 /// <reference path="./slugg.controller.neighborhood.ts" />
 /// <reference path="./slugg.controller.signup.ts" />
