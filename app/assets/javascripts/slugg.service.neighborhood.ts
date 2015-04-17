@@ -1,6 +1,7 @@
 /// <reference path="./slugg.d.ts" />
 
 module slugg.service {
+
   export class NeighborhoodService {
     static $inject = ['$q', '$http', '$timeout'];
     constructor(private $q: ng.IQService, private $http: ng.IHttpService, private $timeout: ng.ITimeoutService) { }
@@ -33,6 +34,53 @@ module slugg.service {
       else { this.$q.reject("data can't be parsed correctly"); }
     }
 
+    _fetchAllWithChildren(url?): ng.IPromise<any> {
+      return this._fetchAll(url).then( (hoodsCrap) => {
+        var hoods = hoodsCrap.data
+
+        return this._fetchAllChildren().then( (childrenData) => {
+          var hoodsByName = {}
+          angular.forEach(hoods, (hood: service.Neighborhood) => {
+            var name = hood.name.toLowerCase();
+            hoodsByName[name] = hood;
+          });
+
+          var parentForHood = {}
+          angular.forEach(childrenData, (elm) => {
+            var name: string = elm.hood.toLowerCase();
+            var parent = hoodsByName[name];
+            angular.forEach(elm.children, (elm: string) => {
+              var childName:string = elm.toLowerCase()
+              parentForHood[childName] = parent
+            });
+          });
+
+          var childrenForHood = {}
+          angular.forEach(childrenData, (elm) => {
+            var name: string = elm.hood.toLowerCase();
+            var childrenHoods: service.Neighborhood[] = elm.children.map((n: string) => { return hoodsByName[n.toLowerCase()]; }).filter(Boolean)
+
+            childrenForHood[name] = childrenHoods
+          });
+
+          angular.forEach(hoods, (hood: service.Neighborhood) => {
+            var name = hood.name.toLowerCase();
+            var parent = parentForHood[name]
+            hood.parent = parent 
+
+            var children = childrenForHood[name]
+            hood.children = children
+          });
+
+          return {
+            config: { url: url },
+            data: hoods.filter( (hood: service.Neighborhood) => { return hood.children == null })
+          };
+        });
+
+      })
+    }
+
     _fetchAll(url?): ng.IPromise<any> {
       return this.$http.get("/assets/data/seattle_hoods.json").then((response: ng.IHttpPromiseCallbackArg<any>) => {
         return this.promiseFrom(response.data.features);
@@ -44,6 +92,12 @@ module slugg.service {
       });
     }
 
+    private _fetchAllChildren(): ng.IPromise<any> {
+      return this.$http.get("/assets/data/seattle_hood_children.json").then((response: ng.IHttpPromiseCallbackArg<any>) => {
+        return response.data
+      })
+    }
+
     neighborhoodFromName(name: string): ng.IPromise<any> {
       return this._fetchAll(null).then((responseData) => {
         return responseData.data.filter((neighborhood) => {
@@ -52,23 +106,17 @@ module slugg.service {
       });
     }
 
-    _fetchHoodChildren(): ng.IPromise<any> {
-      return this.$http.get("/assets/data/seattle_hood_children.json").then((response: ng.IHttpPromiseCallbackArg<any>) => {
-        return this.promiseFrom(response.data.features);
-      })
-    }
-
     _fetchByUrl = null;
     _fetchByPromise = null;
     _fetchBy(query): ng.IPromise<any> {
       this._fetchByUrl = query;
 
-      return this._fetchAll(query).then((response) => {
+      return this._fetchAllWithChildren(query).then((response) => {
         var data = response.data;
         if (response.config.url == this._fetchByUrl) {
           this._fetchByPromise = null;
           return data.filter((item) => {
-            return item.name.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+            return item.name.toLowerCase().indexOf(query.toLowerCase()) >= 0 || (item.parent != null && item.parent.name != null && item.parent.name.toLowerCase().indexOf(query.toLowerCase()) >= 0 );;
           });
         }
         else return this.$q.reject("older query");
@@ -90,6 +138,6 @@ module slugg.service {
   }
 
   export class Neighborhood {
-    constructor(private name, private coordinates: any) { }
+    constructor(public name: string, public coordinates: any, public parent: any = null, public children: any = null) { }
   }
 }

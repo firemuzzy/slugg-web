@@ -30,8 +30,6 @@ module slugg.controller {
       private MapHelper,
       private $q: ng.IQService) {
 
-      Neighborhood._fetchAll();
-
       var companyFromNamePromise = Company.fromName($stateParams.company).then((company) => { return company }, () => { return null });
       var companyFromEmailPromise = Company.fromEmail($stateParams.email).then((company) => { return company }, () => { return null });
 
