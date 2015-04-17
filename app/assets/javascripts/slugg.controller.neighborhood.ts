@@ -71,8 +71,20 @@ module slugg.controller {
       }
     }
 
-    typeaheadFormat(item, query) { return this.SlideInputFormatter.injectBold(item.name, query); }
-    suggestedFormat(item, query) { return this.SlideInputFormatter.afterFirstOccurence(item.name, query); }
+    typeaheadFormat(item, query) { 
+      if(item.parent) {
+        return this.SlideInputFormatter.injectBold(item.name + " - " + item.parent.name, query); 
+      } else {
+        return this.SlideInputFormatter.injectBold(item.name, query); 
+      }
+    }
+    suggestedFormat(item, query) { 
+      if (item.parent) {
+        return this.SlideInputFormatter.afterFirstOccurence(item.name + " - " + item.parent.name, query);
+      } else {
+        return this.SlideInputFormatter.afterFirstOccurence(item.name, query);
+      }
+    }
     typeaheadHoverItem(item) {
       if (item == null) this.hoverPolygon = null;
       else {
