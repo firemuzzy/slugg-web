@@ -1,4 +1,5 @@
 $blue: rgb(80, 158, 212)
+$green: rgba(68, 169, 141, 1)
 
 .blue_button
   display: block
@@ -11,3 +12,19 @@ $blue: rgb(80, 158, 212)
   outline: 0
   border-radius: 4px
   cursor: pointer
+
+.green_button
+  display: block
+  background: $green
+  color: #fff
+  border: none
+  margin: 1em auto
+  font-size: 1.8em
+  padding: 0.5em 2.5em
+  outline: 0
+  border-radius: 100px
+  cursor: pointer
+
+
+  &:hover
+    background: darken($green, 10%)

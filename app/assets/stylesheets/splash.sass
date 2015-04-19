@@ -9,7 +9,7 @@ $lightBlue: rgb(244,250,254)
   display: block
   margin: 0 auto
   position: relative
-  margin-top: calc(-0.75em - #{$logoHalfHeight})
+  margin-top: -$logoHalfHeight
 
 .splash-header
   box-sizing: border-box
@@ -25,3 +25,18 @@ $lightBlue: rgb(244,250,254)
 
   span
     color: rgb(168,198,223)
+
+.benefits
+  display: flex
+  flex-direction: row
+  align-items: flex-start
+  justify-content: center
+
+  .benefit
+    width: 20%
+    text-align: center
+    margin: 0 2vw
+
+  .benefit-img
+    display: block
+    margin: 0 auto 1em auto
