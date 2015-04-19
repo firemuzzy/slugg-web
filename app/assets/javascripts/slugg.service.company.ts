@@ -43,7 +43,7 @@ module slugg.service {
       return this.vettedCompanies().then((companies: any[]) => {
         var companies = companies.filter((v) => { return v.domain.toLowerCase() == domain.toLowerCase() });
         if (companies.length == 0) {
-          return this.$q.reject("no compnay found");
+          return this.$q.reject("no company found");
         } else return companies[0];
       });
     }
@@ -57,7 +57,7 @@ module slugg.service {
       return this.vettedCompanies().then((companies: any[]) => {
         var companies = companies.filter((v) => { return v.name.toLowerCase() == name.toLowerCase() });
         if (companies.length == 0) {
-          return this.$q.reject("no compnay found");
+          return this.$q.reject("no company found");
         } else return companies[0];
       });
     }
