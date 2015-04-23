@@ -1,6 +1,7 @@
 /// <reference path="./slugg.d.ts" />
 
 angular.module('app', ['ngAnimate', 'ui.router', 'mail', 'goalBar', 'utilDirectives', 'map', 'slideInput'])
+  
   .service("Company", slugg.service.CompanyService)
   .service("Person", slugg.service.PersonService)
   .service("Neighborhood", slugg.service.NeighborhoodService)
@@ -12,6 +13,10 @@ angular.module('app', ['ngAnimate', 'ui.router', 'mail', 'goalBar', 'utilDirecti
   .controller("CompanyController", slugg.controller.CompanyController)
 
   .config(($stateProvider: ng.ui.IStateProvider, $urlRouterProvider: ng.ui.IUrlRouterProvider) => {
+    var Parse = window['Parse']
+    
+    Parse.initialize("O1isyowqTC3RCVoKJ9PniNuiMJlFqWXYPJrykpU1", "Mb61cVtMaQAh3vIqlhXyzdrPsf2o3Nc612qUfwkO");
+
     $urlRouterProvider.otherwise("/");
     $stateProvider
       .state('signup', {

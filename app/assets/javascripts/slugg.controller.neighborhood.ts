@@ -53,12 +53,30 @@ module slugg.controller {
 
     }
 
-    signupNeighborhood(value: string, typeaheadItem: any) {
-      if (typeaheadItem != null) {
-        this.$state.go("invite", { email: this.$stateParams.email, company: this.$stateParams.company, neighborhood: typeaheadItem.name });
-      } else {
-        this.$state.go("invite", { email: this.$stateParams.email, company: this.$stateParams.company, neighborhood: value });
-      }
+    signupNeighborhood(value: string, typeaheadItem: service.Neighborhood) {
+      var neighborhood = (typeaheadItem == null) ? value.toLowerCase() : typeaheadItem.name.toLowerCase();  
+
+      var Parse = window['Parse']
+      var Signup = Parse.Object.extend("Signup");
+
+      var signup = new Signup();
+      signup.set("email", this.$stateParams.email.toLowerCase())
+      signup.set("company", this.$stateParams.company)
+      signup.set("neighborhood", neighborhood)
+
+      var acl = new Parse.ACL();
+      acl.setPublicReadAccess(true);
+      acl.setPublicWriteAccess(false);
+      signup.setACL(acl)
+
+      signup.save(null, {
+        success: (signup) => {
+          this.$state.go("invite", { email: this.$stateParams.email, company: this.$stateParams.company, neighborhood: neighborhood });
+        },
+        error: (signup, error) => {
+          console.log("things happened: " + error.message)
+        }
+      });
     }
 
     change(model) {

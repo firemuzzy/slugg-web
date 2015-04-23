@@ -1,6 +1,7 @@
 /// <reference path="./angularjs/angular.d.ts" />
 /// <reference path="./angularjs/angular-ui-router.d.ts" />
 /// <reference path="./angularjs/angular-route.d.ts" />
+/// <reference path="./node/node.d.ts" />
 
 /// <reference path="./slugg.service.company.ts" />
 /// <reference path="./slugg.service.person.ts" />
