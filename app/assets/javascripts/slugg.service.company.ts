@@ -70,26 +70,26 @@ module slugg.service {
       // ]);
     }
 
-    signupsCounts(): ng.IPromise<number> {
-      var Parse = window['Parse']
+    // signupsCounts(): ng.IPromise<number> {
+    //   var Parse = window['Parse']
 
-      var Signup = Parse.Object.extend("Signup");
-      var query = new Parse.Query(Signup);
-      query.equalTo("company", company.name.toLowerCase());
+    //   var Signup = Parse.Object.extend("Signup");
+    //   var query = new Parse.Query(Signup);
+    //   query.equalTo("company", company.name.toLowerCase());
 
-      var deferred = this.$q.defer()
+    //   var deferred = this.$q.defer()
 
-      query.count({
-        success: function(count) {
-          deferred.resolve(count)
-        },
-        error: function(error) {
-          deferred.reject(error)
-        }
-      });
+    //   query.count({
+    //     success: function(count) {
+    //       deferred.resolve(count)
+    //     },
+    //     error: function(error) {
+    //       deferred.reject(error)
+    //     }
+    //   });
 
-      return deferred.promise
-    }
+    //   return deferred.promise
+    // }
 
     signupsCount(company: Company): ng.IPromise<number> {
       var Parse = window['Parse']
