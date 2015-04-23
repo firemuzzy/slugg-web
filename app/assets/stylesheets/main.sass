@@ -1,11 +1,13 @@
 @import 'fonts'
 
-$blue: rgb(69,147,196)
-$lightBlue: rgb(105,176,219)
+// $blue: rgb(69,147,196)
+$blue: #4995C2
+// $lightBlue: rgb(105,176,219)
+$lightBlue: #6CB1D9
 $textGray: rgb(184,184,184)
 $headerBlack: rgb(52,70,84)
 $companyWidth: 201px
-$companyPadding: 20px
+$companyPadding: 15px
 
 *
   margin: 0
@@ -42,8 +44,6 @@ header
   color: #fff
   text-align: center
   font-size: 1em
-  line-height: 1.4em
-  padding: 0.75em 0
 
   &:first-child
     background: $blue
@@ -52,15 +52,19 @@ header
     color: #fff
     padding: 0 1em
     cursor: pointer
+    font-weight: 600
+    font-size: 2em
+    padding: 0.65em 0.5em
+    line-height: 1.4em
+    display: block
 
 section
   display: block
 
-
 h1, h2
   max-width: 16em
   margin: 1em auto
-  line-height: 1.5em
+  line-height: 1.2em
   text-align: center
   font-size: 3.5em
   font-weight: bold
@@ -76,6 +80,7 @@ p
   line-height: 1.6em
   text-align: center
   color: $textGray
+  font-size: 1.3em
 
   strong
     color: darken($textGray, 29.5%)
@@ -98,9 +103,8 @@ p
     margin: $companyPadding
 
 slide-input
-  width: 50%
+  width: 38%
   margin: 0 auto
-
 
 .middle
   position: absolute
@@ -114,9 +118,17 @@ map
   display: block
   position: absolute
   bottom: 0
-  top: 2.9em
+  top: 5.4em
   left: 0
   right: 0
+
+h4, h5, h6
+  text-align: center
+  color: mix($headerBlack, $textGray)
+  margin: 1em auto
+
+h5
+  font-size: 1.5em
 
 @import 'letter'
 @import 'splash'

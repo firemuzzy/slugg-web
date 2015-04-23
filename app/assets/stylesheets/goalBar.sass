@@ -1,6 +1,6 @@
 @import 'utils'
 
-$goalBarHeight: 34px
+$goalBarHeight: 64px
 $goalBarColor: rgb(105, 176, 219)
 $goalBarBgColor: rgb(245, 245, 245)
 $goalBarWidth: 70%
@@ -8,8 +8,11 @@ $goalBarTextColor: rgb(109, 109, 109)
 
 
 .goalBar
-  display: block
-  width: 300px
+  display: flex
+  flex-direction: row
+  align-items: center
+
+  width: 500px
   margin-left: auto
   margin-right: auto
   font-size: 0.625em
@@ -24,6 +27,7 @@ $goalBarTextColor: rgb(109, 109, 109)
   height: 100%
   width: (100% - $goalBarWidth)
   padding-top: 4px
+  font-size: 2em
   color: $goalBarTextColor
 
   strong
