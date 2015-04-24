@@ -18,14 +18,16 @@ module slugg.service {
     }
 
     fromParse(parseC: any): service.Company {
-      var objectId = parseC.objectId
+      console.log(parseC)
+
+      var parseId = parseC.id
       var name = parseC.get("name")
       var domain = parseC.get("domain")
       var signups = 0
       var maxSignups = parseInt(parseC.get("maxSignups"))
       var minSignups = parseInt(parseC.get("minSignups"))
 
-      return new Company(objectId, name, domain, signups, maxSignups, minSignups);
+      return new Company(parseId, name, domain, signups, maxSignups, minSignups);
     }
 
     promiseFromNameEmail(name: string, email: string): ng.IPromise<service.Company[]> {
@@ -44,18 +46,16 @@ module slugg.service {
 
       var query = new Parse.Query(Company);
       query.find({
-        success: function(results) {
-          deferred.resolve(results)
+        success: (results) => {
+          var company = results.map((res) => { return this.fromParse(res)})
+          deferred.resolve(company)
         },
-        error: function(error) {
+        error: (error) => {
           deferred.reject(error)
         }
       })
 
-      return deferred.promise.then( (results: any[]) => {
-        var companies = results.map((r) => { return this.fromParse(r) });
-        this.promiseFrom(results)
-      });
+      return deferred.promise
 
       // return this.promiseFrom([
       //   { name: "Microsoft", domain: "microsoft.com", signups: 246, maxSignups: 500 },

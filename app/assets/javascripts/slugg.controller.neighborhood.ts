@@ -53,16 +53,20 @@ module slugg.controller {
 
     }
 
-    signupNeighborhood(value: string, typeaheadItem: service.Neighborhood) {
-      var neighborhood = (typeaheadItem == null) ? value.toLowerCase() : typeaheadItem.name.toLowerCase();  
+    signupViaParse(email:string, company:service.Company, neighborhood) {
+      var deferred = this.$q.defer();
 
       var Parse = window['Parse']
       var Signup = Parse.Object.extend("Signup");
+      var Company = Parse.Object.extend("Company");
+
+      var parseCompany = new Company()
+      parseCompany.id = company.parseId
 
       var signup = new Signup();
-      signup.set("email", this.$stateParams.email.toLowerCase())
-      signup.set("company", this.$stateParams.company)
-      signup.set("neighborhood", neighborhood)
+      signup.set("email", email.toLowerCase())
+      signup.set("company", parseCompany);
+      signup.set("neighborhood", neighborhood);
 
       var acl = new Parse.ACL();
       acl.setPublicReadAccess(true);
@@ -71,11 +75,24 @@ module slugg.controller {
 
       signup.save(null, {
         success: (signup) => {
-          this.$state.go("invite", { email: this.$stateParams.email, company: this.$stateParams.company, neighborhood: neighborhood });
-        },
-        error: (signup, error) => {
+          deferred.resolve({email:email, company:company, neighborhood:neighborhood});
+        }, error: (signup, error) => {
+          deferred.reject(error.message);
           console.log("things happened: " + error.message)
         }
+      });
+      return deferred.promise;
+    }
+
+    signupNeighborhood(value: string, typeaheadItem: service.Neighborhood) {
+      var neighborhood = (typeaheadItem == null) ? value.toLowerCase() : typeaheadItem.name.toLowerCase();  
+
+      this.Company.fromName(this.$stateParams.company).then((company) => {
+        return this.signupViaParse(this.$stateParams.email, company, neighborhood);
+      }).then((obj:any) => {
+        this.$state.go("invite", { email: obj.email, company: obj.company.name, neighborhood: neighborhood });
+      }).catch( (error) => {
+         console.log("things happened: " + error);
       });
     }
 

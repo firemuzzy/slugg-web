@@ -19,28 +19,71 @@ Parse.Cloud.beforeSave("Signup", function(request, response) {
 });
 
 Parse.Cloud.afterSave("Signup", function(request) {
-  query = new Parse.Query("Company");
-  query.get(request.object.get("company").id, {
-    success: function(company) {
-      post.increment("signups");
-      post.save();
+  console.log("Calling after save for Signup to " + request.object.get("company").id)
+
+  var currentEmail = request.object.get("email")
+  var signupQuery = new Parse.Query("Signup");
+  signupQuery.equalTo("email", currentEmail);
+  signupQuery.count({
+    success: function(count) {
+      // only increment the count if there is at most only 1 signup with the provided email
+      // that one being the one we just inserted
+      if(count <= 1) {
+        query = new Parse.Query("Company");
+        query.get(request.object.get("company").id, {
+          success: function(company) {
+            Parse.Cloud.useMasterKey();
+
+            console.log("Incrementing company " + company.get("name"))
+            company.increment("signups");
+            company.save();
+          },
+          error: function(error) {
+            console.error("Got an error " + error.code + " : " + error.message);
+          }
+        });
+      }
+
     },
     error: function(error) {
-      console.error("Got an error " + error.code + " : " + error.message);
+      console.error("Got an error counting signups for " + currentEmail + ", error " + error.code + " : " + error.message);
     }
   });
 });
 
 Parse.Cloud.afterDelete("Signup", function(request) {
-  query = new Parse.Query("Company");
-  query.equalTo("company", request.object.id);
-  query.find({
-    success: function(company) {
-      post.decrement("signups");
-      post.save();
+  var currentEmail = request.object.get("email")
+  var signupQuery = new Parse.Query("Signup");
+  signupQuery.equalTo("email", currentEmail);
+
+  signupQuery.count({
+    success: function(count) {
+      // only decrement the count if there are no more signups left with the provided email
+      if(count <= 0) {
+        query = new Parse.Query("Company");
+        query.get(request.object.get("company").id, {
+          success: function(company) {
+
+            // only decrement is the signups count is larger thatn 0
+            var signups = parseInt(company.get("signups"))
+            if(signups > 0) {
+              Parse.Cloud.useMasterKey();
+
+              console.log("Decrementing company " + company.get("name"))
+              company.increment("signups", -1);
+              company.save();
+            }
+          },
+          error: function(error) {
+            console.error("Got an error " + error.code + " : " + error.message);
+          }
+        });
+      }
+
     },
     error: function(error) {
-      console.error("Error finding related comments " + error.code + ": " + error.message);
+      console.error("Got an error counting signups for " + currentEmail + ", error " + error.code + " : " + error.message);
     }
   });
+
 });
