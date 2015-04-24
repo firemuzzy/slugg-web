@@ -1,24 +1,41 @@
 /// <reference path="./slugg.d.ts" />
 
 module slugg.controller {
-  export class SignupController {
-    focusEmail: boolean;
+  export class ModalSignupController {
+    emailFocus: boolean;
     email: string;
 
-    static $inject = ['$state', 'Company'];
-    constructor(private $state: ng.ui.IStateService, private Company: service.CompanyService) { }
+    static $inject = ['$modalInstance'];
+    constructor(private $modalInstance) {
+      this.emailFocus = true;
+    }
 
-    signupEmail($event: ng.IAngularEvent) {
+    signupEmail() {
       if (this.email === null || this.email.length <= 0) {
-        this.focusEmail = true;
+        this.emailFocus = true;
       } else {
-        this.Company.fromEmail(this.email).then((company:service.Company) => {
-          
-          this.$state.go("neighborhood", { email: this.email, company: company.name });
-        }, (error) => {
-            this.$state.go("signupCompany", { email: this.email });
-          });
+        this.$modalInstance.close(this.email);
       }
+    }
+
+  }
+
+  export class SignupController {
+    static $inject = ['$state', 'Company', '$modal'];
+    constructor(private $state: ng.ui.IStateService, private Company: service.CompanyService, private $modal) { }
+
+
+    signup() {
+      this.$modal.open({
+        templateUrl: '/assets/templates/modalSignup.tpl.html',
+        controller: 'ModalSignupController as modalSignup',
+      }).result.then((email) => {
+        this.Company.fromEmail(email).then((company: service.Company) => {
+          this.$state.go("neighborhood", { email: email, company: company.name });
+        }, (error) => {
+          this.$state.go("signupCompany", { email: email });
+        });
+      });
     }
   }
 }

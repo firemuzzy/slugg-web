@@ -3,7 +3,8 @@
 $goalBarHeight: 64px
 $goalBarColor: rgb(105, 176, 219)
 $goalBarBgColor: rgb(245, 245, 245)
-$goalBarWidth: 70%
+$goalBarWidth: 500px
+$goalBarLabelWidth: 30%
 $goalBarTextColor: rgb(109, 109, 109)
 
 
@@ -12,7 +13,7 @@ $goalBarTextColor: rgb(109, 109, 109)
   flex-direction: row
   align-items: center
 
-  width: 500px
+  width: $goalBarWidth
   margin-left: auto
   margin-right: auto
   font-size: 0.625em
@@ -25,7 +26,7 @@ $goalBarTextColor: rgb(109, 109, 109)
   position: relative
   text-align: center
   height: 100%
-  width: (100% - $goalBarWidth)
+  width: $goalBarLabelWidth
   padding-top: 4px
   font-size: 2em
   color: $goalBarTextColor
@@ -38,14 +39,14 @@ $goalBarTextColor: rgb(109, 109, 109)
   overflow: hidden
   vertical-align: middle
   float: left
-  width: $goalBarWidth
+  width: (100% - $goalBarLabelWidth)
   height: $goalBarHeight
   background: $goalBarBgColor
   border-radius: $goalBarHeight/2
 
 .goalBar-barColor
   background: $goalBarColor
-  height: $goalBarHeight
+  height: 100%
   border-radius: $goalBarHeight/2
   float: left
   transition: 0.5s

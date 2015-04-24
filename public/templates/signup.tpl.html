@@ -8,10 +8,8 @@
   <img class="splash-logo" src="/assets/images/logo.png"/>
   <h1>Organize carpools with coworkers in your neighborhood</h1>
 
-  <button class="green_button">Sign up now</button>
+  <button class="green_button" ng-click="signup.signup()">Sign up now</button>
   <!-- <slide-input button="send" placeholder="email address" ng-model="signup.email" click="signup.signupEmail($event)" focus="signup.focusEmail"></slide-input> -->
-  
-  <p>Sign up with your official company email</p>
 </header>
 
 <section>
@@ -31,27 +29,24 @@
     <a ui-sref="company({company:'Weyerhaeuser'})" class="weyerhaeuser_spr"></a>
   </div>
 
-  <button class="green_button">Add your company</button>
+  <button class="green_button" ng-click="signup.signup()">Add your company</button>
 </section>
-<section>
-  <h4>BENEFITS</h4>
-  <div class="benefits">
-    <div class="benefit">
-      <img class="benefit-img" src="/assets/images/coffee.png" />
-      <h5>Meet your coworkers</h5>
-      <p>Spend quality time with your teammates on the road or utilize your commute for meetings.</p>
-    </div>
+<section class="benefits">
+  <div class="benefit">
+    <img class="benefit-img" src="/assets/images/coffee.png" />
+    <h5>Meet your coworkers</h5>
+    <p>Spend quality time with your teammates on the road or utilize your commute for meetings.</p>
+  </div>
 
-    <div class="benefit">
-      <img class="benefit-img" src="/assets/images/time.png" />
-      <h5>Save time</h5>
-      <p>Don’t sit in traffic or spend time driving around parking.  When more people carpool, roads and highways are less clogged.</p>
-    </div>
+  <div class="benefit">
+    <img class="benefit-img" src="/assets/images/time.png" />
+    <h5>Save time</h5>
+    <p>Don’t sit in traffic or spend time driving around parking.  When more people carpool, roads and highways are less clogged.</p>
+  </div>
 
-    <div class="benefit">
-      <img class="benefit-img" src="/assets/images/trust.png" />
-      <h5>Trust &amp; Safety</h5>
-      <p>Travel with your coworkers to ensure that you’re in good company.</p>
-    </div>
+  <div class="benefit">
+    <img class="benefit-img" src="/assets/images/trust.png" />
+    <h5>Trust &amp; Safety</h5>
+    <p>Travel with your coworkers to ensure that you’re in good company.</p>
   </div>
 </section>

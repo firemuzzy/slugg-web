@@ -1,5 +1,11 @@
 @import 'fonts'
 
+@import 'lib/_clearfix'
+@import 'lib/_opacity'
+@import 'lib/_vendor-prefixes'
+@import 'lib/_variables'
+@import 'lib/_modals'
+
 // $blue: rgb(69,147,196)
 $blue: #4995C2
 // $lightBlue: rgb(105,176,219)
@@ -60,6 +66,7 @@ header
 
 section
   display: block
+  padding: 4em 0
 
 h1, h2
   max-width: 16em
@@ -126,11 +133,37 @@ h4, h5, h6
   text-align: center
   color: mix($headerBlack, $textGray)
   margin: 1em auto
+  font-weight: 600
 
 h5
-  font-size: 1.5em
+  font-size: 1.8em
+
+.h1
+  text-align: left
+  font-size: 3rem
+
+.h2
+  text-align: left
+  font-size: 2.6rem
+
+.h3
+  text-align: left
+  font-size: 2.2rem
+
+.h4
+  text-align: left
+  font-size: 1.8rem
+
+.h5
+  text-align: left
+  font-size: 1.4rem
+
+.h6
+  text-align: left
+  font-size: 1rem
 
 @import 'letter'
 @import 'splash'
 @import 'buttons'
 @import 'flex'
+@import 'modal'
