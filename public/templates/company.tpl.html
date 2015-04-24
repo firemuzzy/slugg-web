@@ -1,9 +1,42 @@
-<header><a ng-link="signup()">{{company.company.name}}</a></header>
+<content class="flex-column">
+  <section class="flex-row">
+    <div class="starbucks_spr"></div>
+  </section>
+  <section class="flex-row">
+    <div>
+      <h3>SIGN UP FOR CARPOOLING AT MICROSOFT</h3>
+      <p>Slugg was designed and developed as part of the 2015 Hack the Commute hackathon. Due to Seattle's rapid urban development and population increases, we've seen the need for better mass transit options and an increased emphasis on ridesharing.</p>
+      
+      <h3>HOW DOES IT WORK?</h3>
+      <p>We talked to dozens of people who said that the hardest thing about carpooling was finding people to travel with at certain times. We've made that easier than cake with our mobile app. At a glance, you'll know who's leaving your work to go your neighborhood, or who's leaving your neighborhood heading to the office. </p>
+    </div>
+    <div>
+      <h5>MICROSOFT EMPLOYEE?</h5>
+      <button class="green_button">Sign up now</button>
 
-<content>
-  <goal-bar current="company.company.signups" goal="company.company.maxSignups"></goal-bar>
+      <goal-bar current="company.company.signups" goal="company.company.maxSignups"></goal-bar>
+      <p>We have <strong>{{company.company.signups}}</strong> people signed up at {{company.company.name}}. We’ll keep you informed on {{company.company.name}}’s progress. When there are {{company.company.maxSignups}}, we’ll enable it at your company.</p>
+    </div>
+  </section>
 
-  <p>We have <strong>{{company.company.signups}}</strong> people signed up at {{company.company.name}}. We’ll keep you informed on {{company.company.name}}’s progress. When there are {{company.company.maxSignups}}, we’ll enable it at your company.</p>
-  <p>Help us out by spreading the word.</p>
+  <section class="benefits">
+    <div class="benefit">
+      <img class="benefit-img" src="/assets/images/coffee.png" />
+      <h5>Meet your coworkers</h5>
+      <p>Spend quality time with your teammates on the road or utilize your commute for meetings.</p>
+    </div>
+
+    <div class="benefit">
+      <img class="benefit-img" src="/assets/images/time.png" />
+      <h5>Save time</h5>
+      <p>Don’t sit in traffic or spend time driving around parking.  When more people carpool, roads and highways are less clogged.</p>
+    </div>
+
+    <div class="benefit">
+      <img class="benefit-img" src="/assets/images/trust.png" />
+      <h5>Trust &amp; Safety</h5>
+      <p>Travel with your coworkers to ensure that you’re in good company.</p>
+    </div>
+  </section>
 
 </content>

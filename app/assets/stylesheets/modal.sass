@@ -1,0 +1,43 @@
+$blue: rgb(56,77,89)
+$lightBlue: #6CB1D9
+
+.modal-content
+  padding: 0.5em 3em
+  border: 6px solid rgba($lightBlue, 0.5)
+  box-shadow: none
+
+.modal-backdrop
+  background-color: $blue
+
+.modal-backdrop.in
+  opacity: 0.8
+
+.modal-content p
+  font-size: 1rem
+  text-align: left
+  margin: 1em 0
+  color: #6f6f6f
+
+.input-button
+  width: 100%
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: space-around
+
+  input
+    box-sizing: border-box
+    flex-grow: 2
+    border: 1px solid $lightBlue
+    border-radius: 4px
+    font-size: 1.1875rem
+    padding: 0.7em 1em
+    margin-right: 0.5em
+
+  button
+    box-sizing: border-box
+    flex-grow: 1
+    border-radius: 4px
+    font-size: 1.1875rem
+    padding: 0.7em 1em
+    margin: 0
