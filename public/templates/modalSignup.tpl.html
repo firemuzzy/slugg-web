@@ -1,6 +1,6 @@
 <h5 class="h5">Please sign up with your official company email.</h5>
 <div class="input-button">
-  <input placeholder="Email address" ng-model="modalSignup.email" focus-when="modalSignup.emailFocus" />
+  <input placeholder="Email address" ng-model="modalSignup.email" focus-when="modalSignup.emailFocus" ng-keyup="$event.keyCode == 13 ? modalSignup.signupEmail() : null" />
   <button class="green_button" ng-click="modalSignup.signupEmail()">Sign up</button>
 </div>
 <p>We are starting carpools organized by employer to ensure there are enough drivers and riders at a time.</p>

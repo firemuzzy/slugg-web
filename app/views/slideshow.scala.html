@@ -1,0 +1,26 @@
+@()
+
+@css = {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/slideshow.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/slideshowTheme.css")">
+  <style>
+    .content, content {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+}
+
+@scripts = {
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slideshow.js")"></script>
+  <script>angular.module("app", ["slideshow"]);</script>
+}
+
+@main("Slugg")(scripts)(css) {
+<content ng-app="app">
+  <slideshow>
+    <div class="content" ng-include src="'/assets/templates/slides.tpl.html'"></div>
+  </slideshow>
+</content>
+}
