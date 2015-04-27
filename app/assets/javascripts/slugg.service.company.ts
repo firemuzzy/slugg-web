@@ -18,8 +18,6 @@ module slugg.service {
     }
 
     fromParse(parseC: any): service.Company {
-      console.log(parseC)
-
       var parseId = parseC.id
       var name = parseC.get("name")
       var domain = parseC.get("domain")

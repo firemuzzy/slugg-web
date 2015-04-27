@@ -3,11 +3,13 @@
 module slugg.controller {
   export class ModalSignupController {
     emailFocus: boolean;
-    email: string;
+    email: string = "";
 
-    static $inject = ['$modalInstance'];
-    constructor(private $modalInstance) {
-      this.emailFocus = true;
+    static $inject = ['$modalInstance', '$timeout'];
+    constructor(private $modalInstance, private $timeout:ng.ITimeoutService) {
+      this.$timeout(() => {
+        this.emailFocus = true;
+      }, 300);
     }
 
     signupEmail() {
