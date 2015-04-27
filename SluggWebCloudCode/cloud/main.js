@@ -5,17 +5,77 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
-// make the company, neighborhood, email fields required
-Parse.Cloud.beforeSave("Signup", function(request, response) {
-  if (!request.object.get("company")) {
+function sendInviteCoworkerEmail(email, companyName) {
+  var Mandrill = require('mandrill');
+  Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
+
+  console.log("sending email to " + email);
+  Mandrill.sendTemplate({
+    "template_name": "slugg-recruit-coworker", 
+    "template_content": [],
+    "message": {
+      "merge_language": "handlebars",
+      "global_merge_vars": [ { "name": "CompanyName", "content": companyName} ],
+      to: [ { email: email } ]
+    },
+    async: true
+  },{
+    success: function(httpResponse) {
+      console.log(httpResponse);
+      console.log("Recruit coworker sent to " + email);
+      response.success("Recruit coworker sent to " + email);
+    },
+    error: function(httpResponse) {
+      console.error(httpResponse);
+      console.error("Uh oh, something went wrong while sending recruit coworker to " + email);
+      response.error("Uh oh, something went wrong while sending recruit coworker to " + email);
+    }
+  });
+}
+
+// Validate the invite object
+Parse.Cloud.beforeSave("Invite", function(request, response) {
+  if (!request.object.get("inviter")) {
+    response.error("inviter is required for signup");
+  } else if (!request.object.get("invitee")) {
+    response.error("invitee is required for signup");
+  } else if (!request.object.get("company")) {
     response.error("company is required for signup");
-  } else if (!request.object.get("neighborhood")) {
-    response.error("neighborhood is required for signup");
-  } else if (!request.object.get("email")) {
-    response.error("email is required for signup");
   } else {
-    response.success();
+    Parse.Cloud.useMasterKey();
+
+    var query = new Parse.Query("Invite");
+    var invitee = request.object.get("invitee")
+    console.log("Searching for invitee for email " + invitee)
+
+    query.equalTo("invitee", invitee);
+    query.first({
+      success: function(object) {
+        if (object) {
+          console.error("Invite object already exists for invitee " + invitee)
+
+          response.error("The provided email was already invited");
+        } else {
+          console.log("Did not find any Invite object for invitee " + invitee)
+          response.success();
+        }
+      },
+      error: function(error) {
+        response.error("Could not validate uniqueness for this Invite object: " + error);
+        response.error("Could not validate uniqueness for this Invite object.");
+      }
+    });
   }
+});
+
+// Send and invite to a new user
+Parse.Cloud.afterSave("Invite", function(request) {
+  var inviterEmail = request.object.get("inviter");
+  var inviteeEmail = request.object.get("invitee");
+  var company = request.object.get("company");
+  var companyName = company.get("name");
+
+  sendInviteCoworkerEmail(inviteeEmail, companyName);
 });
 
 function sendThanksForSigningUpEmail(email, companyName) {
@@ -46,33 +106,18 @@ function sendThanksForSigningUpEmail(email, companyName) {
   });
 }
 
-function sendRecruitCoworkerEmail(email, companyName) {
-  var Mandrill = require('mandrill');
-  Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
-
-  console.log("sending email to " + email);
-  Mandrill.sendTemplate({
-    "template_name": "slugg-recruit-coworker", 
-    "template_content": [],
-    "message": {
-      "merge_language": "handlebars",
-      "global_merge_vars": [ { "name": "CompanyName", "content": companyName} ],
-      to: [ { email: email } ]
-    },
-    async: true
-  },{
-    success: function(httpResponse) {
-      console.log(httpResponse);
-      console.log("Recruit coworker sent to " + email);
-      response.success("Recruit coworker sent to " + email);
-    },
-    error: function(httpResponse) {
-      console.error(httpResponse);
-      console.error("Uh oh, something went wrong while sending recruit coworker to " + email);
-      response.error("Uh oh, something went wrong while sending recruit coworker to " + email);
-    }
-  });
-}
+// make the company, neighborhood, email fields required
+Parse.Cloud.beforeSave("Signup", function(request, response) {
+  if (!request.object.get("company")) {
+    response.error("company is required for signup");
+  } else if (!request.object.get("neighborhood")) {
+    response.error("neighborhood is required for signup");
+  } else if (!request.object.get("email")) {
+    response.error("email is required for signup");
+  } else {
+    response.success();
+  }
+});
 
 Parse.Cloud.afterSave("Signup", function(request) {
   console.log("Calling after save for Signup to " + request.object.get("company").id)

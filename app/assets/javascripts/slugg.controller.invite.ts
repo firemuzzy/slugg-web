@@ -47,8 +47,9 @@ module slugg.controller {
     sendEmail(email) {
       if (email != null && email.length > 0) {
         this.emailPlaceholder = this.placeholders[0];
+        var sender = this.$stateParams.email
 
-        this.Person.sendEmail(email, this.company).then((timesSent:number) => {
+        this.Person.sendEmail(email, sender, this.company).then((timesSent: number) => {
           this.numberOfInvites = timesSent;
           if (timesSent == null) {
             this.opened = false;
