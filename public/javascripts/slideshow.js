@@ -184,6 +184,8 @@ function SlideshowSlideVideo() {
         };
         slideshowController.addSlide($scope);
         $scope._next = function () {
+            if ($scope.autoplay == "true")
+                return true;
             var returnValue = $scope._videoPlayed;
             if ($scope._videoPlayed == false) {
                 playVideo();
