@@ -28,6 +28,8 @@ var SlideshowController = (function () {
         this.$timeout(function () {
             _this.slides[index].visible = true;
             _this.$location.path("" + index);
+            if (angular.isFunction(_this.slides[index]._transitioned))
+                _this.slides[index]._transitioned();
         });
     };
     SlideshowController.prototype.next = function () {
@@ -66,6 +68,7 @@ var SlideshowController = (function () {
         var _this = this;
         if (this.slides.length == this.slideIndex) {
             $scope.visible = true;
+            this.showSlide(this.slideIndex);
         }
         else {
             $scope.visible = false;
@@ -75,8 +78,7 @@ var SlideshowController = (function () {
         this.slidesLoadedPromise = this.$timeout(function () {
             if (_this.slideIndex >= _this.slides.length) {
                 var index = _this.slides.length - 1;
-                _this.$location.path("" + index);
-                _this.slides[index].visible = true;
+                _this.showSlide(index);
                 _this.slideIndex = index;
             }
         });
@@ -131,13 +133,14 @@ function Slideshow($window) {
     directive.link = function ($scope, element, attrs, slideController) {
         slideController.addSlideshow($scope);
         angular.element($window).on('keydown', function (e) {
+            console.log("keycode: " + e.keyCode);
             if (e.keyCode == 37 || (e.keyCode == 32 && e.shiftKey) || (e.keyCode == 33)) {
                 slideController.prev();
             }
             else if (e.keyCode == 39 || e.keyCode == 32 || e.keyCode == 34) {
                 slideController.next();
             }
-            else if (e.keyCode == 191 && e.shiftKey) {
+            else if ((e.keyCode == 191 && e.shiftKey) || e.keyCode == 190) {
                 slideController.toggleDebug();
             }
         });
@@ -162,7 +165,7 @@ function SlideshowSlide() {
 function SlideshowSlideVideo() {
     var directive = {};
     directive.restrict = "AE";
-    directive.scope = { src: '=', customClasses: "@class" };
+    directive.scope = { src: '=', customClasses: "@class", autoplay: '@' };
     directive.transclude = true;
     directive.replace = true;
     directive.require = "^slideshow";
@@ -182,12 +185,20 @@ function SlideshowSlideVideo() {
         };
         slideshowController.addSlide($scope);
         $scope._next = function () {
+            if ($scope.autoplay == "true")
+                return true;
             var returnValue = $scope._videoPlayed;
             if ($scope._videoPlayed == false) {
                 playVideo();
             }
             $scope._videoPlayed = true;
             return returnValue;
+        };
+        $scope._transitioned = function () {
+            if ($scope.autoplay == "true") {
+                var video = element.find("video")[0];
+                video.play();
+            }
         };
         $scope.$watch("visible", function (nv) {
             if (nv == false) {
