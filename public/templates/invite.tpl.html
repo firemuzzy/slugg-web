@@ -4,9 +4,9 @@
 <content>
   <h2>Thanks for signing up!</h2>
 
-  <goal-bar current="invite.company.signups" goal="invite.company.maxSignups"></goal-bar>
+  <goal-bar current="invite.company.specialSignups()" goal="invite.company.maxSignups"></goal-bar>
 
-  <p>We have <strong>{{invite.company.signups}}</strong> people signed up at {{invite.company.name}}. We’ll keep you informed on {{invite.company.name}}’s progress. When there are {{invite.company.maxSignups}}, we’ll enable it at your company.</p>
+  <p>We have <strong>{{invite.company.specialSignups()}}</strong> people signed up at {{invite.company.name}}. We’ll keep you informed on {{invite.company.name}}’s progress. When there are {{invite.company.maxSignups}}, we’ll enable it at your company.</p>
   <p>Help us out by spreading the word.</p>
 
   <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail" ng-animate="{enter:'animated fadeIn', leave:'animated fadeOut'}">

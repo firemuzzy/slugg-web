@@ -15,7 +15,7 @@ function sendInviteCoworkerEmail(email, companyName) {
     "template_content": [],
     "message": {
       "merge_language": "handlebars",
-      "global_merge_vars": [ { "name": "CompanyName", "content": companyName} ],
+      "global_merge_vars": [ { "name": "companyName", "content": companyName} ],
       to: [ { email: email } ]
     },
     async: true
@@ -82,13 +82,13 @@ function sendThanksForSigningUpEmail(email, companyName) {
   var Mandrill = require('mandrill');
   Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
 
-  console.log("sending email to " + email);
+  console.log("sending email to " + email + " from " + companyName);
   Mandrill.sendTemplate({
     "template_name": "slugg-thanks-for-signing-up", 
     "template_content": [],
     "message": {
       "merge_language": "handlebars",
-      "global_merge_vars": [ { "name": "CompanyName", "content": companyName} ],
+      "global_merge_vars": [ { "name": "companyName", "content": companyName} ],
       to: [ { email: email } ]
     },
     async: true
@@ -108,11 +108,11 @@ function sendThanksForSigningUpEmail(email, companyName) {
 
 // make the company, neighborhood, email fields required
 Parse.Cloud.beforeSave("Signup", function(request, response) {
-  if (!request.object.get("company")) {
+  if (!request.object.get("company") || request.object.get("company").length == 0 ) {
     response.error("company is required for signup");
-  } else if (!request.object.get("neighborhood")) {
+  } else if (!request.object.get("neighborhood") || request.object.get("neighborhood").length == 0 ) {
     response.error("neighborhood is required for signup");
-  } else if (!request.object.get("email")) {
+  } else if (!request.object.get("email") || request.object.get("email").length == 0 ) {
     response.error("email is required for signup");
   } else {
     response.success();
