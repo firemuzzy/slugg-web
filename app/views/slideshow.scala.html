@@ -2,20 +2,40 @@
 
 @css = {
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/slideshow.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/mail.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/letter.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/goalBar.css")">
+
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/slideshowTheme.css")">
-  
-  <style>
-    .content, content {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
 }
 
 @scripts = {
   <script type="text/javascript" src="@routes.Assets.at("javascripts/slideshow.js")"></script>
-  <script>angular.module("app", ["slideshow"]);</script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/mail.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/goalBar.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/utilDirectives.js")"></script>
+  <script>
+    angular.module("app", ["slideshow", "mail", "ngAnimate", "goalBar", "utilDirectives"]).controller("MailController", function($timeout){
+      var self = this;
+      this.showMail = true;
+      this.opened = false;
+      this.focus = true;
+      
+      $timeout(function(){
+        self.opened = true;
+      }, 400);
+
+      $timeout(function(){
+        self.opened = false;
+      }, 2000);
+
+      $timeout(function(){
+        self.showMail = false;
+      }, 1750 + 2000);
+
+    });
+
+  </script>
 }
 
 @main("Slugg")(scripts)(css) {

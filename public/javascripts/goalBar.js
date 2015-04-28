@@ -7,7 +7,7 @@
 
   function GoalBarDirective(){
     return {
-      template: "<div class='goalBar'>" +
+      template: "<div class='goalBar {{customClasses}}'>" +
         "<div class='goalBar-bar'>" +
           "<div class='goalBar-barColor' style='width:{{width}}%'></div>" +
         "</div>" +
@@ -18,7 +18,8 @@
         "</div>",
       scope: {
         "goal":"=",
-        "current":"="
+        "current":"=",
+        customClasses: "@class"
       },
       replace: true,
       link: function($scope, element, attrs){

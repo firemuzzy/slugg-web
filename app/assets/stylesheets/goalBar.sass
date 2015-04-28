@@ -7,6 +7,8 @@ $goalBarWidth: 500px
 $goalBarLabelWidth: 30%
 $goalBarTextColor: rgb(109, 109, 109)
 
+$borderRadius: 500px
+
 
 .goalBar
   display: flex
@@ -20,7 +22,7 @@ $goalBarTextColor: rgb(109, 109, 109)
   overflow: hidden
 
 .goalBar-label
-  display: inline-block
+  display: block
   vertical-align: middle
   overflow: hidden
   position: relative
@@ -35,19 +37,19 @@ $goalBarTextColor: rgb(109, 109, 109)
     font-weight: bold
 
 .goalBar-bar
-  display: inline-block
+  display: block
   overflow: hidden
   vertical-align: middle
   float: left
-  width: (100% - $goalBarLabelWidth)
   height: $goalBarHeight
+  width: (100% - $goalBarLabelWidth)
   background: $goalBarBgColor
-  border-radius: $goalBarHeight/2
+  border-radius: $borderRadius
 
 .goalBar-barColor
   background: $goalBarColor
   height: 100%
-  border-radius: $goalBarHeight/2
+  border-radius: $borderRadius 0 0 $borderRadius
   float: left
   transition: 0.5s
   transition-timing-function: ease-in-out

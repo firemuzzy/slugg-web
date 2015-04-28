@@ -12,16 +12,18 @@
 
     return {
       template: "<div class='mail' ng-class='{opened:opened}'>" +
-                  "<img class='mailFold' src='{{assets}}mailFold.png' />" +
-                  "<img class='mailFoldClosed' src='{{assets}}mailFoldClosed.png' />" +
-                  "<img class='mailBg' src='{{assets}}mailBg.png' />" +
+                  "<img class='mailFold' ng-src='{{assets}}mailFold.png' />" +
+                  "<img class='mailFoldClosed' ng-src='{{assets}}mailFoldClosed.png' />" +
+                  "<img class='mailBg' ng-src='{{assets}}mailBg.png' />" +
                   "<div class='mailContent'><div class='mailMessage' ng-transclude></div></div>" +
-                  "<img class='mailBottom' src='{{assets}}mailBottom.png' />" +
-                  "<img class='mailStamp' src='{{assets}}mailStamp.png' />" +
+                  "<img class='mailBottom' ng-src='{{assets}}mailBottom.png' />" +
+                  "<img class='mailStamp' ng-src='{{assets}}mailStamp.png' />" +
+                  "<img class='mailLogo' ng-show='logo' ng-src='{{assets}}{{logo}}' />" +
                 "</div>",
       scope: {
         "assets":"@?",
-        "opened":"=?"
+        "opened":"=?",
+        "logo":"@?"
       },
       replace: true,
       transclude: true,

@@ -187,13 +187,45 @@
   <h1><strong>#wrong</strong></h1>
 </slide>
 
-<slide class="slide-dark">
+<slide class="slide-dark shadowed">
   <img class="background-image fade" src="assets/images/slideshow/12thmanNumber.png" />
-  <h1>Need critical mass</h1>
+  <h0>Need critical mass</h0>
 </slide>
 
 <slide class="shadowed slide-dark">
   <img class="background-image" src="assets/images/slideshow/getslugg.png" />
+</slide>
+
+<slide class="shadowed slide-dark">
+  <img class="background-image fade" src="assets/images/slideshow/getslugg.png" />
+  <h0>getslugg.com</h0>
+</slide>
+
+<slide class="slide-dark">
+  
+  <h3 style="margin-bottom: 1em;">Help us out by spreading the word</h3>
+  
+  <div class="inviteCompany">
+    <img class="inviteCompany-logo" src="assets/images/slideshow/microsoftLogo.png" />
+    <goal-bar class="inviteCompany-bar" current="362" goal="500"></goal-bar>
+    <p class="inviteCompany-text">We have <strong>362</strong> people signed up at <strong>Microsoft</strong>. We'll keep you informed on Microsoft's progress. When there are <strong>500</strong> carpoolers, we'll enable it at your company.</p>
+
+
+    <div ng-controller="MailController as mail" class="invite">
+      <mail assets="/assets/images/" opened="mail.opened" ng-show="mail.showMail" logo="slideshow/microsoftLogoSmall.png">
+        <div class="letter-send">send</div>
+        <div class="letter-to">
+          <span>To:</span>
+          <input placeholder="your_friend@microsoft.com" ng-model="mail.email" focus-when="mail.focus" />
+        </div>
+        <p class="letter-header">Hi there, fellow coworker</p>
+        <p class="letter-body">You&#39;re invited to join the <b>{{invite.company.name}}</b> network on Sl&uuml;gg, an <strong>informal</strong>, <strong>on-demand</strong>, <strong>trusted</strong> carpooling network.</p>
+        <p>&nbsp;</p>
+        <button class="letter-button">Learn more and join</button>
+      </mail>
+    </div>
+
+  </div>
 </slide>
 
 <slide class="slide-dark skyline">

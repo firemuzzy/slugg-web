@@ -9,14 +9,14 @@
   <p>We have <strong>{{invite.company.signups}}</strong> people signed up at {{invite.company.name}}. We’ll keep you informed on {{invite.company.name}}’s progress. When there are {{invite.company.maxSignups}}, we’ll enable it at your company.</p>
   <p>Help us out by spreading the word.</p>
 
-  <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail" ng-animate="{enter:'animated fadeIn', leave:'animated fadeOut'}">
+  <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail">
     <div class="letter-send" ng-click="invite.sendEmail(invite.email)">send</div>
     <div class="letter-to">
       <span>To:</span>
       <input placeholder="{{invite.emailPlaceholder}}@{{invite.company.domain}}" focus-when="invite.emailFocus" ng-model="invite.email" ng-keyup="$event.keyCode == 13 ? invite.sendEmail(invite.email) : null" />
     </div>
     <p class="letter-header">Hi there, fellow coworker</p>
-    <p class="letter-body">You&#39;re invited to join the <b>{{invite.company.name}}</b> network on Sl&uuml;gg, an <strong>informal</strong>, <strong>ondemand</strong>, <strong>trusted</strong> carpooling network.</p>
+    <p class="letter-body">You&#39;re invited to join the <b>{{invite.company.name}}</b> network on Sl&uuml;gg, an <strong>informal</strong>, <strong>on-demand</strong>, <strong>trusted</strong> carpooling network.</p>
     <p ng-show="invite.numberOfInvites >= 2" class="letter-footer">{{invite.person.email}} is so excited about Slugg that they want to invite you <strong>{{invite.numberOfInvites}}</strong> times, but we don't want to spam you so we only sent <b>1</b> invitation</p>
     <button class="letter-button">Learn more and join</button>
   </mail>

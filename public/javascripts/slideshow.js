@@ -133,7 +133,6 @@ function Slideshow($window) {
     directive.link = function ($scope, element, attrs, slideController) {
         slideController.addSlideshow($scope);
         angular.element($window).on('keydown', function (e) {
-            console.log("keycode: " + e.keyCode);
             if (e.keyCode == 37 || (e.keyCode == 32 && e.shiftKey) || (e.keyCode == 33)) {
                 slideController.prev();
             }
