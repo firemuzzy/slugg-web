@@ -1,4 +1,5 @@
 @import 'fonts'
+@import 'lib/_flexbox'
 
 *
   font-family: "Brandon", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
@@ -64,19 +65,21 @@ b
   color: #68ADD8
 
 .row
-  display: flex
-  flex-direction: row
-  align-items: center
-  justify-content: space-around
+  @extend %flexbox
+  @include flex-direction(row)
+  @include align-items(center)
+  @include justify-content(space-around)
+
   position: relative
   height: 100%
   width: 100%
 
 .col
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: space-around
+  @extend %flexbox
+  @include flex-direction(column)
+  @include align-items(center)
+  @include justify-content(space-around)
+
   position: relative
   height: 100%
   width: 100%
@@ -166,10 +169,11 @@ $logoTiming: 1.2s
     color: #fff
 
 .inviteCompany
-  display: flex
-  flex-direction: column
-  align-items: center
-  justify-content: space-around
+  @extend %flexbox
+  @include flex-direction(column)
+  @include align-items(center)
+  @include justify-content(space-around)
+
   position: relative
   min-height: 547px
   width: 100%
