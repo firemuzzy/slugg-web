@@ -32,7 +32,7 @@ module slugg.controller {
       this.Company.fromEmail($stateParams.email).then((company) => {
         this.company = company;
       }, () => {
-          this.Company.promiseFromNameEmail($stateParams.company, $stateParams.email).then((company) => {
+          this.Company.fromEmail($stateParams.company).then((company) => {
             this.company = company;
           });
         });

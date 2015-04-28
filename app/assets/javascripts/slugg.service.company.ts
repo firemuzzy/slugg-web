@@ -21,7 +21,7 @@ module slugg.service {
       var parseId = parseC.id
       var name = parseC.get("name")
       var domain = parseC.get("domain")
-      var signups = 0
+      var signups = parseInt(parseC.get("signups"))
       var maxSignups = parseInt(parseC.get("maxSignups"))
       var minSignups = parseInt(parseC.get("minSignups"))
 
@@ -135,6 +135,19 @@ module slugg.service {
   }
 
   export class Company {
-    constructor(public parseId:string, public name: string, public domain: string, public signups: number, public maxSignups: number, minSignups: number) { }
+    constructor(public parseId:string, public name: string, public domain: string, public signups: number, public maxSignups: number, public minSignups: number) { }
+
+    specialSignups() {
+      if (this.minSignups == null) {
+        return this.signups
+      } else if (this.signups == 0) {
+        return 0;
+      } else if (this.signups < this.minSignups) {
+        return this.minSignups
+      } else {
+        return this.signups
+      }
+      return 200
+    }
   }
 }
