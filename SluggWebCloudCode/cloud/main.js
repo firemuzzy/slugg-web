@@ -8,12 +8,6 @@ var PROD_MANDRILL_KEY = "jq_ErQOwhNXJWO0ucvYFAg"
 var MANDRILL_KEY = PROD_ENABLED ? PROD_MANDRILL_KEY : TEST_MANDRILL_KEY;
 
 
-// Use Parse.Cloud.define to define as many cloud functions as you want.
-// For example:
-Parse.Cloud.define("hello", function(request, response) {
-  response.success("Hello world!");
-});
-
 Parse.Cloud.beforeSave("Company", function(request, response) {
   if(request.object.get("verified") === true && !request.master) {
     response.error("may not mark the company as verified");
@@ -24,13 +18,14 @@ Parse.Cloud.beforeSave("Company", function(request, response) {
 
 function sendInviteCoworkerEmail(email, companyName) {
   if(!EMAILING_ENABLED) {
+    console.error("sendInviteCoworkerEmail - not sending email to:"+email+" company:"+companyName+" emailing is disabled");
     return;
   }
 
   var Mandrill = require('mandrill');
   Mandrill.initialize(MANDRILL_KEY);
 
-  console.log("sending email to " + email);
+  console.log("sendInviteCoworkerEmail - sending coworker invite email to:" + email + " company:" + companyName);
   Mandrill.sendTemplate({
     "template_name": "slugg-recruit-coworker", 
     "template_content": [],
@@ -43,13 +38,13 @@ function sendInviteCoworkerEmail(email, companyName) {
   },{
     success: function(httpResponse) {
       console.log(httpResponse);
-      console.log("Recruit coworker sent to " + email);
-      response.success("Recruit coworker sent to " + email);
+      console.log("sendInviteCoworkerEmail - invite coworker sent to:" + email + " company:" + companyName);
+      response.success();
     },
     error: function(httpResponse) {
       console.error(httpResponse);
-      console.error("Uh oh, something went wrong while sending recruit coworker to " + email);
-      response.error("Uh oh, something went wrong while sending recruit coworker to " + email);
+      console.error("sendInviteCoworkerEmail - could not send invite coworker email to:" + email + " company:" + companyName + " error:" + error.message);
+      response.error("Uh oh");
     }
   });
 }
@@ -67,22 +62,21 @@ Parse.Cloud.beforeSave("Invite", function(request, response) {
 
     var query = new Parse.Query("Invite");
     var invitee = request.object.get("invitee")
-    console.log("Searching for invitee for email " + invitee)
+    console.log("beforeSave('Invite') - Searching for invitee for email " + invitee);
 
     query.equalTo("invitee", invitee);
     query.first({
       success: function(object) {
         if (object) {
-          console.error("Invite object already exists for invitee " + invitee)
-
+          console.error("beforeSave('Invite') - Invite object already exists for invitee " + invitee)
           response.error("The provided email was already invited");
         } else {
-          console.log("Did not find any Invite object for invitee " + invitee)
+          console.log("beforeSave('Invite') - did not find any Invite object for invitee " + invitee)
           response.success();
         }
       },
       error: function(error) {
-        response.error("Could not validate uniqueness for this Invite object: " + error);
+        console.error("beforeSave('Invite') - could not validate uniqueness for this Invite object: " + error);
         response.error("Could not validate uniqueness for this Invite object.");
       }
     });
@@ -93,21 +87,21 @@ Parse.Cloud.beforeSave("Invite", function(request, response) {
 Parse.Cloud.afterSave("Invite", function(request) {
   var inviterEmail = request.object.get("inviter");
   var inviteeEmail = request.object.get("invitee");
-  var company = request.object.get("company");
-  var companyName = company.get("name");
+  var companyName = request.object.get("companyName");
 
   sendInviteCoworkerEmail(inviteeEmail, companyName);
 });
 
 function sendThanksForSigningUpEmail(email, companyName) {
   if(!EMAILING_ENABLED) {
+    console.error("sendThanksForSigningUpEmail - not sending email to:"+email+" company:"+companyName+" emailing is disabled");
     return;
   }
 
   var Mandrill = require('mandrill');
   Mandrill.initialize(MANDRILL_KEY);
 
-  console.log("sending email to " + email + " from " + companyName);
+  console.log("sendThanksForSigningUpEmail - sending email to:" + email + " company:" + companyName);
   Mandrill.sendTemplate({
     "template_name": "slugg-thanks-for-signing-up", 
     "template_content": [],
@@ -119,14 +113,13 @@ function sendThanksForSigningUpEmail(email, companyName) {
     async: true
   },{
     success: function(httpResponse) {
-      console.log(httpResponse);
-      console.log("Thanks for signing up sent to " + email);
+      console.log("sendThanksForSigningUpEmail - thanks for signup email sent to:" + email + " company:" + companyName);
       response.success("Thanks for signing up sent to " + email);
     },
     error: function(httpResponse) {
       console.error(httpResponse);
-      console.error("Uh oh, something went wrong while sending thanks to " + email);
-      response.error("Uh oh, something went wrong while sending thanks to " + email);
+      console.error("sendThanksForSigningUpEmail - could not sent thanks for signing up email to:" + email + " company:" + companyName + " error:" + error.message);
+      response.error("Uh oh");
     }
   });
 }
@@ -145,7 +138,7 @@ Parse.Cloud.beforeSave("Signup", function(request, response) {
 });
 
 Parse.Cloud.afterSave("Signup", function(request) {
-  console.log("Calling after save for Signup to " + request.object.get("company").id)
+  console.log("afterSave('Signup') - calling after save for Signup to companyId:" + request.object.get("company").id);
 
   var currentEmail = request.object.get("email");
 
@@ -156,7 +149,7 @@ Parse.Cloud.afterSave("Signup", function(request) {
       query = new Parse.Query("Company");
       query.get(request.object.get("company").id, {
         success: function(company) {
-          var companyName = company.get("name")
+          var companyName = company.get("name");
           sendThanksForSigningUpEmail(currentEmail, companyName);
 
           // only increment the count if there is at most only 1 signup with the provided email
@@ -164,19 +157,19 @@ Parse.Cloud.afterSave("Signup", function(request) {
           if(count <= 1) {
             Parse.Cloud.useMasterKey();
 
-            console.log("Incrementing company " + company.get("name"))
+            console.log("afterSave('Signup') - Incrementing company " + companyName)
             company.increment("signups");
             company.save();
           }
         },
         error: function(error) {
-          console.error("Got an error " + error.code + " : " + error.message);
+          console.error("afterSave('Signup') - could not find company, error " + error.code + " : " + error.message);
         }
       });
 
     },
     error: function(error) {
-      console.error("Got an error counting signups for " + currentEmail + ", error " + error.code + " : " + error.message);
+      console.error("afterSave('Signup') - Got an error counting signups for " + currentEmail + ", error " + error.code + " : " + error.message);
     }
   });
 });
@@ -199,20 +192,20 @@ Parse.Cloud.afterDelete("Signup", function(request) {
             if(signups > 0) {
               Parse.Cloud.useMasterKey();
 
-              console.log("Decrementing company " + company.get("name"))
+              console.log("afterDelete('Signup') - Decrementing company " + company.get("name"))
               company.increment("signups", -1);
               company.save();
             }
           },
           error: function(error) {
-            console.error("Got an error " + error.code + " : " + error.message);
+            console.error("afterDelete('Signup') - Got an error " + error.code + " : " + error.message);
           }
         });
       }
 
     },
     error: function(error) {
-      console.error("Got an error counting signups for " + currentEmail + ", error " + error.code + " : " + error.message);
+      console.error("afterDelete('Signup') - Got an error counting signups for " + currentEmail + ", error " + error.code + " : " + error.message);
     }
   });
 

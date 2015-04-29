@@ -6,7 +6,7 @@ module slugg.service {
     constructor(private $q: ng.IQService) { }
     emailsSent = {}
 
-    sendEmail(email: string, sender:string, company) {
+    sendEmail(email: string, sender:string, company:service.Company) {
         var key = email + company.domain;
         if (this.emailsSent[key] == null) {
             this.emailsSent[key] = 1;
@@ -25,10 +25,13 @@ module slugg.service {
         var parseCompany = new Company()
         parseCompany.id = company.parseId
 
+        debugger
+
         var invite = new Invite();
         invite.set("inviter", senderEmail.toLowerCase());
         invite.set("invitee", email.toLowerCase())
         invite.set("company", parseCompany);
+        invite.set("companyName", company.name);
 
         var acl = new Parse.ACL();
         acl.setPublicReadAccess(false);
