@@ -13,6 +13,15 @@ $slidingDelay: 0.5s
 .mailFold, .mailBg, .mailFoldClosed
   display: block
   margin: 0 auto
+
+  -ms-transform-style: preserve-3d
+  -ms-backface-visibility: hidden
+  -ms-transform-origin: 100% 100%
+
+  -webkit-transform-style: preserve-3d
+  -webkit-backface-visibility: hidden
+  -webkit-transform-origin: 100% 100%
+
   transform-style: preserve-3d
   backface-visibility: hidden
   transform-origin: 100% 100%
@@ -22,7 +31,10 @@ $slidingDelay: 0.5s
 
 
 .mailFold
+  -ms-transform: rotateX(180deg)
+  -webkit-transform: rotateX(180deg)
   transform: rotateX(180deg)
+  margin-bottom: -1px
 
 .mailFoldClosed
   position: absolute
@@ -30,6 +42,8 @@ $slidingDelay: 0.5s
   z-index: 1
   left: 0
   right: 0
+  -ms-transform-origin: 0% 0%
+  -webkit-transform-origin: 0% 0%
   transform-origin: 0% 0%
 
 .mailBottom
@@ -77,16 +91,30 @@ $slidingDelay: 0.5s
   left: 0
   right: 0
   z-index: 2
+  -ms-transform: rotate(-7deg)
+  -webkit-transform: rotate(-7deg)
   transform: rotate(-7deg)
   opacity: 0
 
+.mailLogo
+  display: block
+  position: absolute
+  margin: 0 auto
+  bottom: 10%
+  left: 0
+  right: 0
+  z-index: 2
 
 .mail.opened
   .mailFold
+    -ms-transform: rotateX(0deg)
+    -webkit-transform: rotateX(0deg)
     transform: rotateX(0deg)
     transition: $foldingDuration
 
   .mailFoldClosed
+    -ms-transform: rotateX(180deg)
+    -webkit-transform: rotateX(180deg)
     transform: rotateX(180deg)
     transition: $foldingDuration
 
@@ -100,6 +128,8 @@ $slidingDelay: 0.5s
 
 
 .mail.ng-hide-remove-active
+  -ms-transform: translate(0, 0)
+  -webkit-transform: translate(0, 0)
   transform: translate(0, 0)
   transition: $slidingDuration ease-in-out all
 
@@ -107,9 +137,13 @@ $slidingDelay: 0.5s
   transition: $slidingDuration $slidingDelay
 
 .mail.ng-hide
+  -ms-transform: translate(-100%, 0)
+  -webkit-transform: translate(-100%, 0)
   transform: translate(-100%, 0)
 
 .mail.ng-hide-add-active
+  -ms-transform: translate(100%, 0)
+  -webkit-transform: translate(100%, 0)
   transform: translate(100%, 0)
 
   .mailStamp
