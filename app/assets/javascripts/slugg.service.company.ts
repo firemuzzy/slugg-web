@@ -2,7 +2,13 @@
 
 module slugg.service {
   export class CompanyService {
+    private localCompanies: Company[] = []
+
     constructor(public $q: ng.IQService) { }
+
+    addLocalCompany(company: Company) {
+      this.localCompanies.push(company)
+    }
 
     promiseFrom(data: any): ng.IPromise<service.Company[]> {
       if (data instanceof Company) return this.$q.when(data);
@@ -36,24 +42,32 @@ module slugg.service {
       return this.promiseFrom(data);
     }
 
-    vettedCompanies():ng.IPromise<Company[]> {
-      var Parse = window['Parse']
+    private vettedCompaniesPromise = null
+    private vettedCompanies():ng.IPromise<Company[]> {
+      if(this.vettedCompaniesPromise != null) {
+        return this.vettedCompaniesPromise;
+      }
+
+      var Parse = window['Parse'];
       var Company = Parse.Object.extend("Company");
 
-      var deferred = this.$q.defer()
+      var deferred = this.$q.defer();
 
       var query = new Parse.Query(Company);
+      query.equalTo("verified", true);
+
       query.find({
         success: (results) => {
-          var company = results.map((res) => { return this.fromParse(res)})
-          deferred.resolve(company)
+          var company = results.map((res) => { return this.fromParse(res) });
+          deferred.resolve(company);
         },
         error: (error) => {
-          deferred.reject(error)
+          deferred.reject(error);
         }
       })
 
-      return deferred.promise
+      this.vettedCompaniesPromise = deferred.promise;
+      return this.vettedCompaniesPromise;
 
       // return this.promiseFrom([
       //   { name: "Microsoft", domain: "microsoft.com", signups: 246, maxSignups: 500 },
@@ -66,6 +80,12 @@ module slugg.service {
       //   { name: "Amazon", domain: "amazon.com", signups: 246, maxSignups: 500 },
       //   { name: "Weyerhaeuser", domain: "weyerhaeuser.com", signups: 246, maxSignups: 500 }
       // ]);
+    }
+
+    vettedAndLocalCompanies(): ng.IPromise<Company[]> {
+      return this.vettedCompanies().then((companies) => {
+        return companies.concat(this.localCompanies);
+      });
     }
 
     // signupsCounts(): ng.IPromise<number> {
@@ -111,8 +131,10 @@ module slugg.service {
     }
 
     fromDomain(domain: string): ng.IPromise<service.Company> {
-      return this.vettedCompanies().then((companies: any[]) => {
-        var companies = companies.filter((v) => { return v.domain.toLowerCase() == domain.toLowerCase() });
+      return this.vettedAndLocalCompanies().then((companies: any[]) => {
+        var companies = companies.filter((v) => { 
+          return v.domain.toLowerCase() == domain.toLowerCase() 
+        });
         if (companies.length == 0) {
           return this.$q.reject("no company found");
         } else return companies[0];
@@ -125,12 +147,97 @@ module slugg.service {
     }
 
     fromName(name: string): ng.IPromise<service.Company> {
-      return this.vettedCompanies().then((companies: any[]) => {
+      return this.vettedAndLocalCompanies().then((companies: any[]) => {
         var companies = companies.filter((v) => { return v.name.toLowerCase() == name.toLowerCase() });
         if (companies.length == 0) {
           return this.$q.reject("no company found");
         } else return companies[0];
       });
+    }
+
+    private findByIdPromiseArr = {}
+    findById(parseId: string): ng.IPromise<service.Company> {
+      var foundP = this.findByIdPromiseArr[parseId];
+      if (foundP != null) {
+        return foundP
+      }
+
+      var deferred = this.$q.defer();
+
+      var Parse = window['Parse']
+
+      var Company = Parse.Object.extend("Company");
+      var query = new Parse.Query(Company);
+      query.equalTo("objectId", parseId);
+
+      query.first({
+        success: (result) => {
+          var company = this.fromParse(result)
+          deferred.resolve(company);
+        },
+        error: (error) => {
+          deferred.reject(error);
+        }
+      });
+
+      this.findByIdPromiseArr[parseId] = deferred.promise
+      return deferred.promise
+    }
+
+    findByNameAndEmail(name: string, email: string): ng.IPromise<service.Company> {
+      var deferred = this.$q.defer();
+
+      var Parse = window['Parse']
+
+      var Company = Parse.Object.extend("Company");
+      var query = new Parse.Query(Company);
+      query.equalTo("name", name);
+      query.equalTo("creator", email);
+
+      query.find({
+        success: (results) => {
+          debugger
+          var companies: Company[] = results.map((res) => { return this.fromParse(res) });
+
+          var company = companies.length > 0 ? companies[0] : null
+          deferred.resolve(company);
+        },
+        error: (error) => {
+          debugger
+          deferred.reject(error);
+        }
+      });
+
+      return deferred.promise
+    }
+
+    create(name: string, creatorEmail: string): ng.IPromise<service.Company> {
+      var deferred = this.$q.defer();
+
+      var Parse = window['Parse']
+      var Company = Parse.Object.extend("Company");
+
+      var company = new Company();
+      company.set("name", name);
+      company.set("creator", creatorEmail);
+
+      var acl = new Parse.ACL();
+      acl.setPublicReadAccess(true);
+      acl.setPublicWriteAccess(false);
+      company.setACL(acl)
+
+      company.save(null, {
+        success: (results) => {
+          debugger
+          var createdCompany = this.fromParse(results);
+          deferred.resolve(createdCompany);
+        }, error: (company, error) => {
+          debugger
+          deferred.reject(error);
+        }
+      });
+
+      return deferred.promise
     }
   }
 

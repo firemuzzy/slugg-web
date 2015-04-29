@@ -30,27 +30,11 @@ module slugg.controller {
       private MapHelper,
       private $q: ng.IQService) {
 
-      var companyFromNamePromise = Company.fromName($stateParams.company).then((company) => { return company }, () => { return null });
-      var companyFromEmailPromise = Company.fromEmail($stateParams.email).then((company) => { return company }, () => { return null });
-
-
-      this.$q.all([companyFromNamePromise, companyFromEmailPromise]).then((companies) => {
-        var companyFromName = companies[0];
-        var companyFromEmail = companies[1];
-
-        if (angular.equals(companyFromName, companyFromEmail) && companyFromEmail == null) {
-          this.Company.promiseFromNameEmail($stateParams.company, $stateParams.email).then((company) => {
-            this.company = company;
-          });
-        } else if (angular.equals(companyFromName, companyFromEmail) && companyFromEmail != null) {
-          this.company = companyFromEmail;
-        } else if (companyFromEmail != null) {
-          this.$state.go("neighborhood", { email: $stateParams.email, company: companyFromEmail.name });
-        } else {
-          this.$state.go("signup");
-        }
+      Company.findById($stateParams.company).then((company) => {
+        this.company = company
+      }, (error) => {
+        console.error("neighbohoods controller - could not find company by id " + $stateParams.company + " error: " + error.message)
       });
-
     }
 
     signupViaParse(email:string, company:service.Company, neighborhood) {
@@ -69,7 +53,7 @@ module slugg.controller {
       signup.set("neighborhood", neighborhood);
 
       var acl = new Parse.ACL();
-      acl.setPublicReadAccess(true);
+      acl.setPublicReadAccess(false);
       acl.setPublicWriteAccess(false);
       signup.setACL(acl)
 
@@ -78,7 +62,7 @@ module slugg.controller {
           deferred.resolve({email:email, company:company, neighborhood:neighborhood});
         }, error: (signup, error) => {
           deferred.reject(error.message);
-          console.log("things happened: " + error.message)
+          console.log("could not save signup: " + error.message)
         }
       });
       return deferred.promise;
@@ -87,12 +71,14 @@ module slugg.controller {
     signupNeighborhood(value: string, typeaheadItem: service.Neighborhood) {
       var neighborhood = (typeaheadItem == null) ? value.toLowerCase() : typeaheadItem.name.toLowerCase();  
 
-      this.Company.fromName(this.$stateParams.company).then((company) => {
+      console.log("signupNeighborhood company id:" + this.$stateParams.company);
+
+      this.Company.findById(this.$stateParams.company).then((company) => {
         return this.signupViaParse(this.$stateParams.email, company, neighborhood);
       }).then((obj:any) => {
-        this.$state.go("invite", { email: obj.email, company: obj.company.name, neighborhood: neighborhood });
+        this.$state.go("invite", { email: obj.email, company: obj.company.parseId, neighborhood: neighborhood });
       }).catch( (error) => {
-         console.log("things happened: " + error);
+        console.log("failed signupNeighborhood: " + error);
       });
     }
 

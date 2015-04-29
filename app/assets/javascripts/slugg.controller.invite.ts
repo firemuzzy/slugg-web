@@ -29,13 +29,17 @@ module slugg.controller {
 
       this.userEmail = $stateParams.email;
 
-      this.Company.fromEmail($stateParams.email).then((company) => {
+      // this.Company.fromEmail($stateParams.email).then((company) => {
+      //   this.company = company;
+      // }, () => {
+      //     this.Company.fromEmail($stateParams.company).then((company) => {
+      //       this.company = company;
+      //     });
+      //   });
+
+      this.Company.findById($stateParams.company).then((company) => {
         this.company = company;
-      }, () => {
-          this.Company.fromEmail($stateParams.company).then((company) => {
-            this.company = company;
-          });
-        });
+      });
 
       this.Neighborhood.neighborhoodFromName(this.$stateParams.neighborhood).then((neighborhood) => {
         this.neighborhood = neighborhood;

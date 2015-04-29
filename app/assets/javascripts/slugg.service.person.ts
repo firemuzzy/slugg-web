@@ -41,7 +41,7 @@ module slugg.service {
                 deferred.resolve(null);
             }, error: (signup, error) => {
                 deferred.reject(error.message);
-                console.log("things happened: " + error.message)
+                console.log("failed sending invite email: " + error.message)
             }
         });
         return deferred.promise;

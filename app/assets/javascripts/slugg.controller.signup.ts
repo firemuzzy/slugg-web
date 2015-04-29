@@ -33,7 +33,7 @@ module slugg.controller {
         controller: 'ModalSignupController as modalSignup',
       }).result.then((email) => {
         this.Company.fromEmail(email).then((company: service.Company) => {
-          this.$state.go("neighborhood", { email: email, company: company.name });
+          this.$state.go("neighborhood", { email: email, company: company.parseId });
         }, (error) => {
           this.$state.go("signupCompany", { email: email });
         });
