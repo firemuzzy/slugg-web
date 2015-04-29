@@ -38,16 +38,16 @@
   </div>
 </section>
 
-<section>
-  <mail assets="/assets/images/" opened="true" ng-show="true">
-    <div class="letter-send" ng-click="company.invite.sendEmail(company.invite.email)">send</div>
+<section ng-controller="InviteController as invite">
+  <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail">
+    <div class="letter-send" ng-click="invite.sendEmail(invite.email)">send</div>
     <div class="letter-to">
       <span>To:</span>
-      <input placeholder="{{company.invite.emailPlaceholder}}@{{company.invite.company.domain}}" focus-when="company.invite.emailFocus" ng-model="company.invite.email" ng-keyup="$event.keyCode == 13 ? company.invite.sendEmail(invite.email) : null" />
+      <input placeholder="{{invite.emailPlaceholder}}@{{invite.company.domain}}" focus-when="invite.emailFocus" ng-model="invite.email" ng-keyup="$event.keyCode == 13 ? invite.sendEmail(invite.email) : null" />
     </div>
     <p class="letter-header">Hi there, fellow coworker</p>
-    <p class="letter-body">You&#39;re invited to join the <b>{{company.company.name}}</b> network on Sl&uuml;gg, an <strong>informal</strong>, <strong>on-demand</strong>, <strong>trusted</strong> carpooling network.</p>
-    <p ng-show="company.invite.numberOfInvites >= 2" class="letter-footer">{{company.invite.person.email}} is so excited about Slugg that they want to invite you <strong>{{invite.numberOfInvites}}</strong> times, but we don't want to spam you so we only sent <b>1</b> invitation</p>
+    <p class="letter-body">You&#39;re invited to join the <b>{{invite.company.name}}</b> network on Sl&uuml;gg, an <strong>informal</strong>, <strong>on-demand</strong>, <strong>trusted</strong> carpooling network.</p>
+    <p ng-show="invite.numberOfInvites >= 2" class="letter-footer">{{invite.person.email}} is so excited about Slugg that they want to invite you <strong>{{invite.numberOfInvites}}</strong> times, but we don't want to spam you so we only sent <b>1</b> invitation</p>
     <button class="letter-button">Learn more and join</button>
   </mail>
 </section>

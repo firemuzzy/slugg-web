@@ -23,8 +23,15 @@ module slugg.controller {
   }
 
   export class SignupController {
+    companies: service.Company[] = [];
+
     static $inject = ['$state', 'Company', '$modal'];
-    constructor(private $state: ng.ui.IStateService, private Company: service.CompanyService, private $modal) { }
+    constructor(private $state: ng.ui.IStateService, private CompanyService: service.CompanyService, private $modal) {
+
+      this.CompanyService.pilotCompanies().then((companies) => {
+        this.companies = companies;
+      });
+    }
 
 
     signup() {
@@ -32,7 +39,7 @@ module slugg.controller {
         templateUrl: '/assets/templates/modalSignup.tpl.html',
         controller: 'ModalSignupController as modalSignup',
       }).result.then((email) => {
-        this.Company.fromEmail(email).then((company: service.Company) => {
+        this.CompanyService.fromEmail(email).then((company: service.Company) => {
           this.$state.go("neighborhood", { email: email, company: company.parseId });
         }, (error) => {
           this.$state.go("signupCompany", { email: email });

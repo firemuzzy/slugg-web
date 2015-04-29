@@ -31,14 +31,6 @@ module slugg.controller {
       var email = $stateParams.email;
       this.userEmail = email;
 
-      // this.Company.fromEmail($stateParams.email).then((company) => {
-      //   this.company = company;
-      // }, () => {
-      //     this.Company.fromEmail($stateParams.company).then((company) => {
-      //       this.company = company;
-      //     });
-      //   });
-
       this.Company.findById($stateParams.company).then((company) => {
         if(company == null) {
           this.redirectToSignupCompany(email)
@@ -47,9 +39,12 @@ module slugg.controller {
         }
       });
 
-      this.Neighborhood.neighborhoodFromName(this.$stateParams.neighborhood).then((neighborhood) => {
-        this.neighborhood = neighborhood;
-      });
+      if (this.$stateParams.neighborhood) {
+        this.Neighborhood.neighborhoodFromName(this.$stateParams.neighborhood).then((neighborhood) => {
+          this.neighborhood = neighborhood;
+        });
+      }
+
 
       this.$timeout(() => { this.opened = true; }, 400);
     }

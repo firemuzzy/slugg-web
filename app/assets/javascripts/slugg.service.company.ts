@@ -42,6 +42,8 @@ module slugg.service {
       return this.promiseFrom(data);
     }
 
+
+
     private vettedCompaniesPromise = null
     private vettedCompanies():ng.IPromise<Company[]> {
       if(this.vettedCompaniesPromise != null) {
@@ -86,6 +88,19 @@ module slugg.service {
       return this.vettedCompanies().then((companies) => {
         return companies.concat(this.localCompanies);
       });
+    }
+
+    private pilotCompaniesPromise = null
+    pilotCompanies(): ng.IPromise<Company[]> {
+      if (this.pilotCompaniesPromise != null) return this.pilotCompaniesPromise;
+      this.pilotCompaniesPromise = this.vettedCompanies().then( (companies) => {
+        return companies.filter((company) => {
+          var pilots = ["starbucks", "microsoft", "costco", "boeing", "nordstrom", "amazon", "weyerhaeuser", "seattle children's hospital"];
+
+          return pilots.indexOf(company.name.toLowerCase()) >= 0
+        });
+      });
+      return this.pilotCompaniesPromise;
     }
 
     // signupsCounts(): ng.IPromise<number> {
@@ -264,6 +279,10 @@ module slugg.service {
           return this.signups
         }
       }
+    }
+
+    imageSprite() {
+      return this.name.toLowerCase().replace(/ /g, "").replace(/'/g,"") + "_spr";
     }
   }
 }

@@ -10,7 +10,7 @@ module slugg.controller {
 
     static $inject = ['$stateParams', 'Company'];
     constructor(private $stateParams: ICompanyStateParams, private Company: service.CompanyService) {
-      Company.fromName($stateParams.company).then((company) => {
+      Company.findById($stateParams.company).then((company) => {
         this.company = company;
       });
     }

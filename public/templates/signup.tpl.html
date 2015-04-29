@@ -23,15 +23,7 @@
     <a ui-sref="company({company:'starbucks'})" class="seattleChildrens_spr"></a>
     <a ui-sref="company({company:'Amazon'})" class="amazon_spr"></a>
     <a ui-sref="company({company:'Weyerhaeuser'})" class="weyerhaeuser_spr"></a> -->
-
-    <a class="starbucks_spr"></a>
-    <a class="microsoft_spr"></a>
-    <a class="costco_spr"></a>
-    <a class="boeing_spr"></a>
-    <a class="nordstrom_spr"></a>
-    <a class="seattleChildrens_spr"></a>
-    <a class="amazon_spr"></a>
-    <a class="weyerhaeuser_spr"></a>
+    <a class="{{company.imageSprite()}}" ui-sref="company({company:company.parseId})"  ng-repeat="company in signup.companies"></a>
   </div>
 
   <button class="green_button" ng-click="signup.signup()">Add your company</button>
