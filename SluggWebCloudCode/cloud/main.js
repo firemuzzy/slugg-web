@@ -179,7 +179,7 @@ Parse.Cloud.afterDelete("Signup", function(request) {
   var signupQuery = new Parse.Query("Signup");
   signupQuery.equalTo("email", currentEmail);
 
-  signupQuery.count({
+  signupQuery.conut({
     success: function(count) {
       // only decrement the count if there are no more signups left with the provided email
       if(count <= 0) {

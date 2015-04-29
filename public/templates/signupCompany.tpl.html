@@ -6,7 +6,7 @@
   <p class="center-text">But don't worry! We're adding more companies every day, and if you think you can get a critical mass of people interested in carpooling at your company, we can help you set this up.</p>
 
   <div class="companySignupForm">
-    <input class="blue_input" placeholder="Add your company (required)" ng-model="company.name" focus-when="true" ng-keyup="$event.keyCode == 13 ? company.signupCompany(company.name, company.postalCode, company.hrEmail) : null" />
+    <input class="blue_input" placeholder="company name (required)" ng-model="company.name" focus-when="true" ng-keyup="$event.keyCode == 13 ? company.signupCompany(company.name, company.postalCode, company.hrEmail) : null" />
     <input class="blue_input" placeholder="zipcode for office location" ng-model="company.postalCode" />
     <input class="blue_input" placeholder="HR contact email" ng-model="company.hrEmail" />
     <button class="blue_input_button" ng-click="company.signupCompany(company.name, company.postalCode, company.hrEmail)">Next</button>
