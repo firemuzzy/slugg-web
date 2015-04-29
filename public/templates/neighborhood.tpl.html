@@ -3,16 +3,19 @@
   <polygon options="neighborhood.activePolygon"></polygon>
   <polygon options="neighborhood.hoverPolygon"></polygon>
 </map>
-<slide-input class="middle"
-             button="done"
-             placeholder="Type in your neighborhood"
-             ng-model="neighborhood.name"
-             click="neighborhood.signupNeighborhood(value, item)"
-             change="neighborhood.change(model)"
-             focus="neighborhood.focusNeighborhood"
-             typeahead-data="neighborhood.typeaheadData"
-             typeahead-format="neighborhood.typeaheadFormat(item, query)"
-             suggested-format="neighborhood.suggestedFormat(item, query)"
-             typeahead-hover-item="neighborhood.typeaheadHoverItem(item)"
-             typeahead-active-item="neighborhood.typeaheadActiveItem(item)"
-             empty="If we get enough support from your area we'll expand there, so definitely sign up"></slide-input>
+<div class="mapCover"></div>
+<section class="col middle">
+  <h3 class="center-text">Thanks for the signup. Now, we need to make sure there are enough people in your neighborhood to make carpooling worthwhile.</h3>
+  <slide-input button="done"
+               placeholder="Type in your neighborhood"
+               ng-model="neighborhood.name"
+               click="neighborhood.signupNeighborhood(value, item)"
+               change="neighborhood.change(model)"
+               focus="neighborhood.focusNeighborhood"
+               typeahead-data="neighborhood.typeaheadData"
+               typeahead-format="neighborhood.typeaheadFormat(item, query)"
+               suggested-format="neighborhood.suggestedFormat(item, query)"
+               typeahead-hover-item="neighborhood.typeaheadHoverItem(item)"
+               typeahead-active-item="neighborhood.typeaheadActiveItem(item)"
+               empty="If we get enough support from your area we'll expand there, so definitely sign up"></slide-input>
+</section>
