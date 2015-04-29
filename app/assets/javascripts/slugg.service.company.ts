@@ -212,7 +212,7 @@ module slugg.service {
       return deferred.promise
     }
 
-    create(name: string, creatorEmail: string): ng.IPromise<service.Company> {
+    create(name: string, creatorEmail: string, postalCode: string, hrEmail:string): ng.IPromise<service.Company> {
       var deferred = this.$q.defer();
 
       var Parse = window['Parse']
@@ -223,6 +223,8 @@ module slugg.service {
       company.set("creator", creatorEmail);
       company.set("maxSignups", 500);
       company.set("minSignups", 0);
+      company.set("postalCode", postalCode);
+      company.set("hrEmail", hrEmail);
 
       var acl = new Parse.ACL();
       acl.setPublicReadAccess(true);
@@ -246,8 +248,6 @@ module slugg.service {
     constructor(public parseId:string, public name: string, public domain: string, public signups: number, public maxSignups: number, public minSignups: number) { }
 
     specialSignups() {
-      debugger
-
       var isMinNaN = this.minSignups == null || isNaN(this.minSignups);
       var isSignNaN = this.signups == null || isNaN(this.signups);
 
