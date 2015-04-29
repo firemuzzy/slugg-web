@@ -172,6 +172,7 @@ p
 
 .screenshots
   +align-items(stretch)
+  padding: 0
 
 .screenshots-phone
   min-width: 50%
@@ -265,6 +266,23 @@ map
 
 .mail
   margin-top: 2em
+
+.companySignupForm
+  +flexbox
+  +flex-direction(column)
+  +align-items(stretch)
+  +justify-content(center)
+
+  width: 30rem
+  max-width: 100%
+
+.blue_input
+  border: 1px solid lighten($lightBlue, 10%)
+  font-size: 1.2em
+  padding: 0.9em 0.8em
+  border-radius: 4px
+  margin: 0.4em 0
+  
 
 @import 'buttons'
 @import 'modal'
