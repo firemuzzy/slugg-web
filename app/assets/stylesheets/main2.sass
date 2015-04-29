@@ -222,7 +222,24 @@ p
   width: $iphoneWidth
   height: $iphoneTopHeight
   background: #fff
+  padding-top: 6.5%
   border-radius: $iphoneTopHeight/10 $iphoneTopHeight/10 0 0
+  overflow: hidden
+  box-sizing: border-box
+  position: relative
+
+  &:after
+    content: ""
+    position: absolute
+    margin: 0 auto
+    top: 5.5%
+    left: 0
+    right: 0
+    background: #fff
+    border: 1px solid #7CACD3
+    border-radius: 1000px
+    width: $iphoneWidth/6
+    height: $iphoneWidth/40
 
 .phone-bottom
   position: relative
@@ -236,7 +253,7 @@ p
     content: ""
     position: absolute
     margin: 0 auto
-    bottom: 10%
+    bottom: 9%
     left: 0
     right: 0
     background: #fff
@@ -244,6 +261,11 @@ p
     border-radius: 100%
     width: $iphoneWidth/8
     height: $iphoneWidth/8
+
+
+.phone video, .phone img
+  display: block
+  width: 100%
 
 map
   display: block
