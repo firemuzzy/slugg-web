@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index
+GET     /new                        controllers.Application.index2
 GET     /seattleSlideshow           controllers.Application.slideshow
 
 # Map static resources from the /public folder to the /assets URL path

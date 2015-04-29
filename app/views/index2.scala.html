@@ -1,0 +1,42 @@
+@()
+
+@css = {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main2.css")">
+
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/mail.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/goalBar.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/slideInput.css")">
+
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/sprites/companies-sprite-pack.css")">
+}
+
+@scripts = {
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/ui-router.min.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/ui-bootstrap-tpls.min.js")"></script>
+
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/mail.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/goalBar.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/utilDirectives.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slideInput.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/map.js")"></script>
+
+  
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.service.company.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.service.person.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.service.neighborhood.js")"></script>
+
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.controller.invite.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.controller.company.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.controller.signupCompany.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.controller.signup.js")"></script>
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/slugg.controller.neighborhood.js")"></script>
+
+  <script src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+
+  <script type="text/javascript" src="@routes.Assets.at("javascripts/main.js")"></script>
+
+}
+
+@main("Slugg")(scripts)(css) {
+  <div ui-view="main" class='view'></div>
+}

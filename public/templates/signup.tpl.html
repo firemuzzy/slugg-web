@@ -1,16 +1,14 @@
 <header class="splash-header">
   <div class="spacer"></div>
-  <a>Sign up here</a>
+  <div class="a" ng-click="signup.signup()">Sign up here</div>
 </header>
-<header class="splash-header">
+<section class="splash-header col">
   <img class="splash-logo" src="/assets/images/logo.png"/>
-  <h1>Organize carpools with coworkers in your neighborhood</h1>
-
+  <h1 class="center-text">Organize carpools with coworkers in your neighborhood</h1>
   <button class="green_button" ng-click="signup.signup()">Sign up now</button>
-  <!-- <slide-input button="send" placeholder="email address" ng-model="signup.email" click="signup.signupEmail($event)" focus="signup.focusEmail"></slide-input> -->
-</header>
+</section>
 
-<section>
+<section class="col">
   <h4>PROPOSED PILOT COMPANIES</h4>
   <p class="grouped-p">Do you work for one of these companies and hate your commute?</p>
   <p class="grouped-p">Sign up here to express your interest in employee carpool rewards.</p>
@@ -32,19 +30,43 @@
 <section class="benefits">
   <div class="benefit">
     <img class="benefit-img" src="/assets/images/coffee.png" />
-    <h5>Meet your coworkers</h5>
-    <p>Spend quality time with your teammates on the road or utilize your commute for meetings.</p>
+    <h5 class="center-text">Meet your coworkers</h5>
+    <p class="center-text">Spend quality time with your teammates on the road or utilize your commute for meetings.</p>
   </div>
 
   <div class="benefit">
     <img class="benefit-img" src="/assets/images/time.png" />
-    <h5>Save time</h5>
-    <p>Don’t sit in traffic or spend time driving around parking.  When more people carpool, roads and highways are less clogged.</p>
+    <h5 class="center-text">Save time</h5>
+    <p class="center-text">Don’t sit in traffic or spend time driving around parking.  When more people carpool, roads and highways are less clogged.</p>
   </div>
 
   <div class="benefit">
     <img class="benefit-img" src="/assets/images/trust.png" />
-    <h5>Trust &amp; Safety</h5>
-    <p>Travel with your coworkers to ensure that you’re in good company.</p>
+    <h5 class="center-text">Trust &amp; Safety</h5>
+    <p class="center-text">Travel with your coworkers to ensure that you’re in good company.</p>
+  </div>
+</section>
+
+<section class="screenshots">
+  <div class="screenshots-phone">
+    <div class="screenshots-phoneTop">
+      <div class="phone"></div>
+    </div>
+    <div class="screenshots-phoneBottom">
+      <div class="phone-bottom"></div>
+    </div>
+  </div>
+  <div class="screenshots-desc">
+    <div class="screenshots-message">
+      <img src="/assets/images/heart.png" />
+      <p>Employees who carpool love that it saves them on the cost of fuel, time, and helps them make better acquaintances with the people that they work with.</p>
+    </div>
+    <div class="screenshots-links">
+      <button class="green_button" ng-click="signup.signup()">Sign up now</button>
+      <a>FAQ</a>
+      <a>Contact Us</a>
+      <a>Terms</a>
+      <a>FAQ</a>
+    </div>
   </div>
 </section>
