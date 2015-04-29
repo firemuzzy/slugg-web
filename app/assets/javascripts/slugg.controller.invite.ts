@@ -20,14 +20,16 @@ module slugg.controller {
     numberOfInvites: number;
     email: string;
 
-    static $inject = ['$timeout', '$stateParams', 'Company', 'Person', 'Neighborhood'];
+    static $inject = ['$timeout', '$stateParams', 'Company', 'Person', 'Neighborhood', '$state'];
     constructor(private $timeout: ng.ITimeoutService,
       private $stateParams: IInviteStateParams,
       private Company: service.CompanyService,
       private Person: service.PersonService,
-      private Neighborhood: service.NeighborhoodService) {
+      private Neighborhood: service.NeighborhoodService,
+      private $state: ng.ui.IStateService) {
 
-      this.userEmail = $stateParams.email;
+      var email = $stateParams.email;
+      this.userEmail = email;
 
       // this.Company.fromEmail($stateParams.email).then((company) => {
       //   this.company = company;
@@ -38,7 +40,11 @@ module slugg.controller {
       //   });
 
       this.Company.findById($stateParams.company).then((company) => {
-        this.company = company;
+        if(company == null) {
+          this.redirectToSignupCompany(email)
+        } else {
+          this.company = company;
+        }
       });
 
       this.Neighborhood.neighborhoodFromName(this.$stateParams.neighborhood).then((neighborhood) => {
@@ -46,6 +52,10 @@ module slugg.controller {
       });
 
       this.$timeout(() => { this.opened = true; }, 400);
+    }
+
+    private redirectToSignupCompany(email: string) {
+      this.$state.go("signupCompany", { email: email });
     }
 
     sendEmail(email) {

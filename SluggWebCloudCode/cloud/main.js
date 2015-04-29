@@ -1,10 +1,11 @@
 
+var PROD_ENABLED = true;
 var EMAILING_ENABLED = true;
 
 var TEST_MANDRILL_KEY = "nhwncprT1OvJJoxN2NJ5ng"
 var PROD_MANDRILL_KEY = "jq_ErQOwhNXJWO0ucvYFAg"
 
-var MANDRILL_KEY = TEST_MANDRILL_KEY;
+var MANDRILL_KEY = PROD_ENABLED ? PROD_MANDRILL_KEY : TEST_MANDRILL_KEY;
 
 
 // Use Parse.Cloud.define to define as many cloud functions as you want.
