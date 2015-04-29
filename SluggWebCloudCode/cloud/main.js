@@ -5,6 +5,14 @@ Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
 
+Parse.Cloud.beforeSave("Company", function(request, response) {
+  if(request.object.get("verified") === true && !request.master) {
+    response.error("may not mark the company as verified");
+  } else {
+    response.success();
+  }
+});
+
 function sendInviteCoworkerEmail(email, companyName) {
   var Mandrill = require('mandrill');
   Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
