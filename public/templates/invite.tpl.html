@@ -1,13 +1,13 @@
 <header><a ui-sref="signup()">{{invite.company.name}}</a></header>
 <header><a ui-sref="neighborhood({email: invite.email, company:''})">{{invite.neighborhood.name}}</a></header>
 
-<content>
+<section class="col">
   <h2>Thanks for signing up!</h2>
 
   <goal-bar current="invite.company.specialSignups()" goal="invite.company.maxSignups"></goal-bar>
 
-  <p>We have <strong>{{invite.company.specialSignups()}}</strong> people signed up at {{invite.company.name}}. We’ll keep you informed on {{invite.company.name}}’s progress. When there are {{invite.company.maxSignups}}, we’ll enable it at your company.</p>
-  <p>Help us out by spreading the word.</p>
+  <p class="center-text">We have <strong>{{invite.company.specialSignups()}}</strong> people signed up at {{invite.company.name}}. We’ll keep you informed on {{invite.company.name}}’s progress. When there are {{invite.company.maxSignups}}, we’ll enable it at your company.</p>
+  <p class="center-text">Help us out by spreading the word.</p>
 
   <mail assets="/assets/images/" opened="invite.opened" ng-show="invite.showMail">
     <div class="letter-send" ng-click="invite.sendEmail(invite.email)">send</div>
@@ -20,4 +20,4 @@
     <p ng-show="invite.numberOfInvites >= 2" class="letter-footer">{{invite.person.email}} is so excited about Slugg that they want to invite you <strong>{{invite.numberOfInvites}}</strong> times, but we don't want to spam you so we only sent <b>1</b> invitation</p>
     <button class="letter-button">Learn more and join</button>
   </mail>
-</content>
+</section>

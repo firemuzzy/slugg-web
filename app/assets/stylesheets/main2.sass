@@ -44,6 +44,9 @@ a, .a
   &:hover
     text-decoration: underline
   
+section
+  padding: 4em 0
+
 header
   background: $lightBlue
 
@@ -67,6 +70,7 @@ header
   +justify-content(center)
 
 .splash-header
+  padding-top: 0
   box-sizing: border-box
   background: rgb(244,250,254)
 
@@ -99,9 +103,11 @@ h1, h2, h3, h4, h5, h6
   text-align: left
   max-width: 16em
   line-height: 1.2em
+  color: #344654
 
 h1
-  font-size: 3rem
+  font-size: 4rem
+  margin: 1em 0.5em
 
 h2
   font-size: 2.6rem
@@ -117,12 +123,27 @@ h5
 
 h6
   font-size: 1rem
+  color: #767f86
 
 p
   max-width: 27em
   line-height: 1.6em
   font-size: 1.3rem
+  margin: 1em auto
   color: $textGray
+  
+  strong
+    color: darken($textGray, 20%)
+
+.grouped-p
+  text-align: center
+  margin-top: .2em
+  margin-bottom: .2em
+
+.caps
+  text-transform: uppercase
+  letter-spacing: 0.13em
+  max-width: 18em
 
 .benefits
   +flex-wrap(wrap)
@@ -177,16 +198,16 @@ p
 .screenshots-message
   background: #537797
   +flex-grow(1)
-  +flexbox
-  +flex-direction(column)
-  +align-items(center)
-  +justify-content(center)
 
   img
     display: block
     margin: 0 auto
   p
     color: #fff
+    max-width: 19em
+    text-align: center
+    padding: 1em 3em
+    box-sizing: border-box
 
 
 .screenshots-links
@@ -223,6 +244,28 @@ p
     width: $iphoneWidth/8
     height: $iphoneWidth/8
 
+map
+  display: block
+  position: absolute
+  bottom: 0
+  top: 5.4em
+  left: 0
+  right: 0
+
+.middle
+  position: absolute
+  left: 0
+  right: 0
+  top: 40%
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5)
+  border-radius: 4px
+  width: 30rem
+  max-width: 100%
+  margin: 0 auto
+
+.mail
+  margin-top: 2em
 
 @import 'buttons'
 @import 'modal'
+@import 'letter'

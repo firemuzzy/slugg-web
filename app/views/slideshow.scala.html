@@ -31,7 +31,7 @@
             return;
           }
           self.email += toType.charAt(index);
-          $timeout(function(){typeLetter(toType, index+1);}, 100);
+          $timeout(function(){typeLetter(toType, index+1);}, 30);
         }
 
         $timeout(function(){ typeLetter(emailToType, 0); }, 1000);
@@ -40,12 +40,12 @@
         return deferred.promise;
       };
 
-      this.openMail = function(){ return $timeout(function(){ self.opened = true; }, 400); };
-      this.closeMail = function(){ return $timeout(function(){ self.opened = false; }, 1000); }
-      this.hideMail = function(){ $timeout(function(){ self.showMail = false; }, 1750); }
+      this.openMail = function(){ return $timeout(function(){ self.opened = true; }, 200); };
+      this.closeMail = function(){ return $timeout(function(){ self.opened = false; }, 400); }
+      this.hideMail = function(){ return $timeout(function(){ self.showMail = false; }, 1750); }
 
       this.shown = function(){
-        $timeout(function(){ self.focus = true;}, 400);
+        $timeout(function(){ self.focus = true;}, 200);
         self.openMail().then(self.typeMail).then(self.closeMail).then(self.hideMail);
       };
 
