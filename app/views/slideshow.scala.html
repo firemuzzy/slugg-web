@@ -46,7 +46,8 @@
 
       this.shown = function(){
         $timeout(function(){ self.focus = true;}, 200);
-        self.openMail().then(self.typeMail).then(self.closeMail).then(self.hideMail);
+        self.openMail().then(self.typeMail).then(self.closeMail)
+        // .then(self.hideMail);
       };
 
       this.resetMail = function(){
