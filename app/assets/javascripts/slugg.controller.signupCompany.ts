@@ -31,13 +31,13 @@ module slugg.controller {
       this.$state.go("neighborhood", { email: email, company: company.parseId });
     }
 
-    signupCompany(name: string) {
+    signupCompany(name: string, postalCode:string, hrEmail:string) {
       if (angular.isString(name) && name.length > 0) {
         var email = this.$stateParams.email;
 
         this.CompanyService.findByNameAndEmail(name, email).then((company) => {
           if (company == null) {
-            return this.CompanyService.create(name, email);
+            return this.CompanyService.create(name, email, postalCode, hrEmail);
           } else {
             return this.$q.when(company);
           }
