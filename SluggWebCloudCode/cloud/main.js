@@ -1,4 +1,13 @@
 
+var PROD_ENABLED = true;
+var EMAILING_ENABLED = true;
+
+var TEST_MANDRILL_KEY = "nhwncprT1OvJJoxN2NJ5ng"
+var PROD_MANDRILL_KEY = "jq_ErQOwhNXJWO0ucvYFAg"
+
+var MANDRILL_KEY = PROD_ENABLED ? PROD_MANDRILL_KEY : TEST_MANDRILL_KEY;
+
+
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 Parse.Cloud.define("hello", function(request, response) {
@@ -14,8 +23,12 @@ Parse.Cloud.beforeSave("Company", function(request, response) {
 });
 
 function sendInviteCoworkerEmail(email, companyName) {
+  if(!EMAILING_ENABLED) {
+    return;
+  }
+
   var Mandrill = require('mandrill');
-  Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
+  Mandrill.initialize(MANDRILL_KEY);
 
   console.log("sending email to " + email);
   Mandrill.sendTemplate({
@@ -87,8 +100,12 @@ Parse.Cloud.afterSave("Invite", function(request) {
 });
 
 function sendThanksForSigningUpEmail(email, companyName) {
+  if(!EMAILING_ENABLED) {
+    return;
+  }
+
   var Mandrill = require('mandrill');
-  Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
+  Mandrill.initialize(MANDRILL_KEY);
 
   console.log("sending email to " + email + " from " + companyName);
   Mandrill.sendTemplate({

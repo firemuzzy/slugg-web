@@ -172,8 +172,12 @@ module slugg.service {
 
       query.first({
         success: (result) => {
-          var company = this.fromParse(result)
-          deferred.resolve(company);
+          if(result == null) {
+            deferred.resolve(null);
+          } else {
+            var company = this.fromParse(result)
+            deferred.resolve(company);
+          }
         },
         error: (error) => {
           deferred.reject(error);
@@ -196,14 +200,11 @@ module slugg.service {
 
       query.find({
         success: (results) => {
-          debugger
           var companies: Company[] = results.map((res) => { return this.fromParse(res) });
-
           var company = companies.length > 0 ? companies[0] : null
           deferred.resolve(company);
         },
         error: (error) => {
-          debugger
           deferred.reject(error);
         }
       });
@@ -220,6 +221,8 @@ module slugg.service {
       var company = new Company();
       company.set("name", name);
       company.set("creator", creatorEmail);
+      company.set("maxSignups", 500);
+      company.set("minSignups", 0);
 
       var acl = new Parse.ACL();
       acl.setPublicReadAccess(true);
@@ -228,11 +231,9 @@ module slugg.service {
 
       company.save(null, {
         success: (results) => {
-          debugger
           var createdCompany = this.fromParse(results);
           deferred.resolve(createdCompany);
         }, error: (company, error) => {
-          debugger
           deferred.reject(error);
         }
       });
@@ -245,16 +246,24 @@ module slugg.service {
     constructor(public parseId:string, public name: string, public domain: string, public signups: number, public maxSignups: number, public minSignups: number) { }
 
     specialSignups() {
-      if (this.minSignups == null) {
-        return this.signups
-      } else if (this.signups == 0) {
+      debugger
+
+      var isMinNaN = this.minSignups == null || isNaN(this.minSignups);
+      var isSignNaN = this.signups == null || isNaN(this.signups);
+
+      if(isMinNaN && isSignNaN) {
         return 0;
-      } else if (this.signups < this.minSignups) {
-        return this.minSignups
+      } else if(isSignNaN) {
+        return this.minSignups;
+      } else if(isMinNaN) {
+        return this.signups;
       } else {
-        return this.signups
+        if (this.signups < this.minSignups) {
+          return this.minSignups
+        } else {
+          return this.signups
+        }
       }
-      return 200
     }
   }
 }

@@ -30,11 +30,26 @@ module slugg.controller {
       private MapHelper,
       private $q: ng.IQService) {
 
-      Company.findById($stateParams.company).then((company) => {
-        this.company = company
-      }, (error) => {
-        console.error("neighbohoods controller - could not find company by id " + $stateParams.company + " error: " + error.message)
-      });
+      var companyId = $stateParams.company
+      var email = $stateParams.email
+
+      if (companyId.length <= 0) {
+        this.redirectToSignupCompany(email);
+      } else {
+        Company.findById($stateParams.company).then((company) => {
+          if(company == null) {
+            this.redirectToSignupCompany(email);
+          } else {
+            this.company = company
+          }
+        }, (error) => {
+          console.error("neighbohoods controller - could not find company by id " + $stateParams.company + " error: " + error.message)
+        });
+      }
+    }
+
+    private redirectToSignupCompany(email: string) {
+      this.$state.go("signupCompany", { email: email });
     }
 
     signupViaParse(email:string, company:service.Company, neighborhood) {

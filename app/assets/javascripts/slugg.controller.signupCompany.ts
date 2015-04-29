@@ -12,7 +12,23 @@ module slugg.controller {
 
     static $inject = ['$state', '$stateParams', 'Company', '$q'];
     constructor(private $state: ng.ui.IStateService, private $stateParams: ICompanyStateParams, private CompanyService:service.CompanyService, private $q:ng.IQService) {
-      this.email = $stateParams.email;
+      var email = $stateParams.email;
+      this.email = email;
+
+      this.CompanyService.fromEmail(email).then((company) => {
+        if (company == null) {
+          console.info("company signup controller - could not find company for email " + email);
+          // do nothirng because could not find company
+        } else {
+          this.redirectToNeighborhoodSelector(email, company);
+        }
+      }, (error) => {
+        console.error("company signup controller - could not find company by email " + email + " error: " + error.message);
+      });
+    }
+
+    private redirectToNeighborhoodSelector(email: string, company: service.Company) {
+      this.$state.go("neighborhood", { email: email, company: company.parseId });
     }
 
     signupCompany(name: string) {
