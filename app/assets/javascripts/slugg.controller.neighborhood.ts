@@ -65,6 +65,7 @@ module slugg.controller {
       var signup = new Signup();
       signup.set("email", email.toLowerCase())
       signup.set("company", parseCompany);
+      signup.set("companyName", company.name); // can't figure out how to get parse to read, a ref, so hacks
       signup.set("neighborhood", neighborhood);
 
       var acl = new Parse.ACL();

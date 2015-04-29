@@ -40,6 +40,7 @@ module slugg.controller {
       //   });
 
       this.Company.findById($stateParams.company).then((company) => {
+        debugger
         if(company == null) {
           this.redirectToSignupCompany(email)
         } else {
@@ -59,6 +60,8 @@ module slugg.controller {
     }
 
     sendEmail(email) {
+      debugger
+
       if (email != null && email.length > 0) {
         this.emailPlaceholder = this.placeholders[0];
         var sender = this.$stateParams.email
