@@ -22,3 +22,7 @@ resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/
 addSbtPlugin("default" % "sbt-sass" % "0.1.9")
 
 addSbtPlugin("com.arpnetworking" % "sbt-typescript" % "0.1.4")
+
+resolvers += Resolver.url("heroku-sbt-plugin-releases", url("http://dl.bintray.com/heroku/sbt-plugins/"))(Resolver.ivyStylePatterns)
+
+addSbtPlugin("com.heroku" % "sbt-heroku" % "0.3.0")

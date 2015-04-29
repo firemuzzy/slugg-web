@@ -16,3 +16,5 @@ libraryDependencies ++= Seq(
 )
 
 sassOptions in Assets ++= Seq("--compass", "-r", "compass")
+
+herokuAppName in Compile := "slugg"
