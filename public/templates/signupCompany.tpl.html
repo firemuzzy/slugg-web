@@ -1,10 +1,17 @@
 <header><a ng-show="company.email">{{company.email}}</a></header>
 
-<content>
-  <h2>Whoops, is this your corporate email?</h2>
+<section class="col">
+  <h2 class="center-text">Looks like your company isn't in our database yet...</h2>
 
-  <p>New companies are always welcomed</p>
-  <slide-input button="send" placeholder="company name" ng-model="company.name" click="company.signupCompany(company.name)" focus="company.nameFocus"></slide-input>
+  <p class="center-text">But don't worry! We're adding more companies every day, and if you think you can get a critical mass of people interested in carpooling at your company, we can help you set this up.</p>
+
+  <div class="companySignupForm">
+    <input class="blue_input" placeholder="Add your company (required)" ng-model="company.name" focus-when="true" ng-keyup="$event.keyCode == 13 ? company.signupCompany(company.name) : null" />
+    <input class="blue_input" placeholder="zipcode for office location" />
+    <input class="blue_input" placeholder="HR contact email" />
+    <button class="blue_input_button" ng-click="company.signupCompany(company.name)">Next</button>
+  </div>
+  <!-- <slide-input button="send" placeholder="company name" ng-model="company.name" click="company.signupCompany(company.name)" focus="company.nameFocus"></slide-input> -->
 
 
-</content>
+</section>

@@ -9,6 +9,10 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
+  def index2 = Action {
+    Ok(views.html.index2())
+  }
+
   def slideshow = Action {
     Ok(views.html.slideshow())
   }

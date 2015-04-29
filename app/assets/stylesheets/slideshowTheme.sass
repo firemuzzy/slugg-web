@@ -124,7 +124,7 @@ author
 
 .logo-img
   display: block
-  max-width: 50%
+  width: 50%
   margin: 0 auto
 
 $logoTiming: 1.2s
@@ -133,18 +133,19 @@ $logoTiming: 1.2s
   transition: $logoTiming
 
 .logoSlide .logo-img
-  max-width: 60%
+  width: 60%
   transition: $logoTiming
   transition-timing-function: ease-in-out
 
 .logoSlide.ng-hide-add-active .logo
+  -ms-transform: translate(-50%, 0)
+  -webkit-transform: translate(-50%, 0)
   transform: translate(-50%, 0)
   transition: $logoTiming
   transition-timing-function: ease-in-out
 
 .logoSlide.ng-hide-add-active .logo-img
-  max-width: 50%
-  max-height: 50%
+  width: 50%
 
 .thanks
   height: auto

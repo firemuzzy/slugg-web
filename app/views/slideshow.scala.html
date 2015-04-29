@@ -1,6 +1,8 @@
 @()
 
 @css = {
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/slideshow.css")">
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/mail.css")">
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/letter.css")">
@@ -15,26 +17,47 @@
   <script type="text/javascript" src="@routes.Assets.at("javascripts/goalBar.js")"></script>
   <script type="text/javascript" src="@routes.Assets.at("javascripts/utilDirectives.js")"></script>
   <script>
-    angular.module("app", ["slideshow", "mail", "ngAnimate", "goalBar", "utilDirectives"]).controller("SlidesController", function($timeout){
+    angular.module("app", ["slideshow", "mail", "ngAnimate", "goalBar", "utilDirectives", "ngTouch"]).controller("SlidesController", function($timeout, $q){
       var self = this;
-      this.showMail = true;
-      this.opened = false;
-      this.focus = true;
+      
+
+      this.typeMail = function(){
+        var emailToType = "12th_man@@seattle.com";
+        var deferred = $q.defer();
+
+        var typeLetter = function(toType, index){
+          if(index >= toType.length){
+            deferred.resolve();
+            return;
+          }
+          self.email += toType.charAt(index);
+          $timeout(function(){typeLetter(toType, index+1);}, 30);
+        }
+
+        $timeout(function(){ typeLetter(emailToType, 0); }, 1000);
+        
+
+        return deferred.promise;
+      };
+
+      this.openMail = function(){ return $timeout(function(){ self.opened = true; }, 200); };
+      this.closeMail = function(){ return $timeout(function(){ self.opened = false; }, 400); }
+      this.hideMail = function(){ return $timeout(function(){ self.showMail = false; }, 1750); }
 
       this.shown = function(){
-        $timeout(function(){
-          self.opened = true;
-        }, 400);
-
-        // $timeout(function(){
-        //   self.opened = false;
-        // }, 2000);
-
-        // $timeout(function(){
-        //   self.showMail = false;
-        // }, 1750 + 2000);
-
+        $timeout(function(){ self.focus = true;}, 200);
+        self.openMail().then(self.typeMail).then(self.closeMail).then(self.hideMail);
       };
+
+      this.resetMail = function(){
+        this.showMail = true;
+        this.opened = false;
+        this.focus = false;
+        this.email = "";
+        return true;
+      };
+
+      this.resetMail();
       
     });
 

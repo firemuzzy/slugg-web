@@ -1,0 +1,289 @@
+@import 'fonts'
+
+@import 'lib/_clearfix'
+@import 'lib/_opacity'
+@import 'lib/_vendor-prefixes'
+@import 'lib/_variables'
+@import 'lib/_modals'
+@import 'lib/_flexbox'
+@import 'lib/_filter'
+
+$blue: #4995C2
+$lightBlue: #6CB1D9
+$textGray: rgb(184,184,184)
+$headerBlack: rgb(52,70,84)
+$companyWidth: 201px
+$companyPadding: 15px
+
+$logoHalfHeight: 142px/2
+$headerHeight: $logoHalfHeight*1.2
+
+$iphoneTopHeight: 500px
+$iphoneBottomHeight: 200px
+$iphoneWidth: 369px
+
+*
+  margin: 0
+  padding: 0
+  font-family: "Brandon"
+
+section, header
+  +flexbox
+  +flex-direction(row)
+  +align-items(center)
+  +justify-content(center)
+  box-sizing: border-box
+
+a, .a
+  color: $blue
+  cursor: pointer
+  text-decoration: none
+  margin: 0 1em
+  box-sizing: border-box
+
+  &:hover
+    text-decoration: underline
+  
+section
+  padding: 4em 0
+
+header
+  background: $lightBlue
+
+  &:first-child
+    background: $blue
+
+  a
+    color: #fff
+    font-size: 2rem
+    padding: 0.65em 0.5em
+    line-height: 1.4em
+    font-weight: 600
+
+.spacer
+  +flex-grow(1)
+
+.col
+  +flexbox
+  +flex-direction(column)
+  +align-items(center)
+  +justify-content(center)
+
+.splash-header
+  padding-top: 0
+  box-sizing: border-box
+  background: rgb(244,250,254)
+
+  &:first-child
+    background: rgb(222,231,236)
+    height: $headerHeight
+
+  a
+    color: $blue
+
+.companies
+  +flexbox
+  +flex-direction(row)
+  +align-items(center)
+  +justify-content(space-around)
+  +flex-wrap(wrap)
+  width: 100%
+  max-width: $companyWidth*4 + $companyPadding*2*4
+
+  &>a
+    margin: $companyPadding
+    +filter(grayscale,100%)
+
+    &:hover
+      +filter(grayscale,50%)
+
+h1, h2, h3, h4, h5, h6
+  margin: 1em auto
+  font-weight: 600
+  text-align: left
+  max-width: 16em
+  line-height: 1.2em
+  color: #344654
+
+h1
+  font-size: 4rem
+  margin: 1em 0.5em
+
+h2
+  font-size: 2.6rem
+
+h3
+  font-size: 2.2rem
+
+h4
+  font-size: 1.8rem
+
+h5
+  font-size: 1.4rem
+
+h6
+  font-size: 1rem
+  color: #767f86
+
+p
+  max-width: 27em
+  line-height: 1.6em
+  font-size: 1.3rem
+  margin: 1em auto
+  color: $textGray
+  
+  strong
+    color: darken($textGray, 20%)
+
+.grouped-p
+  text-align: center
+  margin-top: .2em
+  margin-bottom: .2em
+
+.caps
+  text-transform: uppercase
+  letter-spacing: 0.13em
+  max-width: 18em
+
+.benefits
+  +flex-wrap(wrap)
+
+.benefit
+  margin: 0 3vw
+  p
+    font-size: 1.1rem
+    line-height: 1.5em
+    max-width: 12em
+  
+.center-text
+  text-align: center
+
+.benefit-img
+  display: block
+  margin: 0 auto
+
+.splash-logo
+  display: block
+  height: $logoHalfHeight*2
+  display: block
+  margin: 0 auto
+  position: relative
+  margin-top: -$logoHalfHeight
+
+.screenshots
+  +align-items(stretch)
+  padding: 0
+
+.screenshots-phone
+  min-width: 50%
+  +flex-grow(1)
+  +flexbox
+  +flex-direction(column)
+  +align-items(stretch)
+  +justify-content(flex-start)
+
+.screenshots-phoneTop
+  background: #6490B4
+  +flex-grow(1)
+
+.screenshots-phoneBottom
+  background: #DEE7EC
+  height: $iphoneBottomHeight + 40px
+
+.screenshots-desc
+  +flexbox
+  +flex-direction(column)
+  +align-items(stretch)
+  +justify-content(flex-start)
+
+.screenshots-message
+  background: #537797
+  +flex-grow(1)
+
+  img
+    display: block
+    margin: 0 auto
+  p
+    color: #fff
+    max-width: 19em
+    text-align: center
+    padding: 1em 3em
+    box-sizing: border-box
+
+
+.screenshots-links
+  background: #CFDCE4
+  height: $iphoneBottomHeight + 40px
+
+.phone
+  border: 6px solid #7CACD3
+  border-bottom-style: none
+  margin: 20px auto 0
+  width: $iphoneWidth
+  height: $iphoneTopHeight
+  background: #fff
+  border-radius: $iphoneTopHeight/10 $iphoneTopHeight/10 0 0
+
+.phone-bottom
+  position: relative
+  margin: 0 auto
+  background: #CFDCE4
+  width: $iphoneWidth
+  height: $iphoneBottomHeight
+  border-radius: 0 0 $iphoneTopHeight/10 $iphoneTopHeight/10
+
+  &:after
+    content: ""
+    position: absolute
+    margin: 0 auto
+    bottom: 10%
+    left: 0
+    right: 0
+    background: #fff
+    border: 1px solid #7CACD3
+    border-radius: 100%
+    width: $iphoneWidth/8
+    height: $iphoneWidth/8
+
+map
+  display: block
+  position: absolute
+  bottom: 0
+  top: 5.4em
+  left: 0
+  right: 0
+
+.middle
+  position: absolute
+  left: 0
+  right: 0
+  top: 40%
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5)
+  border-radius: 4px
+  width: 30rem
+  max-width: 100%
+  margin: 0 auto
+
+.mail
+  margin-top: 2em
+
+.companySignupForm
+  +flexbox
+  +flex-direction(column)
+  +align-items(stretch)
+  +justify-content(center)
+
+  width: 30rem
+  max-width: 100%
+
+.blue_input
+  border: 1px solid lighten($lightBlue, 10%)
+  font-size: 1.2em
+  padding: 0.9em 0.8em
+  border-radius: 4px
+  margin: 0.4em 0
+  
+
+@import 'buttons'
+@import 'modal'
+@import 'letter'
