@@ -1,4 +1,6 @@
 
+var EMAILING_ENABLED = false;
+
 // Use Parse.Cloud.define to define as many cloud functions as you want.
 // For example:
 Parse.Cloud.define("hello", function(request, response) {
@@ -14,6 +16,10 @@ Parse.Cloud.beforeSave("Company", function(request, response) {
 });
 
 function sendInviteCoworkerEmail(email, companyName) {
+  if(!EMAILING_ENABLED) {
+    return;
+  }
+
   var Mandrill = require('mandrill');
   Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
 
@@ -87,6 +93,10 @@ Parse.Cloud.afterSave("Invite", function(request) {
 });
 
 function sendThanksForSigningUpEmail(email, companyName) {
+  if(!EMAILING_ENABLED) {
+    return;
+  }
+
   var Mandrill = require('mandrill');
   Mandrill.initialize('jq_ErQOwhNXJWO0ucvYFAg');
 
